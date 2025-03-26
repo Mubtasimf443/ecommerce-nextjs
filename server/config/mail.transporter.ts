@@ -7,15 +7,16 @@ import { SERVER_STATE, SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_USERNAME , SMTP
 const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
     port: Number(SMTP_PORT),
-    secure: true , 
+    // service: SMTP_HOST,
+    secure: false,
     auth: {
         user: SMTP_USERNAME,
         pass: SMTP_PASSWORD,
-        privateKey :SMTP_API_KEY
     },
     tls: {
+        rejectUnauthorized: false,
         ciphers:'SSLv3'
-    }
+    },
 })
 
 

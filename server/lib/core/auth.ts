@@ -34,3 +34,24 @@ export function hashPassword(password: string, salt: string): Promise<string> {
   export function generateSalt() {
     return crypto.randomBytes(16).toString("hex").normalize()
   }
+
+
+
+ export function GenerateOtp() {
+    function giveOtp() {
+      return Math.floor(1000 + Math.random() * 9000)
+    }
+    let otp = giveOtp()
+    for (let i = 0; true; i++) {
+        if (otp > 99999 && otp < 1000000) {
+          return otp;
+        }
+        else otp = giveOtp();
+    }
+  }
+
+
+ export function giveAuthSessionId() {
+    let token:string = crypto.randomBytes(512).toString("hex").normalize();
+    return token;
+  }
