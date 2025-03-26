@@ -1,0 +1,31 @@
+/*
+  بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ  ﷺ
+  InshaAllah, By his marcy I will Gain Success 
+*/
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    list-style: none;
+    /* column-gap: 20px; */
+    overflow-x: hidden;
+    flex-wrap: nowrap;
+    padding: 100px 0px 40px 0px;
+ }
+   
+ .pagination li{
+     color: black;
+     float: left;
+     padding: 8px 16px;
+     text-decoration: none;  
+     border-radius: 5px;
+     transition: background-color .3s;
+     cursor: pointer;
+ }
+ .pagination li:hover:not(.activePagination) {background-color: #ddd;}
+ .activePagination{
+     background-color: #4CAF50;
+     color: white;
+ }
