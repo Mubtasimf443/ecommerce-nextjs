@@ -92,7 +92,7 @@ router.post('/signUp', async function (req: Request, res: Response): Promise<any
 
         let rasult = await RedisClient.set(
             `session:website_auth_sign_up_verification_session:${website_auth_sign_up_verification_session}`, 
-            JSON.stringify(newUser), "EX", 60 
+            JSON.stringify(newUser), "EX", 65 
         );
         
         if (rasult !== 'OK') {
@@ -110,7 +110,7 @@ router.post('/signUp', async function (req: Request, res: Response): Promise<any
             secure: false,
             httpOnly:true,
             sameSite : false ,
-            expires : new Date(Date.now() + 60*1000)
+            expires : new Date(Date.now() + 65*1000)
         })
         return ;
     }

@@ -9,7 +9,8 @@ import * as Yup from 'yup';
 import Link from 'next/link';
 import envStore from '@/_lib/store/envStore';
 import "react-toastify/ReactToastify.css"
-import { ToastContainer, toast ,Bounce} from 'react-toastify';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import { errorToast, successToast } from '@/_lib/core/toast';
 
 
 
@@ -68,13 +69,13 @@ const SignUpPage: React.FC = () => {
   const [selectedDivisionID, setSelectedDivisionID] = useState<string>('');
   const [selectedDistrictID, setSelectedDistrictID] = useState<string>('');
   const [selectedUpazilaID, setSelectedUpazilaID] = useState<string>('');
-  let [EnableDistrictSelect, setEnableDistricSelect]=useState<boolean>(false);
-  let [EnableUpazilaSelect, setEnableUpazilaSelect]=useState<boolean>(false);
-  let [EnableCitiesSelect, setEnableCitiesSelect]=useState<boolean>(false);
-  let [districtList, setDistrictList]=useState<any[]>([]);
-  let [upazilaList, setUpazilaList]=useState<any[]>([]);
-  let [citiestList, setCitiesList]=useState<any[]>([]);
-  let [divisions , setDivisions ] =useState<any[]>([]);
+  let [EnableDistrictSelect, setEnableDistricSelect] = useState<boolean>(false);
+  let [EnableUpazilaSelect, setEnableUpazilaSelect] = useState<boolean>(false);
+  let [EnableCitiesSelect, setEnableCitiesSelect] = useState<boolean>(false);
+  let [districtList, setDistrictList] = useState<any[]>([]);
+  let [upazilaList, setUpazilaList] = useState<any[]>([]);
+  let [citiestList, setCitiesList] = useState<any[]>([]);
+  let [divisions, setDivisions] = useState<any[]>([]);
 
 
   useEffect(function (): void {
@@ -92,48 +93,48 @@ const SignUpPage: React.FC = () => {
 
   useEffect(function (): void {
     if (EnableDistrictSelect) {
-      fetch(server_url + "/api/location/district?division_id=" +selectedDivisionID )
-      .then(response => {
-        if (response.status !== 200) throw "Divisions Request Failed";
-        else return response.json()
-      })
-      .then(res => setDistrictList(res.data))
-      .catch(error => {
-        console.log(error)
-        alert("Unknow serve error ")
-      })
+      fetch(server_url + "/api/location/district?division_id=" + selectedDivisionID)
+        .then(response => {
+          if (response.status !== 200) throw "Divisions Request Failed";
+          else return response.json()
+        })
+        .then(res => setDistrictList(res.data))
+        .catch(error => {
+          console.log(error)
+          alert("Unknow serve error ")
+        })
     }
   }, [selectedDivisionID]);
 
 
   useEffect(function (): void {
     if (EnableUpazilaSelect) {
-      fetch(server_url + "/api/location/upazila?district_id=" +selectedDistrictID )
-      .then(response => {
-        if (response.status !== 200) throw "Divisions Request Failed";
-        else return response.json()
-      })
-      .then(res => setUpazilaList(res.data))
-      .catch(error => {
-        console.log(error)
-        alert("Unknow serve error ")
-      })
+      fetch(server_url + "/api/location/upazila?district_id=" + selectedDistrictID)
+        .then(response => {
+          if (response.status !== 200) throw "Divisions Request Failed";
+          else return response.json()
+        })
+        .then(res => setUpazilaList(res.data))
+        .catch(error => {
+          console.log(error)
+          alert("Unknow serve error ")
+        })
     }
   }, [selectedDistrictID]);
 
 
   useEffect(function (): void {
     if (EnableCitiesSelect) {
-      fetch(server_url + "/api/location/city?upazila_id=" +selectedUpazilaID )
-      .then(response => {
-        if (response.status !== 200) throw "Divisions Request Failed";
-        else return response.json()
-      })
-      .then(res => setCitiesList(res.data))
-      .catch(error => {
-        console.log(error)
-        alert("Unknow serve error ")
-      })
+      fetch(server_url + "/api/location/city?upazila_id=" + selectedUpazilaID)
+        .then(response => {
+          if (response.status !== 200) throw "Divisions Request Failed";
+          else return response.json()
+        })
+        .then(res => setCitiesList(res.data))
+        .catch(error => {
+          console.log(error)
+          alert("Unknow serve error ")
+        })
     }
   }, [selectedUpazilaID]);
 
@@ -151,33 +152,21 @@ const SignUpPage: React.FC = () => {
         },
         body: JSON.stringify(values),
       });
-      if (response.status !== 201 ) {
+      if (response.status !== 201) {
+        let responseInfo: [boolean, object | any] = await isJsonData(response)
+        if (responseInfo[0]) {
+          if (responseInfo[1]?.error) {
+            errorToast(responseInfo[1]?.error);
+          }
+          console.log(responseInfo[1]);
+          
+        }
         console.log((await response.json()));
         throw new Error("Server error");
       }
-      toast.success('Account created successfully!', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        transition: Bounce,
-        });
+      successToast('Account created successfully!');
     } catch (error) {
-      toast.error('Unknown error while creating the account', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        transition: Bounce,
-        });
+      errorToast('Unknown error while creating the account');
     } finally {
       setSubmitting(false);
     }
@@ -326,17 +315,17 @@ const SignUpPage: React.FC = () => {
                         id="division"
                         name="division"
                         className={`block w-full px-4 py-3 border ${errors.division && touched.division ? 'border-red-500' : 'border-gray-300'} bg-white rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none`}
-                        
+
                         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                           const divisionName = e.target.value;
                           setFieldValue("division", divisionName);
-                          setEnableDistricSelect(true) ;
+                          setEnableDistricSelect(true);
                           setEnableUpazilaSelect(false)
                           setEnableCitiesSelect(false);
-                          setFieldValue("district" ,"");
-                          setFieldValue("upazila" ,"");
-                          setFieldValue("city" ,"");
-                          setSelectedDivisionID(divisions.find(element => element.name ===divisionName ).id )
+                          setFieldValue("district", "");
+                          setFieldValue("upazila", "");
+                          setFieldValue("city", "");
+                          setSelectedDivisionID(divisions.find(element => element.name === divisionName).id)
                         }}
                       >
                         <option value="">Select Division</option>
@@ -367,12 +356,12 @@ const SignUpPage: React.FC = () => {
                         className={`block w-full px-4 py-3 border ${errors.district && touched.district ? 'border-red-500' : 'border-gray-300'} bg-white rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none ${!EnableDistrictSelect ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                           const districtName = e.target.value;
-                          setFieldValue("district" ,districtName);
+                          setFieldValue("district", districtName);
                           setEnableUpazilaSelect(true);
                           setEnableCitiesSelect(false);
-                          setFieldValue("upazila" ,"");
-                          setFieldValue('city' , '');
-                          setSelectedDistrictID(districtList.find(el => el.name ==districtName ).id)
+                          setFieldValue("upazila", "");
+                          setFieldValue('city', '');
+                          setSelectedDistrictID(districtList.find(el => el.name == districtName).id)
                         }}
                       >
                         <option value="">Select District</option>
@@ -403,10 +392,10 @@ const SignUpPage: React.FC = () => {
                         className={`block w-full px-4 py-3 border ${errors.upazila && touched.upazila ? 'border-red-500' : 'border-gray-300'} bg-white rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none ${!EnableUpazilaSelect ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                           const upazilaName = e.target.value;
-                         
-                          setFieldValue("upazila" ,upazilaName);
+
+                          setFieldValue("upazila", upazilaName);
                           setEnableCitiesSelect(true);
-                          setSelectedUpazilaID(upazilaList.find(el => el.name == upazilaName ).id)
+                          setSelectedUpazilaID(upazilaList.find(el => el.name == upazilaName).id)
                         }}
                       >
                         <option value="">Select Upazila</option>
@@ -474,7 +463,7 @@ const SignUpPage: React.FC = () => {
                   )}
                 </button>
               </div>
-              
+
               <div className="text-center mt-4">
                 <p className="text-sm text-gray-600">
                   Already have an account?{' '}
@@ -488,21 +477,16 @@ const SignUpPage: React.FC = () => {
         </Formik>
       </div>
 
-      <ToastContainer
-      position="top-center"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick={false}
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="dark"
-      transition={Bounce}
-      />
+     
     </div>
   );
 };
-
+async function isJsonData(res : any) :Promise<[boolean, any]> {
+  try {
+    let obj = await res.json()
+    return [true, obj]
+  } catch (error) {
+    return [false , undefined]
+  }
+}
 export default SignUpPage;
