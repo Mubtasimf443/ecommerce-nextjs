@@ -10,19 +10,13 @@ import { WhiteToastContainer } from "@/_lib/core/toast";
 
 
 
-export default function RootLayout({
-  children
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body >
-        
-            <Header />
-       {children}
-        
-        <Footer/>
+        <Header />
+        {children}
+        <Footer />
         <WhiteToastContainer />
       </body>
     </html>

@@ -11,6 +11,8 @@ import envStore from '@/_lib/store/envStore';
 import "react-toastify/ReactToastify.css"
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import { errorToast, successToast } from '@/_lib/core/toast';
+import { useRouter } from 'next/navigation';
+import Awaiter from '@/_lib/utils/awaiter';
 
 
 
@@ -76,6 +78,7 @@ const SignUpPage: React.FC = () => {
   let [upazilaList, setUpazilaList] = useState<any[]>([]);
   let [citiestList, setCitiesList] = useState<any[]>([]);
   let [divisions, setDivisions] = useState<any[]>([]);
+  const router = useRouter();
 
 
   useEffect(function (): void {
@@ -85,9 +88,8 @@ const SignUpPage: React.FC = () => {
         else return response.json()
       })
       .then(res => setDivisions(res.data))
-      .catch(error => {
-        console.log(error)
-        alert("Unknow serve error ")
+      .catch(error => {  
+        router.push("/error/auth-errors/sign-up-errors/server-not-connected-error")
       })
   }, []);
 
@@ -100,8 +102,7 @@ const SignUpPage: React.FC = () => {
         })
         .then(res => setDistrictList(res.data))
         .catch(error => {
-          console.log(error)
-          alert("Unknow serve error ")
+          router.push("/error/auth-errors/sign-up-errors/server-not-connected-error")
         })
     }
   }, [selectedDivisionID]);
@@ -116,8 +117,7 @@ const SignUpPage: React.FC = () => {
         })
         .then(res => setUpazilaList(res.data))
         .catch(error => {
-          console.log(error)
-          alert("Unknow serve error ")
+          router.push("/error/auth-errors/sign-up-errors/server-not-connected-error")
         })
     }
   }, [selectedDistrictID]);
@@ -132,13 +132,10 @@ const SignUpPage: React.FC = () => {
         })
         .then(res => setCitiesList(res.data))
         .catch(error => {
-          console.log(error)
-          alert("Unknow serve error ")
+          router.push("/error/auth-errors/sign-up-errors/server-not-connected-error")
         })
     }
   }, [selectedUpazilaID]);
-
-
 
 
   const handleSubmit = async (values: any, { setSubmitting }: any) => {
@@ -151,20 +148,19 @@ const SignUpPage: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(values),
+        credentials: 'include' // Enable sending cookies with the request
       });
       if (response.status !== 201) {
         let responseInfo: [boolean, object | any] = await isJsonData(response)
         if (responseInfo[0]) {
-          if (responseInfo[1]?.error) {
-            errorToast(responseInfo[1]?.error);
-          }
           console.log(responseInfo[1]);
-          
+          errorToast(responseInfo[1]?.error || "Unknown error while creating the account");
+          return;
         }
-        console.log((await response.json()));
-        throw new Error("Server error");
       }
       successToast('Account created successfully!');
+      await Awaiter(500);
+      router.push("/auth/otp-varification")
     } catch (error) {
       errorToast('Unknown error while creating the account');
     } finally {
