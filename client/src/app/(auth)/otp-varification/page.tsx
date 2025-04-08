@@ -107,7 +107,7 @@ const Page: React.FC = () => {
                         name={`digit${digit}`}
                         type="text"
                         maxLength={1}
-                        className={`appearance-none block w-full px-0 py-4 border-b-2 text-center text-2xl bg-transparent ${
+                        className={`appearance-none block w-full px-0 py-4 border-b-2 text-center text-2xl bg-transparent text-black ${
                           errors[`digit${digit}` as keyof typeof errors] && touched[`digit${digit}` as keyof typeof touched] 
                             ? 'border-red-500' 
                             : 'border-indigo-300 focus:border-indigo-600'
