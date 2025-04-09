@@ -2,19 +2,24 @@
 بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ  ﷺ InshaAllah
 */
 
-import { Router ,Request , Response} from "express";
-import { catchError } from "../lib/errors/CatchError";
+import { Router ,Request , Response, NextFunction} from "express";
+import { catchError } from "../lib/core/CatchError";
 import { number, z } from "zod";
 import { cors } from "../config/Cors";
 import { createRequire } from "module";
 
 
-const router:Router = Router()
-router.use(cors)
+const router:Router = Router();
+router.use(cors);
+router.use(function(req: Request, res: Response, next : NextFunction){
+    res.set("cache-control", "max-age=3600, public");
+    next();
+    return;
+})
+
 router.get("/divisions" , function (req : Request , res : Response) :void{
     try {
         let divisions = require("../lib/location/divisions.json");
-        res.set("cache-control", "max-age=3600, public");
         res.status(200).json({
             success : true , 
             message : "ok",
@@ -24,7 +29,7 @@ router.get("/divisions" , function (req : Request , res : Response) :void{
     } catch (error) {
         catchError(error ,res);
     }
-})
+});
 
 router.get("/district", function (req: Request, res: Response): void {
     try {
@@ -54,7 +59,6 @@ router.get("/district", function (req: Request, res: Response): void {
                     return element;
                 }
             });
-            res.set("cache-control", "max-age=3600, public");
             res.status(200).json({
                 success: true,
                 data: districts
@@ -64,7 +68,7 @@ router.get("/district", function (req: Request, res: Response): void {
     } catch (error) {
         catchError(error, res);
     }
-})
+});
 
 router.get("/upazila", function (req: Request, res: Response): void {
     try {
@@ -92,7 +96,6 @@ router.get("/upazila", function (req: Request, res: Response): void {
                     return element;
                 }
             });
-            res.set("cache-control", "max-age=3600, public");
             res.status(200).json({
                 success: true,
                 data: upazilas
@@ -102,7 +105,8 @@ router.get("/upazila", function (req: Request, res: Response): void {
     } catch (error) {
         catchError(error, res);
     }
-})
+});
+
 
 router.get("/city", function (req: Request, res: Response): void {
     try {
@@ -130,7 +134,6 @@ router.get("/city", function (req: Request, res: Response): void {
                     return element;
                 }
             });
-            res.set("cache-control", "max-age=3600, public");
             res.status(200).json({
                 success: true,
                 data: cities

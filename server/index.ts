@@ -9,15 +9,16 @@ import locationRouter from "./routers/location";
 import morgan from 'morgan'
 import transporter from './config/mail.transporter'
 import { COMPANY_MAIL, SMTP_USERNAME } from "./env";
+import { cors } from "./config/Cors";
 
 
 async function main() {
   const app: Express = express();
-  // await connectDb()
+  await connectDb()
 
 
   app.use(morgan("dev"));
-  
+  app.get("/PING" , cors,(req : any , res : Response) : any => res.send("PONG"));
   app.get("/api/search")
   app.use('/api/auth', authRouter)
   app.use('/api/location', locationRouter)

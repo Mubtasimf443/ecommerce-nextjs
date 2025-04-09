@@ -7,7 +7,7 @@ import { COMPANY_MAIL, COMPANY_NAME, COMPANY_LOGO, COMPANY_CONTACT_ADDRESS, COMP
 async function signUpOtpVerificationEmail(otp_code: number, receiverEmail: string) {
     try {
         const info = await transporter.sendMail({
-            from: `"${COMPANY_NAME}" <${COMPANY_MAIL}>`,
+            from: `${COMPANY_MAIL}`,
             to: receiverEmail,
             subject: `Verify Your Email Address - ${COMPANY_NAME}`,
             html: `
@@ -44,7 +44,7 @@ async function signUpOtpVerificationEmail(otp_code: number, receiverEmail: strin
 async function signUpSuccessfulEmail(receiverEmail: string, userName: string) {
     try {
         const info = await transporter.sendMail({
-            from: `"${COMPANY_NAME}" <${COMPANY_MAIL}>`,
+            from: `${COMPANY_MAIL}`,
             to: receiverEmail,
             subject: `Welcome to ${COMPANY_NAME}!`,
             html: `
@@ -87,7 +87,7 @@ async function resetPasswordEmail(receiverEmail: string, resetToken: string) {
     try {
         const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
         const info = await transporter.sendMail({
-            from: `"${COMPANY_NAME}" <${COMPANY_MAIL}>`,
+            from: `${COMPANY_MAIL}`,
             to: receiverEmail,
             subject: `Password Reset Request - ${COMPANY_NAME}`,
             html: `
@@ -122,7 +122,7 @@ async function resetPasswordEmail(receiverEmail: string, resetToken: string) {
 }
 
 export const authEmails = {
-    signUpOtpVerificationEmail,
+    signUpOtpVerificationEmail : signUpOtpVerificationEmail,
     signUpSuccessfulEmail,
     resetPasswordEmail
 }

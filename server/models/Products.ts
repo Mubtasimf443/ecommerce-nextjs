@@ -9,6 +9,8 @@ interface IAttribute {
   value: string;
 }
 
+
+
 interface ISize {
   name: string;
   dimensions?: string;

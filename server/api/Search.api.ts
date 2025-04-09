@@ -3,7 +3,7 @@
 */
 
 import {Request, Response} from 'express'
-import { catchError } from '../lib/errors/CatchError'
+import { catchError } from '../lib/core/CatchError'
 import {z} from 'zod'
 export default function SearchApi(req:Request , res :Response) :void {
   try {

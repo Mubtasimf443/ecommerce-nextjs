@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "test": "nodemon test.ts",
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "nodemon index.ts --ignore api/ --ignore config/ --ignore lib/ --ignore models/ --ignore models/ --ignore routers/"

@@ -39,7 +39,7 @@ export function hashPassword(password: string, salt: string): Promise<string> {
 
  export function GenerateOtp() {
     function giveOtp() {
-      return Math.floor(1000 + Math.random() * 9000)
+      return Math.floor( Math.random() * 999999)
     }
     let otp = giveOtp()
     for (let i = 0; true; i++) {
@@ -55,3 +55,4 @@ export function hashPassword(password: string, salt: string): Promise<string> {
     let token:string = crypto.randomBytes(512).toString("hex").normalize();
     return token;
   }
+

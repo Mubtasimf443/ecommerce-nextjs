@@ -14,6 +14,13 @@ interface IShippingAddress {
   additional?: string;
 }
 
+interface IPhone {
+  number :string;
+  countryName : string;
+  phoneCode : string;
+}
+
+
 // User Interface
 interface IUser extends Document {
   firstName: string;
@@ -25,10 +32,13 @@ interface IUser extends Document {
   isRegistered: boolean;
   registrationType : string;
   shipping_address: IShippingAddress;
+  phoneDetails : IPhone;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
+
+
 
 // User Schema
 const UserSchema = new Schema<IUser>(
@@ -40,6 +50,11 @@ const UserSchema = new Schema<IUser>(
     passwordSalt : { type: String, required: true, minlength: 6 },
     isVarified: { type: Boolean, default: false },
     isRegistered: { type: Boolean, default: false },
+    phoneDetails :{
+      phoneNumber: { type: String, required: true },
+      countryName : { type: String, required: true },
+      phoneCode :  { type: String, required: true },
+    } ,
     registrationType : {
       type : String,
       enum : ["normal", "google" , "facebook"],
@@ -50,9 +65,9 @@ const UserSchema = new Schema<IUser>(
     shipping_address: {
       division: { type: String, required: true },
       district: { type: String, required: true },
-      city: { type: String, required: true },
       upazila: { type: String, required: true },
-      road_no: { type: String, required: true },
+      city: { type: String, required: true },
+      road_no: { type: String, required: false },
       additional: { type: String, default: "" },
     },
   },

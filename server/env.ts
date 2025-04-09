@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 // Database
 export const DB_URL :any = process.env.DB_URL ;
+export const DB_URL_SECOND :any = process.env.DB_URL_SECOND ;
 export const TEST_DB_URL :any = process.env.TEST_DB_URL ;
 export const REDIS_URL:any= process.env.REDIS_URL
 

@@ -3,17 +3,17 @@
 */
 
 
-import { Response  } from 'express';
+import { Response } from 'express';
 
-export function catchError(error: unknown, res: Response, ) {
+export function catchError(error: unknown, res: Response,) {
     try {
         console.error(error);
         res.statusCode = 400;
-        if (typeof error !== 'object') {
-            res.json(error);
+        if (typeof error === 'object') {
+            res.json({ success: false, data: null, ...error });
             return;
         }
-        res.json({ message: error });
+        res.json({ message: error ?? "Unknown Server error", success: false, data: null });
         return;
     } catch (error) {
         console.error(error);
