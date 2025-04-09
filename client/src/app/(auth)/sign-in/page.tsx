@@ -4,7 +4,7 @@
 "use client"
 
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Form from '../_auth_components/Form'
 import { Formik, Form as FormikForm } from 'formik'
 import * as Yup from 'yup'
@@ -18,7 +18,7 @@ import Google from '../_auth_components/icons/Google'
 import Awaiter from '@/_lib/utils/awaiter'
 import { errorToast, successToast } from '@/_lib/core/toast'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
-import AuthRequestClient from '../_auth_components/core/AuthRequest'
+import AuthRequestClient from '../_core/AuthRequest'
 
 
 // Validation schema using Yup
@@ -44,7 +44,7 @@ const page = () => {
   let searchParams= useSearchParams();
   let [redirect , setRedirect]= useState(() => {
     try {
-      let r = searchParams.get('redirect') || '/search';
+      let r = searchParams.get('redirect') || '/account';
       let url = new URL(r);
       return url.toString();
     } catch (error) {
@@ -53,6 +53,34 @@ const page = () => {
   });
   const router =useRouter();
 
+  useEffect(() => {
+    async function starter() {
+      try {
+        let response = await AuthRequestClient.get(process.env.NEXT_PUBLIC_SERVER_ORIGIN + '/api/auth/is-authenticated', { giveDetails: true })
+        switch (response.status) {
+            case 200 :
+                console.log("Client : User Is Still Logged In , Making User Logged Out");
+                let res = await AuthRequestClient.post(process.env.NEXT_PUBLIC_SERVER_ORIGIN + '/api/auth/log-out', {}, { giveDetails: true });
+                if (res.status === 200) {
+                    console.log("Client : User is Logged Out SuccessFully");
+                } else {
+                    console.log("Client : Failed to Logged Out The user");
+                }
+                break;
+            case 401 :
+                console.log("Client : User is not Logged In");
+                break;
+            default :
+                console.log("Client :Server Error in making user logged out");
+                break;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+    }
+    starter();
+  }, [])
 
   async function handleSubmit(values: { email: string; password: string }, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) {
     try {
@@ -91,6 +119,8 @@ const page = () => {
       setSubmitting(false);
     }
   }
+
+
   return (
     <>
       <Form

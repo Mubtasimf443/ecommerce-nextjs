@@ -10,6 +10,7 @@ interface Props {
   isSubmitting : boolean;
   submitingName : string;
   submitName : string;
+  id?: string;
 }
 
 
@@ -17,6 +18,7 @@ const AuthButton = (props:Props) => {
   return (
     <div>
       <button
+        id={props.id || ""}
         type="submit"
         disabled={props.isSubmitting}
         className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"

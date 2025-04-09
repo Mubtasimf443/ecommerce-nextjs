@@ -15,7 +15,7 @@ import AuthButton from '../_auth_components/AuthButton'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Awaiter from '@/_lib/utils/awaiter'
 import PhoneInput from '../_auth_components/PhoneInput'
-import AuthRequestClient from '../_auth_components/core/AuthRequest'
+import AuthRequestClient from '../_core/AuthRequest'
 import { errorToast, successToast } from '@/_lib/core/toast'
 
 
@@ -83,11 +83,17 @@ const initialValues = {
     upazila: '',
     city: ''
 }
+
+export interface iPhoneDetails {
+    phoneNumber ?:string;
+    countryName ?: string;
+    phoneCode ?: string;
+}
 const page = () => {
     let searchParams = useSearchParams();
     let [redirect, setRedirect] = useState(() => {
         try {
-            let r = searchParams.get('redirect') || '/search';
+            let r = searchParams.get('redirect') || '/account';
             let url = new URL(r);
             return url.toString();
         } catch (error) {
@@ -107,21 +113,47 @@ const page = () => {
     let [upazilaList, setUpazilaList] = useState<any[]>([]);
     let [citiestList, setCitiesList] = useState<any[]>([]);
     let [divisions, setDivisions] = useState<any[]>([]);
+    let [phoneDetails, setPhoneDetails] = useState<iPhoneDetails>({ });
 
-
-
+    // Initializing the Sign-up page and fetching Divisions
     useEffect(function (): void {
-        fetch(server_url + "/api/location/divisions")
-            .then(response => {
-                if (response.status !== 200) throw "Divisions Request Failed";
-                else return response.json()
-            })
-            .then(res => setDivisions(res.data))
-            .catch(error => {
-                router.push("/error/errors/server-not-connected")
-            })
-    }, []);
+        async function starterFunction() {
+            // Checking User Is Logged In Or Not
+            try {
+                let response = await AuthRequestClient.get(server_url + '/api/auth/is-authenticated', { giveDetails: true })
+                switch (response.status) {
+                    case 200 :
+                        console.log("Client : User Is Still Logged In , Making User Logged Out");
+                        let res = await AuthRequestClient.post(server_url + '/api/auth/log-out', {}, { giveDetails: true });
+                        if (res.status === 200) {
+                            console.log("Client : User is Logged Out SuccessFully");
+                        } else {
+                            console.log("Client : Failed to Logged Out The user");
+                        }
+                        break;
+                    case 401 :
+                        console.log("Client : User is not Logged In");
+                        break;
+                    default :
+                        console.log("Client :Server Error in making user logged out");
+                        break;
+                }
+            } catch (error) {
+                console.log(error);
+            }
 
+            // Fetch Divisions
+            try {
+                let response = await AuthRequestClient.get(server_url + "/api/location/divisions", {giveDetails : true});
+                if (response.status !== 200) throw "Divisions Request Failed";
+                setDivisions(response.json.data)
+            } catch (error) {
+                router.push("/error/errors/server-not-connected")
+            }
+        }
+        starterFunction()
+    }, []);
+    // fetch districts
     useEffect(function (): void {
         if (EnableDistrictSelect) {
             fetch(server_url + "/api/location/district?division_id=" + selectedDivisionID)
@@ -136,7 +168,7 @@ const page = () => {
         }
     }, [selectedDivisionID]);
 
-
+    // fetch upazilas
     useEffect(function (): void {
         if (EnableUpazilaSelect) {
             fetch(server_url + "/api/location/upazila?district_id=" + selectedDistrictID)
@@ -151,7 +183,7 @@ const page = () => {
         }
     }, [selectedDistrictID]);
 
-
+    // fetch cities
     useEffect(function (): void {
         if (EnableCitiesSelect) {
             fetch(server_url + "/api/location/city?upazila_id=" + selectedUpazilaID)
@@ -179,12 +211,21 @@ const page = () => {
     }
     async function handleSubmit(values: IValues, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) {
         try {
-            console.log('Form Values : ' , values)
+            let body = {
+                ...values,
+                phoneDetails : {
+                    phoneNumber : values.phone,
+                    ...phoneDetails
+                }
+            };
 
-            let res = await AuthRequestClient.post(process.env.NEXT_PUBLIC_SERVER_ORIGIN + "/api/auth/sign-up" , values , {
+            console.log('Form body : ' , body);
+
+            let res = await AuthRequestClient.post(process.env.NEXT_PUBLIC_SERVER_ORIGIN + "/api/auth/sign-up" , body , {
                 giveDetails :true
             });
-
+            console.log(res.json);
+            
             switch (res.status) {
                 case 204:
                     errorToast("Account Already Exist , Please Login");
@@ -192,7 +233,7 @@ const page = () => {
                     break;
                 case 201:
                     successToast("Account Created SuccessFully");
-                    router.push("/otp-varification" + (new URLSearchParams({ redirect }).toString()));
+                    router.push("/otp-varification?" + (new URLSearchParams({ redirect }).toString()));
                     break;
                 case 400:
                     if (res.json?.message) errorToast(res.json.message);
@@ -204,7 +245,10 @@ const page = () => {
             }
             
         } catch (error) {
-
+           console.log(error);
+           if (error instanceof TypeError) errorToast("Network Error , Please Check The network");
+           if (typeof error === 'string') errorToast(error);
+            
         } finally {
             setSubmitting(false)
         }
@@ -249,20 +293,13 @@ const page = () => {
                                 hasError={(errors.email && touched.email) ? true : false}
                             />
 
-                            {/* <InputBox
-                                title='Phone Number'
-                                name='phone'
-                                type='phone'
-                                placeholder='+8801*********'
-                                hasError={(errors.phone && touched.phone) ? true : false}
-                                
-                               
-                            /> */}
+                            
 
                            <PhoneInput 
                              name='phone'
                              setValue={setFieldValue}
                              hasError={!!(errors.phone && touched.phone)}
+                             setPhoneDetails={setPhoneDetails}
                            />
 
                             <InputBox

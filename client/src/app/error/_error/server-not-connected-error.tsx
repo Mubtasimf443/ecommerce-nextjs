@@ -6,10 +6,12 @@
 import React, { FC , useState} from 'react'
 import Link from 'next/link';
 import envStore from '@/_lib/store/envStore';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { errorToast, successToast } from '@/_lib/core/toast';
 
 const ServerNotConnectedError :FC= () => {
+
+  let searchParams = useSearchParams();
   const [isRetrying, setIsRetrying] = useState(false);
     const server_url = process.env.NEXT_PUBLIC_SERVER_ORIGIN;
     const router = useRouter();

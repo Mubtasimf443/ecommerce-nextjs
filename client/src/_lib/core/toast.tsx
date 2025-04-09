@@ -13,7 +13,7 @@ export function errorToast(msg: string): void {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
         transition: Bounce,
     });
     return;
@@ -28,7 +28,7 @@ export function successToast(msg: string): void {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
         transition: Bounce,
     });
     return;

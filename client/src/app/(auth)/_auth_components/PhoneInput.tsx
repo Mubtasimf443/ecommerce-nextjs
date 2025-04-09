@@ -24,6 +24,7 @@ interface PhoneInputProps {
     onKeyPress?: (event: React.KeyboardEvent) => void;
     setValue : (key : string , value : string) => void;
     hasError : boolean;
+    setPhoneDetails : React.Dispatch<React.SetStateAction<any>>;
 }
 
 const countryCodes: CountryCode[] = [
@@ -103,6 +104,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
     setValue,
     onKeyPress,
     hasError ,
+    setPhoneDetails
 }) => {
     const [selectedCountry, setSelectedCountry] = useState<CountryCode>(countryCodes[0]);
     const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -116,18 +118,22 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
     // Handle phone number input
     const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value;
-
         // Only allow digits and spaces
         const sanitizedValue = inputValue.replace(/[^\d\s]/g, '');
         setPhoneNumber(sanitizedValue);
-
-        
     };
 
     const selectCountry = (country: CountryCode) => {
         setSelectedCountry(country);
         setDropdownOpen(false);
     };
+
+    useEffect(() => {
+        setPhoneDetails({
+            countryName : selectedCountry.country,
+            phoneCode : selectedCountry.code
+        })
+    } , [selectedCountry])
 
     return (
         <div className={`relative ${className}`}>
