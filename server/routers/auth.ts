@@ -398,7 +398,6 @@ router.post("/sign-in", async function (req: Request, res: Response): Promise<an
 })
 
 
-
 router.get("/is-authenticated", async function (req: Request, res: Response): Promise<any> {
     try {
         let session: string | undefined = req.cookies.website_auth_session;
@@ -439,6 +438,7 @@ router.get("/is-authenticated", async function (req: Request, res: Response): Pr
     }
 });
 
+
 router.post('/log-out',async function (req: Request, res: Response): Promise<any> {
     try {
         let IsUserLoggedIn = await IsLoggedIn(req);
@@ -465,7 +465,10 @@ router.post('/log-out',async function (req: Request, res: Response): Promise<any
     } catch (error) {
         catchError(error, res);
     }
-} )
+});
+
+
+
 
 
 

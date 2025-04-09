@@ -21,7 +21,7 @@ export default function Home() {
       <IconBoxes />
       <CategorySection />
       <FeaturedProductsSection newProducts={generateProducts(8, 'New')} mostLovedProducts={generateProducts(8, 'Most Loved')} hotSalesProducts={generateProducts(8, 'Hot Sales')} discountedProducts={generateProducts(8, 'Discounted')} recommendedProducts={generateProducts(8, 'Recommended')} />
-      <RecommendedProducts title="Recommended For You" viewAllLink="/products" products={generateProducts(5, 'Recommended')} />
+      {/* <RecommendedProducts title="Recommended For You" viewAllLink="/products" products={generateProducts(5, 'Recommended')} /> */}
     </main>
     </>
   );
@@ -33,7 +33,7 @@ function generateProducts(count: number, type: string) {
     id: i + 1,
     name: `${type} Product ${i + 1}`,
     slug: `${type.toLowerCase()}-product-${i + 1}`,
-    imageUrl: `/images/products/product-${(i % 8) + 1}.jpg`,
+    imageUrl: `/images/product.svg`,
     price: 19.99 + i * 10,
     originalPrice: type === 'Discounted' ? (19.99 + i * 10) * 1.25 : undefined,
     category: ['Electronics', 'Clothing', 'Home & Kitchen', 'Beauty'][i % 4],

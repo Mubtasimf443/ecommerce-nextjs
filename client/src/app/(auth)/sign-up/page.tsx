@@ -17,6 +17,7 @@ import Awaiter from '@/_lib/utils/awaiter'
 import PhoneInput from '../_auth_components/PhoneInput'
 import AuthRequestClient from '../_core/AuthRequest'
 import { errorToast, successToast } from '@/_lib/core/toast'
+import PasswordInput from '../_auth_components/PasswordInput'
 
 
 
@@ -302,10 +303,9 @@ const page = () => {
                              setPhoneDetails={setPhoneDetails}
                            />
 
-                            <InputBox
+                            <PasswordInput
                                 title='Password'
                                 name='password'
-                                type='password'
                                 placeholder='*********'
                                 hasError={(errors.password && touched.password) ? true : false}
                             />

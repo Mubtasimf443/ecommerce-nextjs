@@ -4,6 +4,7 @@
 "use client"
 import { FC, FormEvent } from 'react';
 import Link from 'next/link';
+import { Facebook, Instagram, LinkedIn, Twitter, YouTube } from '../icons/mediaIcons';
 
 interface FooterLink {
   text: string;
@@ -35,7 +36,7 @@ const Footer: FC = () => {
   };
 
   return (
-    <footer className="bg-dark-primary text-dark-text-secondary border-t border-dark-secondary">
+    <footer className="border-t bg-[color:--theme-bg-additional] text-[color:--theme-cl-accent]">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -49,12 +50,25 @@ const Footer: FC = () => {
             </div>
             <p className="mb-4">Your premier destination for quality products with fast shipping and exceptional customer service.</p>
             <div className="flex space-x-4">
+             
               {/* Social Links - These might need to link to external sites, so keeping as <a> tags */}
+            
               <a href="https://facebook.com" className="text-dark-text-secondary hover:text-dark-accent transition-colors">
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
+               <Facebook />
               </a>
+              <a href="https://facebook.com" className="text-dark-text-secondary hover:text-dark-accent transition-colors">
+               <Instagram />
+              </a>
+              <a href="https://facebook.com" className="text-dark-text-secondary hover:text-dark-accent transition-colors">
+               <YouTube />
+              </a> 
+              <a href="https://facebook.com" className="text-dark-text-secondary hover:text-dark-accent transition-colors">
+               <LinkedIn />
+              </a> 
+              <a href="https://facebook.com" className="text-dark-text-secondary hover:text-dark-accent transition-colors">
+               <Twitter />
+              </a>
+             
             </div>
           </div>
 
@@ -64,7 +78,7 @@ const Footer: FC = () => {
             <ul className="space-y-2">
               {shopLinks.map((link) => (
                 <li key={link.text}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="hover:text-dark-accent transition-colors"
                   >
@@ -81,7 +95,7 @@ const Footer: FC = () => {
             <ul className="space-y-2">
               {supportLinks.map((link) => (
                 <li key={link.text}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="hover:text-dark-accent transition-colors"
                   >
@@ -98,13 +112,13 @@ const Footer: FC = () => {
             <p className="mb-4">Subscribe to our newsletter for exclusive offers and updates</p>
             <form onSubmit={handleSubmit} className="mb-4">
               <div className="flex">
-                <input 
-                  type="email" 
-                  placeholder="Your email address" 
+                <input
+                  type="email"
+                  placeholder="Your email address"
                   className="w-full bg-dark-secondary border border-dark-secondary rounded-l-md px-4 py-2 focus:outline-none focus:ring-1 focus:ring-dark-accent"
                 />
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="bg-dark-accent text-dark-text-primary px-4 py-2 rounded-r-md hover:bg-opacity-90 transition-colors"
                 >
                   <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -113,7 +127,7 @@ const Footer: FC = () => {
                 </button>
               </div>
             </form>
-            
+
             {/* Payment Methods */}
             <div>
               <h4 className="text-sm font-medium mb-2 text-dark-text-primary">We Accept</h4>

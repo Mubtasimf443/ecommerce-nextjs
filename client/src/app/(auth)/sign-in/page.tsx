@@ -19,6 +19,7 @@ import Awaiter from '@/_lib/utils/awaiter'
 import { errorToast, successToast } from '@/_lib/core/toast'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import AuthRequestClient from '../_core/AuthRequest'
+import PasswordInput from '../_auth_components/PasswordInput'
 
 
 // Validation schema using Yup
@@ -41,8 +42,8 @@ let initialValues = {
 }
 
 const page = () => {
-  let searchParams= useSearchParams();
-  let [redirect , setRedirect]= useState(() => {
+  let searchParams = useSearchParams();
+  let [redirect, setRedirect] = useState(() => {
     try {
       let r = searchParams.get('redirect') || '/account';
       let url = new URL(r);
@@ -51,36 +52,36 @@ const page = () => {
       return '/search'
     }
   });
-  const router =useRouter();
+  const router = useRouter();
+
 
   useEffect(() => {
     async function starter() {
       try {
         let response = await AuthRequestClient.get(process.env.NEXT_PUBLIC_SERVER_ORIGIN + '/api/auth/is-authenticated', { giveDetails: true })
         switch (response.status) {
-            case 200 :
-                console.log("Client : User Is Still Logged In , Making User Logged Out");
-                let res = await AuthRequestClient.post(process.env.NEXT_PUBLIC_SERVER_ORIGIN + '/api/auth/log-out', {}, { giveDetails: true });
-                if (res.status === 200) {
-                    console.log("Client : User is Logged Out SuccessFully");
-                } else {
-                    console.log("Client : Failed to Logged Out The user");
-                }
-                break;
-            case 401 :
-                console.log("Client : User is not Logged In");
-                break;
-            default :
-                console.log("Client :Server Error in making user logged out");
-                break;
+          case 200:
+            console.log("Client : User Is Still Logged In , Making User Logged Out");
+            let res = await AuthRequestClient.post(process.env.NEXT_PUBLIC_SERVER_ORIGIN + '/api/auth/log-out', {}, { giveDetails: true });
+            if (res.status === 200) {
+              console.log("Client : User is Logged Out SuccessFully");
+            } else {
+              console.log("Client : Failed to Logged Out The user");
+            }
+            break;
+          case 401:
+            console.log("Client : User is not Logged In");
+            break;
+          default:
+            console.log("Client :Server Error in making user logged out");
+            break;
         }
-    } catch (error) {
+      } catch (error) {
         console.log(error);
-    }
-
+      }
     }
     starter();
-  }, [])
+  }, []);
 
   async function handleSubmit(values: { email: string; password: string }, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) {
     try {
@@ -145,10 +146,10 @@ const page = () => {
               />
 
 
-              <InputBox
+              <PasswordInput
                 title='Password'
                 name='password'
-                type='password'
+          
                 placeholder='*******'
                 hasError={(errors.email && touched.email) ? true : false}
               />
@@ -158,6 +159,7 @@ const page = () => {
               <CheckInputBox
                 title='Remember Me'
                 name='remember-me'
+                
               />
 
 
