@@ -3,23 +3,13 @@
 */
 "use client"
 import React, { useState } from 'react';
-import Product from '@/components/ui/card/Product';
+import Product, {ProductInterface} from '@/components/ui/card/Product';
 import Link from 'next/link';
 
 // Define the types
-interface ProductInterface {
-  id: number;
-  name: string;
-  slug: string;
-  imageUrl: string;
-  price: number;
-  originalPrice?: number;
-  category: string;
-  rating: number;
-  isNew?: boolean;
-  isHot?: boolean;
-  discountPercentage?: number;
-}
+
+
+
 
 interface FeaturedProductsSectionProps {
   newProducts: ProductInterface[];
@@ -76,7 +66,7 @@ const FeaturedProductsSection: React.FC<FeaturedProductsSectionProps> = ({
               key={tab.value}
               className={`px-4 py-2 mx-1 my-1 rounded-full transition-colors ${
                 activeTab === tab.value
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-[color:--theme-bg-accent] text-white'
                   : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
               }`}
               onClick={() => setActiveTab(tab.value)}
@@ -87,7 +77,7 @@ const FeaturedProductsSection: React.FC<FeaturedProductsSectionProps> = ({
         </div>
         
         {/* Products Display - Grid on desktop, Carousel on mobile */}
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="hidden md:flex md:flex-row md:flex-wrap gap-6 justify-center items-center">
           {getCurrentProducts().slice(0, 8).map((product) => (
             <Product key={product.id} product={product} />
           ))}
@@ -126,7 +116,7 @@ const FeaturedProductsSection: React.FC<FeaturedProductsSectionProps> = ({
         
         {/* View All Button */}
         <div className="text-center mt-10">
-          <Link href={`/products/${activeTab}`} className="inline-block px-6 py-3 bg-white border border-indigo-600 text-indigo-600 rounded-md hover:bg-indigo-50 transition-colors">
+          <Link href={`/products/${activeTab}`} className="inline-block px-6 py-3 bg-white border border-[color:--theme-border-accent] text-[color:--theme-cl-second] rounded-md hover:bg-indigo-50 transition-colors">
             View All {activeTab === 'new' ? 'New Arrivals' :
                      activeTab === 'mostLoved' ? 'Most Loved Products' :
                      activeTab === 'hotSales' ? 'Hot Sales' :

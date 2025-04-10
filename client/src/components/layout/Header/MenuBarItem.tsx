@@ -33,7 +33,7 @@ const MenuBarItem: FC<Props> = ({ title, items }) => {
                 <DropdownMenuTrigger className={
                     "text-md font-medium flex items-center gap-1 rounded-md transition-all duration-200 px-3 py-2 text-nowrap "
                     +
-                    ""
+                    "outline-none"
                 }>
                     {title}
                     <ArrowDown
@@ -44,9 +44,9 @@ const MenuBarItem: FC<Props> = ({ title, items }) => {
                 <DropdownMenuContent className=" min-w-48 bg-white rounded-md shadow-lg border border-gray-200 py-2 px-1 animate-in fade-in-80 slide-in-from-top-5 ">
                     <div className="text-sm font-medium text-gray-500 px-2 pb-1">{title}</div>
                     <DropdownMenuSeparator className="my-1 border-gray-200" />
-                    <div className="flex flex-col gap-1">
+                    
                         {items}
-                    </div>
+                 
                 </DropdownMenuContent>
             </DropdownMenu>
         </>

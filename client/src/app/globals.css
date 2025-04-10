@@ -12,9 +12,10 @@
   --theme-bg-additional : #27391C;
  
   --theme-cl-primary : black;
-  
   --theme-cl-accent: #fff;
   --theme-cl-second: #01715C;
+
+  --theme-border-accent:#01715C;
 
   --theme-heading-1: 2.3em;
   --theme-heading-2: 1.85em;

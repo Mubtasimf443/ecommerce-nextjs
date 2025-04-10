@@ -4,53 +4,12 @@
 
 
 import React from 'react'
-import Product from '@/components/ui/card/Product'
-
-export interface ProductInterface {
-    id: any;
-    name: string;
-    slug: string;
-    imageUrl: string;
-    price: number;
-    originalPrice?: number;
-    category: string;
-    rating: number;
-    isNew?: boolean;
-    isHot?: boolean;
-    discountPercentage?: number;
-  }
+import Product , {ProductInterface} from '@/components/ui/card/Product'
+import { demoProducts } from '@/_lib/data/demoProducts'
 
 const WishlistPage: React.FC = () => {
     // Sample wishlist items - in a real app, these would come from a state management solution
-    const wishlistItems: ProductInterface[] = [
-        { 
-            id: 1, 
-            name: "Wireless Headphones", 
-            price: 79.99, 
-            imageUrl: "/images/products/headphones.jpg",
-            rating: 4.5,
-            category: "electronics",
-            slug: "wireless-headphones"
-        },
-        { 
-            id: 2, 
-            name: "Smartphone Case", 
-            price: 24.99, 
-            imageUrl: "/images/products/phone-case.jpg",
-            rating: 4.2,
-            category: "accessories",
-            slug: "smartphone-case"
-        },
-        { 
-            id: 3, 
-            name: "USB-C Cable", 
-            price: 12.99, 
-            imageUrl: "/images/products/cable.jpg",
-            rating: 4.0,
-            category: "electronics",
-            slug: "usb-c-cable"
-        },
-    ];
+    const wishlistItems=demoProducts;
 
     return (
         <div className="bg-dark-primary text-dark-text-primary min-h-screen">

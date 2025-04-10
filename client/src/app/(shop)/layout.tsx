@@ -1,0 +1,22 @@
+/*
+بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ  ﷺ InshaAllah
+*/
+
+import { WhiteToastContainer } from "@/_lib/core/toast";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header/Header";
+
+
+export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
+    return (
+        <>
+            <Header />
+            <main className="min-h-[70vh]">
+                {children}
+            </main>
+            
+            <Footer />
+            <WhiteToastContainer />
+        </>
+    );
+}
