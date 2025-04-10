@@ -37,7 +37,7 @@ const Product = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <Link className="w-72 h-[20em]" href={`/product/${product.slug}`}>
+    <Link className="w-72 min-w-[240px] h-fit" href={`/product/${product.slug}`}>
       <div className="bg-white w-full h-full rounded-md shadow-sm overflow-hidden hover:shadow transition-all">
         {/* Image and Badges */}
         <div className="relative">

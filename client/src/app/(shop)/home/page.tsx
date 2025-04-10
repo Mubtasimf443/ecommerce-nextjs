@@ -10,6 +10,7 @@ import HeroSection from './_components/HeroSection';
 import CategoryGrid from './_components/CategoryGrid';
 import FeaturedProductsSection from './_components/FeaturedProductsSection';
 import { demoProducts } from '@/_lib/data/demoProducts';
+import ProductsCategory from './_components/ProductsCategory';
 
 
 
@@ -17,8 +18,8 @@ import { demoProducts } from '@/_lib/data/demoProducts';
 
 
 export const metadata: Metadata = {
-    title: "Shukhria Online Store",
-    description: "Explore Products, Fashion , Home Appliences , tools and others Products In Your Prices",
+  title: "Shukhria Online Store",
+  description: "Explore Products, Fashion , Home Appliences , tools and others Products In Your Prices",
 };
 
 
@@ -34,6 +35,39 @@ const page: FC = () => {
         hotSalesProducts={demoProducts}
         recommendedProducts={demoProducts}
         discountedProducts={demoProducts}
+      />
+
+      {/* Cetegories */}
+      <ProductsCategory
+        categoryName='Womens Fashion'
+        products={demoProducts}
+      />
+
+      <ProductsCategory
+        categoryName='Mens Fashion'
+        products={demoProducts}
+      />
+
+      <ProductsCategory
+        categoryName='Womens Fashion'
+        products={demoProducts}
+      />
+      <ProductsCategory
+        categoryName='Womens Fashion'
+        products={demoProducts}
+      />
+
+      <ProductsCategory
+        categoryName='Womens Fashion'
+        products={demoProducts}
+      />
+      <ProductsCategory
+        categoryName='Womens Fashion'
+        products={demoProducts}
+      />
+      <ProductsCategory
+        categoryName='Womens Fashion'
+        products={demoProducts}
       />
     </>
   )
