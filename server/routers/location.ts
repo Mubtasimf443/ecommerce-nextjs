@@ -19,7 +19,7 @@ router.use(function(req: Request, res: Response, next : NextFunction){
 
 router.get("/divisions" , function (req : Request , res : Response) :void{
     try {
-        let divisions = require("../lib/location/divisions.json");
+        let divisions = require("../data/location/divisions.json");
         res.status(200).json({
             success : true , 
             message : "ok",
@@ -52,7 +52,7 @@ router.get("/district", function (req: Request, res: Response): void {
                 bn_name: string;
             }
            
-            let districts: IDistrict[] = require('../lib/location/district.json');
+            let districts: IDistrict[] = require('../data/location/district.json');
 
             districts = districts.filter(function (element: IDistrict): object | undefined {
                 if (element.division_id === String(data)) {
@@ -89,7 +89,7 @@ router.get("/upazila", function (req: Request, res: Response): void {
                 name: string;
                 bn_name: string;
             }
-            let upazilas: IUpazila[] = require('../lib/location/upazilas.json');
+            let upazilas: IUpazila[] = require('../data/location/upazilas.json');
 
             upazilas = upazilas.filter(function (element: IUpazila): object | undefined {
                 if (element.district_id === String(data)) {
@@ -127,7 +127,7 @@ router.get("/city", function (req: Request, res: Response): void {
                 name: string;
                 bn_name: string;
             }
-            let cities: ICity[] = require('../lib/location/cities.json');
+            let cities: ICity[] = require('../data/location/cities.json');
 
             cities = cities.filter(function (element: ICity): object | undefined {
                 if (element.upazilla_id === String(data)) {
