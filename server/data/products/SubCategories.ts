@@ -1,6 +1,23 @@
 
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ  ﷺ InshaAllah */
 
+import { BeautyPersonalCareSubCategories } from "./SubCategories/BeautyPersonalCare";
+import { BooksAndStationerySubCategories } from "./SubCategories/BooksAndStationery";
+import { ClothingSubCategories } from "./SubCategories/Clothing";
+import { ElectronicsSubCategories } from "./SubCategories/Electronics";
+import { FoodsSubCategories } from "./SubCategories/Foods";
+import { HealthAndWellnessSubCategories } from "./SubCategories/HealthAndWellness";
+import { HomeKitchenSubCategories } from "./SubCategories/HomeKitchen";
+import { JewelrySubCategories } from "./SubCategories/Jewelry";
+import { LifeStyleSubCategories } from "./SubCategories/Lifestyle";
+import { LuxurySubCategories } from "./SubCategories/Luxury";
+import { OthersSubCategories } from "./SubCategories/Others";
+import { PetSuppliesSubCategories } from "./SubCategories/PetSupplies";
+import { ShoesSubCategories } from "./SubCategories/Shoes";
+import { SportsAndOutdoorsSubCategories } from "./SubCategories/SportsAndOutdoors";
+import { ToysAndGamesSubCategories } from "./SubCategories/ToysAndGames";
+import { VehicleSubCategories } from "./SubCategories/Vehicle";
+
 export interface ISubCategories {
     id: number;
     name: string;
@@ -9,202 +26,40 @@ export interface ISubCategories {
 }
 
 const SubCategories: ISubCategories[] = [
-    // Clothing Subcategories
-    {
-        id: 1,
-        name: "Men's Clothing",
-        slug: "mens-clothing",
-        parentPrimeCategoryId: 1
-    },
-    {
-        id: 2,
-        name: "Women's Clothing",
-        slug: "womens-clothing",
-        parentPrimeCategoryId: 1
-    },
-    {
-        id: 3,
-        name: "Children's Clothing",
-        slug: "childrens-clothing",
-        parentPrimeCategoryId: 1
-    },
-    {
-        id: 4,
-        name: "Traditional Wear",
-        slug: "traditional-wear",
-        parentPrimeCategoryId: 1
-    },
-
-    // Electronics Subcategories
-    {
-        id: 5,
-        name: "Smartphones",
-        slug: "smartphones",
-        parentPrimeCategoryId: 2
-    },
-    {
-        id: 6,
-        name: "Laptops & Computers",
-        slug: "laptops-computers",
-        parentPrimeCategoryId: 2
-    },
-    {
-        id: 7,
-        name: "Audio Devices",
-        slug: "audio-devices",
-        parentPrimeCategoryId: 2
-    },
-
-    // Home & Kitchen Subcategories
-    {
-        id: 8,
-        name: "Kitchen Appliances",
-        slug: "kitchen-appliances",
-        parentPrimeCategoryId: 3
-    },
-    {
-        id: 9,
-        name: "Furniture",
-        slug: "furniture",
-        parentPrimeCategoryId: 3
-    },
-    {
-        id: 10,
-        name: "Home Decor",
-        slug: "home-decor",
-        parentPrimeCategoryId: 3
-    },
-
-    // Beauty & Personal Care Subcategories
-    {
-        id: 11,
-        name: "Skincare",
-        slug: "skincare",
-        parentPrimeCategoryId: 4
-    },
-    {
-        id: 12,
-        name: "Haircare",
-        slug: "haircare",
-        parentPrimeCategoryId: 4
-    },
-    {
-        id: 13,
-        name: "Fragrances",
-        slug: "fragrances",
-        parentPrimeCategoryId: 4
-    },
-
-    // Sports & Outdoors Subcategories
-    {
-        id: 14,
-        name: "Sportswear",
-        slug: "sportswear",
-        parentPrimeCategoryId: 5
-    },
-    {
-        id: 15,
-        name: "Sports Equipment",
-        slug: "sports-equipment",
-        parentPrimeCategoryId: 5
-    },
-    {
-        id: 16,
-        name: "Camping Gear",
-        slug: "camping-gear",
-        parentPrimeCategoryId: 5
-    },
-    // LiftStyle 14 
-    {
-        id: 17,
-        name: "Watches",
-        slug: "watches",
-        parentPrimeCategoryId: 14  // Lifestyle
-    },
-    {
-        id: 18,
-        name: "Bags",
-        slug: "bags",
-        parentPrimeCategoryId: 14  // Lifestyle
-    },
-    {
-        id: 19,
-        name: "Home Decor",
-        slug: "home-decor",
-        parentPrimeCategoryId: 14  // Lifestyle
-    },
-    {
-        id: 20,
-        name: "Party Supplies",
-        slug: "party-supplies",
-        parentPrimeCategoryId: 14  // Lifestyle
-    },
-    {
-        id: 21,
-        name: "Travel Accessories",
-        slug: "travel-accessories",
-        parentPrimeCategoryId: 14  // Lifestyle
-    },
-    {
-        id: 22,
-        name: "Hobby Items",
-        slug: "hobby-items",
-        parentPrimeCategoryId: 14  // Lifestyle
-    },
-    {
-        id: 23,
-        name: "Cycles",
-        slug: "cycles",
-        parentPrimeCategoryId: 15  // Vehicle
-    },
-    {
-        id: 24,
-        name: "Bikes",
-        slug: "bikes",
-        parentPrimeCategoryId: 15  // Vehicle
-    },
-    {
-        id: 25,
-        name: "Cars",
-        slug: "cars",
-        parentPrimeCategoryId: 15  // Vehicle
-    },
-    {
-        id: 26,
-        name: "Buses",
-        slug: "buses",
-        parentPrimeCategoryId: 15  // Vehicle
-    },
-    {
-        id: 27,
-        name: "Trucks",
-        slug: "trucks",
-        parentPrimeCategoryId: 15  // Vehicle
-    },
-    {
-        id: 28,
-        name: "Tractors",
-        slug: "tractors",
-        parentPrimeCategoryId: 15  // Vehicle
-    },
-    {
-        id: 29,
-        name: "Auto Parts",
-        slug: "auto-parts",
-        parentPrimeCategoryId: 15  // Vehicle
-    },
-    {
-        id: 30,
-        name: "Vehicle Accessories",
-        slug: "vehicle-accessories",
-        parentPrimeCategoryId: 15  // Vehicle
-    },
-    {
-        id: 31,
-        name: "Vehicle Care",
-        slug: "vehicle-care",
-        parentPrimeCategoryId: 15  // Vehicle
-    }
+    // Clothing Subcategories 1-99
+   ...ClothingSubCategories,
+    // Shoes Subcategories 100-199
+    ...ShoesSubCategories,
+    // Electronics Subcategories 200-299
+    ...ElectronicsSubCategories,
+    // Home & Kitchen Subcategories 300-399
+   ...HomeKitchenSubCategories,
+    // Beauty & Personal Care Subcategories 400-299
+     ...BeautyPersonalCareSubCategories,
+    // Sports & Outdoors Subcategories 500-599
+    ...SportsAndOutdoorsSubCategories,
+    // Books & Stationery SubCategories 600-699
+    ...BooksAndStationerySubCategories,
+    // Toys & Games SubCategories 700-799
+    ...ToysAndGamesSubCategories,
+    // Jewelry & Accessorie SubCategories 800-899
+    ...JewelrySubCategories,
+    // Foods SubCategories 9000-999
+    ...FoodsSubCategories,
+    // Luxury SubCategories 1000-1099
+    ...LuxurySubCategories,
+    // Luxury SubCategories 1100-1199
+    ...LuxurySubCategories,
+    // Health & Wellness SubCategories 1200-1299
+    ...HealthAndWellnessSubCategories,
+    // Pet Supplies SubCategories 1300-1399
+    ...PetSuppliesSubCategories,
+    // LiftStyle SubCategories 1400-1499
+    ...LifeStyleSubCategories,
+    // Vehicle SubCategories 1500-1599
+    ...VehicleSubCategories,
+    // Others SubCategories 1600-1699
+    ...OthersSubCategories,
 ];
 
 export default SubCategories;
