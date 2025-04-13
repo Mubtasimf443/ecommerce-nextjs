@@ -22,6 +22,5 @@ export const BeautyPersonalCareSubCategories : ISubCategories[] =[
         name: "Fragrances",
         slug: "fragrances",
         parentPrimeCategoryId: 4
-    },
-
+    }
 ];

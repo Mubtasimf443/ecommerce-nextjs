@@ -23,6 +23,7 @@ export interface ISubCategories {
     name: string;
     slug: string;
     parentPrimeCategoryId: number;
+    isProductType ?: boolean;
 }
 
 const SubCategories: ISubCategories[] = [

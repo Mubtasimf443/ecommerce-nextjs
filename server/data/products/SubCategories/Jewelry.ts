@@ -3,4 +3,6 @@
 */
 import { ISubCategories } from '../SubCategories';
 
-export const JewelrySubCategories : ISubCategories[] =[];
+export const JewelrySubCategories : ISubCategories[] =[
+    
+];
