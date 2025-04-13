@@ -45,7 +45,7 @@ const SubCategories: ISubCategories[] = [
     ...ToysAndGamesSubCategories,
     // Jewelry & Accessorie SubCategories 800-899
     ...JewelrySubCategories,
-    // Foods SubCategories 9000-999
+    // Foods SubCategories 900-999
     ...FoodsSubCategories,
     // Luxury SubCategories 1000-1099
     ...LuxurySubCategories,
