@@ -3,60 +3,59 @@
 */
 import { ISubCategories } from '../SubCategories';
 
-export const VehicleSubCategories : ISubCategories[] =[
-    
+export const VehicleSubCategories : ISubCategories[] = [
     {
         id: 1500,
-        name: "Cycles",
-        slug: "cycles",
-        parentPrimeCategoryId: 15  
+        name: "Cars & Automobiles",
+        slug: "cars-automobiles",
+        parentPrimeCategoryId: 15
     },
     {
         id: 1501,
-        name: "Bikes",
-        slug: "bikes",
-        parentPrimeCategoryId: 15  
+        name: "Motorcycles & Scooters",
+        slug: "motorcycles-scooters",
+        parentPrimeCategoryId: 15
     },
     {
         id: 1502,
-        name: "Cars",
-        slug: "cars",
-        parentPrimeCategoryId: 15  
+        name: "Auto Parts & Accessories",
+        slug: "auto-parts-accessories",
+        parentPrimeCategoryId: 15
     },
     {
         id: 1503,
-        name: "Buses",
-        slug: "buses",
-        parentPrimeCategoryId: 15  
+        name: "Commercial Vehicles",
+        slug: "commercial-vehicles",
+        parentPrimeCategoryId: 15
     },
     {
         id: 1504,
-        name: "Trucks",
-        slug: "trucks",
-        parentPrimeCategoryId: 15  
+        name: "Bicycles & Accessories",
+        slug: "bicycles-accessories",
+        parentPrimeCategoryId: 15
     },
     {
         id: 1505,
-        name: "Tractors",
-        slug: "tractors",
-        parentPrimeCategoryId: 15  
+        name: "Vehicle Maintenance & Services",
+        slug: "vehicle-maintenance-services",
+        parentPrimeCategoryId: 15
     },
     {
         id: 1506,
-        name: "Auto Parts",
-        slug: "auto-parts",
-        parentPrimeCategoryId: 15  
+        name: "Three-Wheelers (Auto Rickshaws)",
+        slug: "three-wheelers-auto-rickshaws",
+        parentPrimeCategoryId: 15
     },
     {
         id: 1507,
-        name: "Vehicle Accessories",
-        slug: "vehicle-accessories",
-        parentPrimeCategoryId: 15  
+        name: "Vehicle Electronics & Audio",
+        slug: "vehicle-electronics-audio",
+        parentPrimeCategoryId: 15
     },
     {
         id: 1508,
-        name: "Vehicle Care",
-        slug: "vehicle-care",
-        parentPrimeCategoryId: 15  
+        name: "Vehicle Oils & Fluids",
+        slug: "vehicle-oils-fluids",
+        parentPrimeCategoryId: 15
     }
 ];

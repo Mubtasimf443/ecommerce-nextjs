@@ -85,8 +85,8 @@ const PrimeCategories: IPrimeCategories[] = [
     },
     {
         id: 16,
-        name: "Others",
-        slug: "others"
+        name: "Others Categories",
+        slug: "others-categories"
     },
 
     
