@@ -4,23 +4,47 @@
 
 import { ISubCategories } from '../SubCategories';
 
-export const BeautyPersonalCareSubCategories : ISubCategories[] =[
+export const BeautyPersonalCareSubCategories : ISubCategories[] = [
     {
-        id: 301,
+        id: 400,
+        name: "Makeup",
+        slug: "makeup",
+        parentPrimeCategoryId: 4
+    },
+    {
+        id: 401,
         name: "Skincare",
-        slug: "skincare",
+        slug: "skin",
         parentPrimeCategoryId: 4
     },
     {
-        id: 302,
-        name: "Haircare",
-        slug: "haircare",
+        id: 402,
+        name: "Hair",
+        slug: "hair",
         parentPrimeCategoryId: 4
     },
     {
-        id: 303,
-        name: "Fragrances",
-        slug: "fragrances",
+        id: 403,
+        name: "Personal Care",
+        slug: "personal-care",
+        parentPrimeCategoryId: 4
+    },
+    {
+        id: 404,
+        name: "Mom & Baby",
+        slug: "mom-baby",
+        parentPrimeCategoryId: 4
+    },
+    {
+        id: 405,
+        name: "Fragrance",
+        slug: "fragrance",
+        parentPrimeCategoryId: 4
+    },
+    {
+        id: 406,
+        name: "Men",
+        slug: "men",
         parentPrimeCategoryId: 4
     }
 ];
