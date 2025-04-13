@@ -1,0 +1,7 @@
+/*
+بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah
+*/
+
+import { ISubCategories } from '../SubCategories';
+
+export const OthersSubCategories : ISubCategories[] =[];

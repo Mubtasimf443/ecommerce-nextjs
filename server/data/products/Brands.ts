@@ -1,6 +1,6 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ  ﷺ InshaAllah */
 
-interface IBrands {
+export interface IBrands {
     id: number;
     name: string;
     slug: string;
@@ -9,7 +9,7 @@ interface IBrands {
     parentProductTypes: number[];
 }
 
-const Brands: IBrands[] = [
+ const Brands: IBrands[] = [
     {
         id: 1,
         name: 'Sadakalo',

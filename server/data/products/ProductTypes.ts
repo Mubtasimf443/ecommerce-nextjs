@@ -1,7 +1,7 @@
 
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ  ﷺ InshaAllah */
 
-interface IProductTypes {
+export interface IProductTypes {
     id: number;
     name: string;
     slug: string;
@@ -9,7 +9,7 @@ interface IProductTypes {
     parentSubCategoryId: number;
 }
 
-const ProductTypes: IProductTypes[] = [
+export const ProductTypes: IProductTypes[] = [
     // Men's Clothing Product Types
     {
         id: 1,
@@ -60,7 +60,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 1,
         parentSubCategoryId: 1
     },
-    
+
     // Women's Clothing Product Types
     {
         id: 8,
@@ -118,7 +118,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 1,
         parentSubCategoryId: 2
     },
-    
+
     // Children's Clothing Product Types
     {
         id: 16,
@@ -148,7 +148,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 1,
         parentSubCategoryId: 3
     },
-    
+
     // Traditional Wear Product Types
     {
         id: 20,
@@ -171,7 +171,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 1,
         parentSubCategoryId: 4
     },
-    
+
     // Sportswear Product Types
     {
         id: 23,
@@ -194,7 +194,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 1,
         parentSubCategoryId: 5
     },
-    
+
     // Formal Wear Product Types
     {
         id: 26,
@@ -217,7 +217,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 1,
         parentSubCategoryId: 6
     },
-    
+
     // Maternity Wear Product Types
     {
         id: 29,
@@ -233,7 +233,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 1,
         parentSubCategoryId: 7
     },
-    
+
     // Sleep & Lounge Product Types
     {
         id: 31,
@@ -256,7 +256,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 1,
         parentSubCategoryId: 8
     },
-    
+
     // Smartphones & Accessories Product Types
     {
         id: 34,
@@ -286,7 +286,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 2,
         parentSubCategoryId: 9
     },
-    
+
     // Computers & Tablets Product Types
     {
         id: 38,
@@ -309,7 +309,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 2,
         parentSubCategoryId: 10
     },
-    
+
     // Audio & Headphones Product Types
     {
         id: 41,
@@ -332,7 +332,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 2,
         parentSubCategoryId: 11
     },
-    
+
     // TVs & Entertainment Product Types
     {
         id: 44,
@@ -348,7 +348,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 2,
         parentSubCategoryId: 12
     },
-    
+
     // Camera & Photo Product Types
     {
         id: 46,
@@ -364,7 +364,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 2,
         parentSubCategoryId: 13
     },
-    
+
     // Smart Home Product Types
     {
         id: 48,
@@ -380,7 +380,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 2,
         parentSubCategoryId: 14
     },
-    
+
     // Office Electronics Product Types
     {
         id: 50,
@@ -410,7 +410,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 2,
         parentSubCategoryId: 15
     },
-    
+
     // Car Electronics Product Types
     {
         id: 54,
@@ -426,7 +426,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 2,
         parentSubCategoryId: 16
     },
-    
+
     // Computer Components Product Types
     {
         id: 56,
@@ -456,7 +456,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 2,
         parentSubCategoryId: 17
     },
-    
+
     // Kitchen Appliances Product Types
     {
         id: 60,
@@ -486,7 +486,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 3,
         parentSubCategoryId: 18
     },
-    
+
     // Home Appliances Product Types
     {
         id: 64,
@@ -516,7 +516,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 3,
         parentSubCategoryId: 19
     },
-    
+
     // Furniture Product Types
     {
         id: 68,
@@ -539,7 +539,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 3,
         parentSubCategoryId: 20
     },
-    
+
     // Home Decor Product Types
     {
         id: 71,
@@ -555,7 +555,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 3,
         parentSubCategoryId: 21
     },
-    
+
     // Bedding & Linen Product Types
     {
         id: 73,
@@ -571,7 +571,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 3,
         parentSubCategoryId: 22
     },
-    
+
     // Bath Product Types
     {
         id: 75,
@@ -587,7 +587,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 3,
         parentSubCategoryId: 23
     },
-    
+
     // Lighting Product Types
     {
         id: 77,
@@ -603,7 +603,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 3,
         parentSubCategoryId: 24
     },
-    
+
     // Skincare Product Types
     {
         id: 79,
@@ -626,7 +626,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 4,
         parentSubCategoryId: 25
     },
-    
+
     // Haircare Product Types
     {
         id: 82,
@@ -649,7 +649,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 4,
         parentSubCategoryId: 26
     },
-    
+
     // Makeup & Cosmetics Product Types
     {
         id: 85,
@@ -672,7 +672,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 4,
         parentSubCategoryId: 27
     },
-    
+
     // Fragrances Product Types
     {
         id: 88,
@@ -688,7 +688,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 4,
         parentSubCategoryId: 28
     },
-    
+
     // Baby Care Product Types
     {
         id: 90,
@@ -704,7 +704,7 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 4,
         parentSubCategoryId: 29
     },
-    
+
     // Sports Equipment Product Types
     {
         id: 92,
@@ -720,22 +720,139 @@ const ProductTypes: IProductTypes[] = [
         parentPrimeCategoryId: 5,
         parentSubCategoryId: 31
     },
-    
-    // Cycling Product Types
     {
-        id: 94,
-        name: "Bicycles",
-        slug: "bicycles",
-        parentPrimeCategoryId: 5,
-        parentSubCategoryId: 33
+        id: 96,
+        name: "Mountain Bikes",
+        slug: "mountain-bikes",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 23
     },
     {
-        id: 95,
-        name: "Cycling Accessories",
-        slug: "cycling-accessories",
-        parentPrimeCategoryId: 5,
-        parentSubCategoryId: 33
+        id: 97,
+        name: "Road Bikes",
+        slug: "road-bikes",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 23
+    },
+    {
+        id: 98,
+        name: "BMX Bikes",
+        slug: "bmx-bikes",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 23
+    },
+
+    {
+        id: 99,
+        name: "Sport Bikes",
+        slug: "sport-bikes",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 24
+    },
+    {
+        id: 100,
+        name: "Cruiser Bikes",
+        slug: "cruiser-bikes",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 24
+    },
+    {
+        id: 101,
+        name: "Electric Bikes",
+        slug: "electric-bikes",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 24
+    },
+
+    {
+        id: 102,
+        name: "Sedan Cars",
+        slug: "sedan-cars",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 25
+    },
+    {
+        id: 103,
+        name: "SUV Cars",
+        slug: "suv-cars",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 25
+    },
+    {
+        id: 104,
+        name: "Sports Cars",
+        slug: "sports-cars",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 25
+    },
+
+    {
+        id: 105,
+        name: "Engine Parts",
+        slug: "engine-parts",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 29
+    },
+    {
+        id: 106,
+        name: "Brake Systems",
+        slug: "brake-systems",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 29
+    },
+    {
+        id: 107,
+        name: "Transmission Parts",
+        slug: "transmission-parts",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 29
+    },
+
+    // Vehicle Accessories (SubCategoryId: 30)
+    {
+        id: 108,
+        name: "Car Audio Systems",
+        slug: "car-audio-systems",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 30
+    },
+    {
+        id: 109,
+        name: "Car Navigation Systems",
+        slug: "car-navigation-systems",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 30
+    },
+    {
+        id: 110,
+        name: "Car Security Systems",
+        slug: "car-security-systems",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 30
+    },
+
+    {
+        id: 111,
+        name: "Car Cleaning Products",
+        slug: "car-cleaning-products",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 31
+    },
+    {
+        id: 112,
+        name: "Car Polish & Wax",
+        slug: "car-polish-wax",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 31
+    },
+    {
+        id: 113,
+        name: "Engine Oil & Fluids",
+        slug: "engine-oil-fluids",
+        parentPrimeCategoryId: 15,
+        parentSubCategoryId: 31
     }
+
 ];
 
 export default ProductTypes;

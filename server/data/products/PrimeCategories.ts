@@ -23,7 +23,6 @@ const PrimeCategories: IPrimeCategories[] = [
         name: "Electronics",
         slug: "electronics"
     },
-   
     {
         id: 4,
         name: "Home & Kitchen",
@@ -53,12 +52,44 @@ const PrimeCategories: IPrimeCategories[] = [
         id: 9,
         name: "Jewelry & Accessories",
         slug: "jewelry-accessories"
-    }
+    },
+    {
+        id: 10,
+        name: "Foods",
+        slug: "foods"
+    },
+    {
+        id: 11,
+        name: "Luxury",
+        slug: "luxury"
+    },
+    {
+        id: 12,
+        name: "Health & Wellness",
+        slug: "health-wellness"
+    },
+    {
+        id: 13,
+        name: "Pet Supplies",
+        slug: "pet-supplies"
+    },
+    {
+        id: 14,
+        name: "Lifestyle",
+        slug: "lifestyle"
+    },
+    {
+        id: 15,
+        name: "Vehicle",
+        slug: "vehicle"
+    },
+    {
+        id: 16,
+        name: "Others",
+        slug: "others"
+    },
+
+    
 ];
 
 export default PrimeCategories;
-
-
-
-
-

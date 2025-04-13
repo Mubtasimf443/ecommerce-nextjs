@@ -1,7 +1,7 @@
 
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ  ﷺ InshaAllah */
 
-interface ISubCategories {
+export interface ISubCategories {
     id: number;
     name: string;
     slug: string;
@@ -34,7 +34,7 @@ const SubCategories: ISubCategories[] = [
         slug: "traditional-wear",
         parentPrimeCategoryId: 1
     },
-    
+
     // Electronics Subcategories
     {
         id: 5,
@@ -54,7 +54,7 @@ const SubCategories: ISubCategories[] = [
         slug: "audio-devices",
         parentPrimeCategoryId: 2
     },
-    
+
     // Home & Kitchen Subcategories
     {
         id: 8,
@@ -74,7 +74,7 @@ const SubCategories: ISubCategories[] = [
         slug: "home-decor",
         parentPrimeCategoryId: 3
     },
-    
+
     // Beauty & Personal Care Subcategories
     {
         id: 11,
@@ -94,7 +94,7 @@ const SubCategories: ISubCategories[] = [
         slug: "fragrances",
         parentPrimeCategoryId: 4
     },
-    
+
     // Sports & Outdoors Subcategories
     {
         id: 14,
@@ -113,6 +113,97 @@ const SubCategories: ISubCategories[] = [
         name: "Camping Gear",
         slug: "camping-gear",
         parentPrimeCategoryId: 5
+    },
+    // LiftStyle 14 
+    {
+        id: 17,
+        name: "Watches",
+        slug: "watches",
+        parentPrimeCategoryId: 14  // Lifestyle
+    },
+    {
+        id: 18,
+        name: "Bags",
+        slug: "bags",
+        parentPrimeCategoryId: 14  // Lifestyle
+    },
+    {
+        id: 19,
+        name: "Home Decor",
+        slug: "home-decor",
+        parentPrimeCategoryId: 14  // Lifestyle
+    },
+    {
+        id: 20,
+        name: "Party Supplies",
+        slug: "party-supplies",
+        parentPrimeCategoryId: 14  // Lifestyle
+    },
+    {
+        id: 21,
+        name: "Travel Accessories",
+        slug: "travel-accessories",
+        parentPrimeCategoryId: 14  // Lifestyle
+    },
+    {
+        id: 22,
+        name: "Hobby Items",
+        slug: "hobby-items",
+        parentPrimeCategoryId: 14  // Lifestyle
+    },
+    {
+        id: 23,
+        name: "Cycles",
+        slug: "cycles",
+        parentPrimeCategoryId: 15  // Vehicle
+    },
+    {
+        id: 24,
+        name: "Bikes",
+        slug: "bikes",
+        parentPrimeCategoryId: 15  // Vehicle
+    },
+    {
+        id: 25,
+        name: "Cars",
+        slug: "cars",
+        parentPrimeCategoryId: 15  // Vehicle
+    },
+    {
+        id: 26,
+        name: "Buses",
+        slug: "buses",
+        parentPrimeCategoryId: 15  // Vehicle
+    },
+    {
+        id: 27,
+        name: "Trucks",
+        slug: "trucks",
+        parentPrimeCategoryId: 15  // Vehicle
+    },
+    {
+        id: 28,
+        name: "Tractors",
+        slug: "tractors",
+        parentPrimeCategoryId: 15  // Vehicle
+    },
+    {
+        id: 29,
+        name: "Auto Parts",
+        slug: "auto-parts",
+        parentPrimeCategoryId: 15  // Vehicle
+    },
+    {
+        id: 30,
+        name: "Vehicle Accessories",
+        slug: "vehicle-accessories",
+        parentPrimeCategoryId: 15  // Vehicle
+    },
+    {
+        id: 31,
+        name: "Vehicle Care",
+        slug: "vehicle-care",
+        parentPrimeCategoryId: 15  // Vehicle
     }
 ];
 
