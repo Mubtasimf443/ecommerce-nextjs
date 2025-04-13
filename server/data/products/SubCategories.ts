@@ -48,17 +48,15 @@ const SubCategories: ISubCategories[] = [
     ...FoodsSubCategories,
     // Luxury SubCategories 1000-1099
     ...LuxurySubCategories,
-    // Luxury SubCategories 1100-1199
-    ...LuxurySubCategories,
-    // Health & Wellness SubCategories 1200-1299
+    // Health & Wellness SubCategories 1100-1199
     ...HealthAndWellnessSubCategories,
-    // Pet Supplies SubCategories 1300-1399
+    // Pet Supplies SubCategories 1200-1299
     ...PetSuppliesSubCategories,
-    // LiftStyle SubCategories 1400-1499
+    // LiftStyle SubCategories 1300-1399
     ...LifeStyleSubCategories,
-    // Vehicle SubCategories 1500-1599
+    // Vehicle SubCategories 1400-1499
     ...VehicleSubCategories,
-    // Others SubCategories 1600-1699
+    // Others SubCategories 1500-1599
     ...OthersSubCategories,
 ];
 
