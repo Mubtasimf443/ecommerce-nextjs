@@ -10,11 +10,12 @@ import { z } from "zod";
 import ProductTypes from "../data/products/ProductTypes";
 import Brands from "../data/products/Brands";
 import morgan from "morgan";
+import Awaiter from "../lib/core/Awaiter";
 
 const router: Router = Router();
 router.use(cors);
 router.use(function(req: Request, res: Response, next : NextFunction){
-    res.set("cache-control", "max-age=3600, public");
+    res.set("cache-control", "no-cache");
     next();
     return;
 });

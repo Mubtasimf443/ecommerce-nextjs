@@ -1,14 +1,26 @@
 /*
 بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ  ﷺ InshaAllah
 */
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronRight as ArrowRight, ChevronLeft as ArrowLeft } from 'lucide-react'
 import MenuBarItem from './MenuBarItem';
 import categoriesAndproductsTypes from './categoriesAndproductsTypes';
-import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu';
-
-
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuSeparator,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+} from "@/components/ui/shadcn/dropdown-menu";
+import { ChevronDown as ArrowDown } from "lucide-react";
+import PrimeCategories from '@/_lib/data/products/PrimeCategories';
+import SubCategories from '@/_lib/data/products/SubCategories';
 const HeaderBottom: FC = () => {
     // const items = [
     //     { id: 1, name: "Electronics", type: "category", url: "/category/electronics" },
@@ -84,26 +96,21 @@ const HeaderBottom: FC = () => {
                     className="overflow-x-auto scrollbar-hide flex space-x-6 items-center mx-6 scroll-smooth"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
-                    
-                    
-                    {categoriesAndproductsTypes.map((item,key) => (
-                        <MenuBarItem 
-                        key={key}
-                        title={item.categoryName}  
-                        items={
-                            <div  className="flex flex-col gap-1">
-                                {item.productsTypes.map((element, index) => (
-                                    
-                                        <DropdownMenuItem asChild className="cursor-pointer rounded px-2 py-1.5 focus:bg-blue-50 focus:text-blue-600 data-[highlighted]:bg-green-50 data-[highlighted]:text-green-600 outline-none" key={key}>
-                                            <Link href={element.slug}>{element.name} </Link>
-                                        </DropdownMenuItem>
-                                ))}
-                            </div>
-                        } 
-                        /> 
-                    ))}
-                    
-                   
+                    {
+                        PrimeCategories.map((element , key) => {
+                            return (
+                                <Fragment key={key}>
+                                    <MenuBarItem
+                                        title={element.name}
+                                        slug={element.slug}
+                                        id={element.id}
+                                        SubCategories={ SubCategories.filter(el => el.parentPrimeCategoryId ===element.id )  }
+                                    />
+                                </Fragment>
+                            )
+                        })
+                    }
+
                 </div>
 
                 <ArrowComponent

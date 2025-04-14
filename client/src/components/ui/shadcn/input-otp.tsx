@@ -1,3 +1,6 @@
+/*
+بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah
+*/
 "use client"
 
 import * as React from "react"

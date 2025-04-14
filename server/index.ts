@@ -31,6 +31,6 @@ async function main() {
 main()
 
 
-setInterval(() => {
-  console.log("Memory Uses of the server is " + (process.memoryUsage().heapTotal / (1024*1024 )) + "MB");
-}, 10000);
+// setInterval(() => {
+//   console.log("Memory Uses of the server is " + (process.memoryUsage().heapTotal / (1024*1024 )) + "MB");
+// }, 10000);
