@@ -25,7 +25,6 @@ export interface ISubCategories {
     parentPrimeCategoryId: number;
     isProductType ?: boolean;
 }
-
 const SubCategories: ISubCategories[] = [
     // Clothing Subcategories 1-99
    ...ClothingSubCategories,
@@ -60,5 +59,8 @@ const SubCategories: ISubCategories[] = [
     // Others SubCategories 1500-1599
     ...OthersSubCategories,
 ];
+
+
+
 
 export default SubCategories;
