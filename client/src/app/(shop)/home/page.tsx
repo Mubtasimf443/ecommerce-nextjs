@@ -3,7 +3,7 @@
 */
 
 
-import React, { FC } from 'react'
+import React, { FC, Fragment } from 'react'
 import type { Metadata } from "next";
 
 import HeroSection from './_components/HeroSection';
@@ -11,6 +11,7 @@ import CategoryGrid from './_components/CategoryGrid';
 import FeaturedProductsSection from './_components/FeaturedProductsSection';
 import { demoProducts } from '@/_lib/data/demoProducts';
 import ProductsCategory from './_components/ProductsCategory';
+import PrimeCategories from '@/_lib/data/products/PrimeCategories';
 
 
 
@@ -38,37 +39,19 @@ const page: FC = () => {
       />
 
       {/* Cetegories */}
-      <ProductsCategory
-        categoryName='Womens Fashion'
-        products={demoProducts}
-      />
 
-      <ProductsCategory
-        categoryName='Mens Fashion'
-        products={demoProducts}
-      />
-
-      <ProductsCategory
-        categoryName='Womens Fashion'
-        products={demoProducts}
-      />
-      <ProductsCategory
-        categoryName='Womens Fashion'
-        products={demoProducts}
-      />
-
-      <ProductsCategory
-        categoryName='Womens Fashion'
-        products={demoProducts}
-      />
-      <ProductsCategory
-        categoryName='Womens Fashion'
-        products={demoProducts}
-      />
-      <ProductsCategory
-        categoryName='Womens Fashion'
-        products={demoProducts}
-      />
+      {
+        PrimeCategories.map((element, key) => (
+          <Fragment key={key}>
+            <ProductsCategory
+              name={element.name}
+              products={demoProducts}
+              slug={element.slug}
+              id={element.id}
+            />
+          </Fragment>
+        ))
+      }
     </>
   )
 }

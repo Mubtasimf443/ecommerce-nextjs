@@ -40,7 +40,7 @@ interface Props {
 }
 const MenuBarItem: FC<Props> = ({ title, SubCategories, slug, id }) => {
     const [isOpen, setIsOpen] = useState(false);
-   
+
     return (
         <Fragment>
             <DropdownMenu  >
@@ -88,10 +88,10 @@ const MenuBarItem: FC<Props> = ({ title, SubCategories, slug, id }) => {
 interface ISubMenuBarProps {
     title: string;
     onSelect?: (productType: IProductTypes) => void;
-    slug : string;
-    id : number;
-    parentCategory : string;
-    parentCategoryId : number;
+    slug: string;
+    id: number;
+    parentCategory: string;
+    parentCategoryId: number;
 }
 
 export interface IProductTypes {
@@ -102,10 +102,11 @@ export interface IProductTypes {
     parentSubCategoryId: number;
 }
 
-const SubMenuBar: FC<ISubMenuBarProps> = ({ title, onSelect , id , slug , parentCategory, parentCategoryId}) => {
+const SubMenuBar: FC<ISubMenuBarProps> = ({ title, onSelect, id, slug, parentCategory, parentCategoryId }) => {
     const [productTypes, setProductTypes] = useState<IProductTypes[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const isRequested = useRef<boolean>(false);
     useEffect(() => {
         const fetchProductTypes = async () => {
             setIsLoading(true);
@@ -120,17 +121,15 @@ const SubMenuBar: FC<ISubMenuBarProps> = ({ title, onSelect , id , slug , parent
                         console.error("Failed to Load Products Data");
                         break;
                 }
-                
+
             } catch (error) {
                 console.error('Failed to fetch product types:', error);
             } finally {
                 setIsLoading(false);
+                isRequested.current = true;
             }
         };
-        if ( isOpen && productTypes.length === 0) {
-            fetchProductTypes();
-        }
-       
+        if (isOpen && !isRequested.current) fetchProductTypes();
     }, [isOpen]);
 
     return (
@@ -152,7 +151,7 @@ const SubMenuBar: FC<ISubMenuBarProps> = ({ title, onSelect , id , slug , parent
                             className="text-sm font-medium text-gray-500 px-2 pb-1 cursor-pointer"
                             children={title}
                             href={`/categories/${parentCategory}/${slug}?prime_category=${parentCategoryId}&sub_category=${id}`}
-                           
+
                         />
                         <DropdownMenuSeparator className="my-1 border-gray-200" />
                         {isLoading ? (
@@ -162,17 +161,23 @@ const SubMenuBar: FC<ISubMenuBarProps> = ({ title, onSelect , id , slug , parent
                             // <DropdownMenuItem disabled>
                             //     <Loader widthClass="w-5 h-5" />
                             // </DropdownMenuItem>
-                        ) : productTypes.map((productType , key) => (
-                            <DropdownMenuItem
-                                key={key}
-                                onClick={() => onSelect?.(productType)}
-                                className={cn(
-                                    "cursor-pointer",
-                                    "hover:bg-blue-50 hover:text-blue-600"
-                                )}
-                            >
-                                {productType.name}
-                            </DropdownMenuItem>
+                        ) : productTypes.map((productType, key) => (
+                            <Fragment>
+                                <DropdownMenuItem
+                                    key={key}
+                                    className={cn(
+
+                                    )}
+                                >
+                                    <Link
+                                        href={`/categories/${parentCategory}/${slug}/${productType.slug}?prime_category=${parentCategoryId}&sub_category=${id}&product_type=${productType.id}`}
+                                        className="cursor-pointer hover:bg-green-50 hover:text-green-600"
+                                        children={productType.name}
+                                    />
+                                </DropdownMenuItem>
+                            
+
+                            </Fragment>
                         ))}
                     </DropdownMenuSubContent>
                 </DropdownMenuPortal>
