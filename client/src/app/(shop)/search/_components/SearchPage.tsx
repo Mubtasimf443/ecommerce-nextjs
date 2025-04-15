@@ -5,11 +5,11 @@
 
 "use client"
 
-import SearchHeader from '@/components/layout/SearchHeader';
-import SearchFilter from '@/components/ui/card/SearchFilter';
-import ProductsContainer from '@/components/ui/section/ProductsContainer';
+import SearchHeader from '@/app/(shop)/search/_components/SearchHeader';
+import SearchFilter from '@/app/(shop)/search/_components/SearchFilter';
+import ProductsContainer from '@/app/(shop)/search/_components/ProductsContainer';
 import { useState } from 'react';
-import ProductsPagination from '@/components/paginations/SearchPagePagination';
+import ProductsPagination from '@/app/(shop)/search/_components/SearchPagePagination';
 import ErrorBoundary from "@/components/custom/ErrorBoundary";
 
 const SearchPage: React.FC = () => {

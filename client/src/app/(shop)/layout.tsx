@@ -5,12 +5,15 @@
 import { WhiteToastContainer } from "@/_lib/core/toast";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header/Header";
+import ShopBreadCrumb from "@/components/layout/ShopBreadCrumb";
 
 
 export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
+    
     return (
         <>
             <Header />
+            <ShopBreadCrumb />
             <main className="min-h-[70vh]">
                 {children}
             </main>
