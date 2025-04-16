@@ -32,7 +32,7 @@ export interface ProductInterface {
 
 interface ProductCardProps {
   product: ProductInterface;
-  style ?: "list" | undefined | 'grid';
+  style?: "list" | 'grid' | undefined;
 }
 
 const Product = ({ product ,style ="grid"}: ProductCardProps) => {
@@ -42,7 +42,7 @@ const Product = ({ product ,style ="grid"}: ProductCardProps) => {
   };
   if (style === 'list') {
     return (
-        <Link className="w-full" href={`/product/${product.slug}`}>
+        <Link className="w-full" href={`/products/${product.slug }`}>
           <div className="bg-white w-full rounded-md shadow-sm overflow-hidden hover:shadow transition-all">
             <div className="flex flex-col sm:flex-row">
               {/* Image and Badges */}
@@ -132,7 +132,7 @@ const Product = ({ product ,style ="grid"}: ProductCardProps) => {
     );
   }
   return (
-    <Link className="w-72 min-w-[240px] h-fit" href={`/product/${product.slug}`}>
+    <Link className="w-72 min-w-[240px] h-fit" href={`/products/${product.slug}`}>
       <div className="bg-white w-full h-full rounded-md shadow-sm overflow-hidden hover:shadow transition-all">
         {/* Image and Badges */}
         <div className="relative">
