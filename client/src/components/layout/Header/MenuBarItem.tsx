@@ -66,7 +66,7 @@ const MenuBarItem: FC<Props> = ({ title, SubCategories, slug, id }) => {
                     <div className="flex flex-col gap-1">
                         {
                             SubCategories.map((element, key) => (
-                                <Fragment >
+                                <Fragment key={key}>
                                     <SubMenuBar
                                         title={element.name}
                                         key={key}
@@ -139,8 +139,8 @@ const SubMenuBar: FC<ISubMenuBarProps> = ({ title, onSelect, id, slug, parentCat
                     className={cn(
                         "cursor-pointer rounded px-2 py-1.5",
                         "outline-none transition-colors",
-                        "hover:bg-blue-50 hover:text-blue-600",
-                        "focus:bg-blue-50 focus:text-blue-600"
+                        "hover:bg-blue-50 hover:text-green-600",
+                        "focus:bg-blue-50 focus:text-green-600"
                     )}
                 >
                     {title}
@@ -165,13 +165,11 @@ const SubMenuBar: FC<ISubMenuBarProps> = ({ title, onSelect, id, slug, parentCat
                             <Fragment>
                                 <DropdownMenuItem
                                     key={key}
-                                    className={cn(
-
-                                    )}
+                                  
                                 >
                                     <Link
                                         href={`/categories/${parentCategory}/${slug}/${productType.slug}?prime_category=${parentCategoryId}&sub_category=${id}&product_type=${productType.id}`}
-                                        className="cursor-pointer hover:bg-green-50 hover:text-green-600"
+                                        className="cursor-pointer hover:text-green-600"
                                         children={productType.name}
                                     />
                                 </DropdownMenuItem>

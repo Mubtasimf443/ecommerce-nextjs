@@ -1,61 +1,120 @@
-/*
-بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ  ﷺ InshaAllah
-*/
+/* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
-import React ,{useState } from 'react'
-import ReactPaginate from 'react-paginate';
-import { number } from 'yup';
+import React, { FC, Fragment } from 'react';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/shadcn/pagination"
 
-
-
-interface PaginationProps {
-    totalItems: number;
-    itemsPerPage: number;
-    initialPage: number;
-    onPageChange: React.Dispatch<React.SetStateAction<number>>;
+interface Props {
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
 }
 
-function SearchPagePagination ({ totalItems, itemsPerPage = 12,onPageChange, initialPage = 0}: PaginationProps) {
-  const [currentPage, setCurrentPage] = useState(initialPage);
-  const pageCount = Math.ceil(totalItems / itemsPerPage);
-  
-  const handlePageClick = (event: { selected: number }) => {
-    const newPage = event.selected;
-    setCurrentPage(newPage);
-    onPageChange(newPage);
-  };
+const SearchPagePagination: FC<Props> = ({ currentPage = 1, totalPages = 10, onPageChange }) => {
+  const pageNumbers = [];
+  const maxPagesToShow = 5;
 
-  return (
-    <div className="pagination-container mt-8 mb-4">
-      <ReactPaginate
-        previousLabel={'← Previous'}
-        nextLabel={'Next →'}
-        breakLabel={'...'}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={3}
-        onPageChange={handlePageClick}
-        forcePage={currentPage}
-        containerClassName={'flex list-none justify-center items-center gap-1'}
-        pageClassName={'inline-block'}
-        pageLinkClassName={'px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 text-gray-700 cursor-pointer'}
-        previousClassName={'inline-block'}
-        previousLinkClassName={'px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 text-gray-700 cursor-pointer'}
-        nextClassName={'inline-block'}
-        nextLinkClassName={'px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 text-gray-700 cursor-pointer'}
-        breakClassName={'inline-block'}
-        breakLinkClassName={'px-3 py-1 text-gray-700'}
-        activeClassName={'active-page'}
-        activeLinkClassName={'bg-blue-500 text-white border-blue-500 hover:bg-blue-600'}
-        disabledClassName={'opacity-50 cursor-not-allowed'}
-      />
+  let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+  let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    const maxPagesToShow = 5;
+    
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+    
+    if (endPage - startPage + 1 < maxPagesToShow) {
+      startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+
+    // First page
+    if (startPage > 1) {
+      pageNumbers.push(
+        <PaginationItem key={1}>
+          <PaginationLink href="#" onClick={() => onPageChange(1)}>
+            1
+          </PaginationLink>
+        </PaginationItem>
+      );
       
-      <div className="text-center text-gray-500 text-sm mt-2">
-        Showing page {currentPage + 1} of {pageCount}
-        {totalItems > 0 && ` (${totalItems} total items)`}
-      </div>
+      if (startPage > 2) {
+        pageNumbers.push(
+          <PaginationItem key="ellipsis-1">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+    }
+
+    // Page numbers
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <PaginationItem key={i}>
+          <PaginationLink 
+            href="#" 
+            isActive={i === currentPage}
+            onClick={() => onPageChange(i)}
+          >
+            {i}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+
+    // Last page
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pageNumbers.push(
+          <PaginationItem key="ellipsis-2">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+      
+      pageNumbers.push(
+        <PaginationItem key={totalPages}>
+          <PaginationLink href="#" onClick={() => onPageChange(totalPages)}>
+            {totalPages}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+
+    return pageNumbers;
+  };
+  return (
+    <div className="my-6">
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious 
+              href="#" 
+              onClick={() => onPageChange(Math.max(1, currentPage - 1))}
+              className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+            />
+          </PaginationItem>
+          
+          {renderPageNumbers()}
+          
+          <PaginationItem>
+            <PaginationNext 
+              href="#" 
+              onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
+              className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
-};
+}
 
-export default SearchPagePagination;
+export default SearchPagePagination

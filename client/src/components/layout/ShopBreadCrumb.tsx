@@ -3,7 +3,7 @@
 */
 'use client'
 import { usePathname } from 'next/navigation'
-import React, { Fragment, useEffect, useMemo, useRef } from 'react'
+import React, { Fragment, useCallback, useEffect, useMemo, useRef } from 'react'
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -23,16 +23,13 @@ export default function ShopBreadCrumb() {
       return element;
     }
   });
-  let query = useRef<string>("");
   if (pathNames[0].toLowerCase() === "home") {
     return <React.Fragment />
   }
-  useEffect(() => {
-    if (window) query.current = window.location.search;
-  }, [])
+  const searchParams = useCallback(() => window && window.location.search , [pathName])
   return (
     <>
-      <section className='py-4 md:px-10 text-left'>
+      <section className='py-4 px-4 md:px-10 text-left'>
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem >
@@ -47,7 +44,7 @@ export default function ShopBreadCrumb() {
                       <BreadcrumbItem className='hover:text-green-600'>
                         <BreadcrumbLink
                           className='hover:text-green-600'
-                          href={'/' + pathNames.slice(0, key + 1).join('/') + query.current}
+                          href={'/' + pathNames.slice(0, key + 1).join('/') + searchParams()}
                         >
                           {element.at(0)?.toUpperCase() + element.slice(1)}
                         </BreadcrumbLink>

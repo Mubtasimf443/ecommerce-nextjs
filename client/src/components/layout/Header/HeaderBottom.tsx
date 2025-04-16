@@ -80,7 +80,7 @@ const HeaderBottom: FC = () => {
     };
 
     return (
-        <div className="relative w-full bg-[color:--theme-bg] py-3 border-b border-gray-200">
+        <div className="relative w-full bg-[color:--theme-bg] py-3 border-b border-gray-200 hidden lg:block">
             <div className="max-w-6xl mx-auto px-4 relative">
 
                 <ArrowComponent
@@ -99,11 +99,12 @@ const HeaderBottom: FC = () => {
                     {
                         PrimeCategories.map((element , key) => {
                             return (
-                                <Fragment key={key}>
+                                <Fragment key={key} >
                                     <MenuBarItem
                                         title={element.name}
                                         slug={element.slug}
                                         id={element.id}
+                                        
                                         SubCategories={ SubCategories.filter(el => el.parentPrimeCategoryId ===element.id )  }
                                     />
                                 </Fragment>
