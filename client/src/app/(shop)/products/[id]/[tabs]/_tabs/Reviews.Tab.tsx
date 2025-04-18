@@ -1,7 +1,7 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 "use client"
 import React, { FC, Fragment } from 'react'
-import ReviewCard from '../_components/ReviewCard'
+import ReviewCard from '../../_components/ReviewCard'
 import RatingsContainer from '../../_components/RatingsContainer'
 import Pagination from '@/components/custom/Pagination'
 import ReviewTabFilter from '../_components/ReviewTabFilter'
