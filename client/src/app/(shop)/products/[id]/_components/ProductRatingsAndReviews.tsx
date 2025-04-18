@@ -2,10 +2,9 @@
 بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah
 */
 
-import renderRatingStars from '@/components/icons/renderRatingStars'
-import React, { FC, Suspense } from 'react'
-import RatingsContainer from './RatingsContainer';
-
+import React, { FC } from 'react'
+import RatingsContainer from './RatingsContainer'
+import ReviewsContainer from './ReviewsContainer'
 
 interface Props {
     productId: string
@@ -32,10 +31,10 @@ const ProductRatingsAndReviews: FC<Props> = ({ productId }) => {
                 totalReviews={totalReviews}
                 averageRating={averageRating}
                 ratingDistribution={ratingDistribution}
-
             />
 
-
+            {/* Reviews Container */}
+            <ReviewsContainer productId={productId} />
         </section>
     )
 }
