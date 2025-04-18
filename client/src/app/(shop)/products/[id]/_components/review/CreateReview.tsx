@@ -218,7 +218,7 @@ const CreateReview: FC<Props> = ({
             )}
             <Button 
               onClick={handleNextStep}
-              className={`${step === 3 ? 'bg-indigo-600 hover:bg-indigo-700' : ''} gap-2`}
+              className={` gap-2`}
             >
               {step < 3 ? (
                 <>Next <ChevronRight className="h-4 w-4" /></>
