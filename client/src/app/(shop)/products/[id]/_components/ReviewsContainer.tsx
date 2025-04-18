@@ -3,6 +3,8 @@
 import React, { FC } from 'react'
 import ReviewCard from './ReviewCard'
 import Link from 'next/link'
+import { Button } from '@/components/ui/shadcn/button';
+import CreateReview from './CreateReview';
 
 interface Props {
     productId: string;
@@ -53,36 +55,44 @@ const ReviewsContainer: FC<Props> = ({ productId }) => {
 
     return (
         <div className="mt-8">
-            <div className="flex items-center mb-6">
+            <div className="flex flex-row justify-between items-center mb-6 gap-x-6">
                 <h3 className="text-xl font-semibold text-gray-800">Reviews</h3>
-       
+                <div className="flex flex-row justify-between items-center w-full gap-x-4">
+                    <CreateReview />
+                    <Link
+                        href={`/products/${productId}/reviews`}
+                        className="text-emerald-600 hover:text-emerald-700 text-sm font-medium flex items-center gap-1 "
+                    >
+                        View all reviews
+                        <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                            />
+                        </svg>
+                    </Link>
+
+
+
+                </div>
             </div>
-            
+
             {/* Reviews List */}
             <div className="space-y-4">
                 {reviews.map((review) => (
                     <ReviewCard key={review.id} {...review} />
                 ))}
             </div>
-            <Link 
-                    href={`/products/${productId}/reviews`}
-                    className="text-emerald-600 hover:text-emerald-700 text-sm font-medium flex items-center gap-1 mt-4"
-                >
-                    View all reviews
-                    <svg 
-                        className="w-4 h-4" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                    >
-                        <path 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round" 
-                            strokeWidth={2} 
-                            d="M9 5l7 7-7 7"
-                        />
-                    </svg>
-                </Link>
+
+
+
         </div>
     )
 }

@@ -5,6 +5,7 @@ import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/shadcn/select";
 // import { FunnelIcon, StarIcon } from "@heroicons/react/24/solid";
 import {Funnel as FunnelIcon ,Star as StarIcon } from 'lucide-react'
+import CreateReview from "../../_components/CreateReview";
 
 interface Props {
   showingNumber: number;
@@ -46,9 +47,7 @@ const ReviewTabFilter: React.FC<Props> = ({ showingNumber, totalReviews }) => {
           </Select>
         </div>
       </div>
-      <div className="text-sm text-gray-500 text-center md:text-right px-1">
-        <span className="font-medium text-gray-800">{showingNumber}</span> of <span className="font-medium text-gray-800">{totalReviews}</span> reviews
-      </div>
+      <CreateReview />
     </div>
   );
 };
