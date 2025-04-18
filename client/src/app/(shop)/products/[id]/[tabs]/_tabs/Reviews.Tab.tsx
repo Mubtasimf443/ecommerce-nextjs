@@ -1,7 +1,7 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 "use client"
 import React, { FC, Fragment } from 'react'
-import ReviewCard from '../../_components/ReviewCard'
+import ReviewCard from '../../_components/review/ReviewCard'
 import RatingsContainer from '../../_components/RatingsContainer'
 import Pagination from '@/components/custom/Pagination'
 import ReviewTabFilter from '../_components/ReviewTabFilter'
@@ -27,8 +27,8 @@ const ReviewsTab: FC = () => {
             comment: 'Amazing product! The quality exceeded my expectations. Delivery was quick and packaging was secure.',
             date: '2025-04-15',
             images: [
-                { id: '1', url: '/review-images/img1.jpg' },
-                { id: '2', url: '/review-images/img2.jpg' }
+                { id: '1', url: '/images/600x400.svg' },
+                { id: '2', url:'/images/600x400.svg'}
             ],
             likes: 45,
             dislikes: 2

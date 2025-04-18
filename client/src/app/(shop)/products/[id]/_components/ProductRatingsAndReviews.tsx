@@ -4,7 +4,7 @@
 
 import React, { FC } from 'react'
 import RatingsContainer from './RatingsContainer'
-import ReviewsContainer from './ReviewsContainer'
+import ReviewsContainer from './review/ReviewsContainer'
 
 interface Props {
     productId: string

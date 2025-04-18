@@ -5,7 +5,7 @@ import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/shadcn/select";
 // import { FunnelIcon, StarIcon } from "@heroicons/react/24/solid";
 import {Funnel as FunnelIcon ,Star as StarIcon } from 'lucide-react'
-import CreateReview from "../../_components/CreateReview";
+import CreateReview from "../../_components/review/CreateReview";
 
 interface Props {
   showingNumber: number;

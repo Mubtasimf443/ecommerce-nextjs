@@ -21,8 +21,8 @@ const ReviewsContainer: FC<Props> = ({ productId }) => {
             comment: 'Excellent product! The quality is amazing and it arrived earlier than expected. Highly recommend this to anyone looking for a reliable product.',
             date: '2025-04-15',
             images: [
-                { id: '1', url: '/review-images/img1.jpg' },
-                { id: '2', url: '/review-images/img2.jpg' }
+                { id: '1', url: '/images/600x400.svg' },
+                { id: '2', url: '/images/600x400.svg' }
             ],
             likes: 24,
             dislikes: 2
@@ -46,7 +46,7 @@ const ReviewsContainer: FC<Props> = ({ productId }) => {
             comment: 'Absolutely love it! Will definitely buy again.',
             date: '2025-04-13',
             images: [
-                { id: '3', url: '/review-images/img3.jpg' }
+                { id: '3', url: '/images/600x400.svg' }
             ],
             likes: 32,
             dislikes: 3
