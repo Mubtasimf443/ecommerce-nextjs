@@ -12,7 +12,7 @@ const page: FC<Props> = async ({ params }) => {
     let tab :any;
 
     if (tabName === "reviews")  tab = <ReviewsTab />;
-    else tab = <Fragment ></Fragment>
+    else tab = <Fragment ></Fragment>;
     return (
         <Fragment>
             {tab}
