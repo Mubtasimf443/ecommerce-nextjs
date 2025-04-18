@@ -3,7 +3,7 @@
 import React, { FC, Fragment } from 'react'
 import ReviewCard from '../_components/ReviewCard'
 import RatingsContainer from '../../_components/RatingsContainer'
-import Pagination from '../_components/Pagination'
+import Pagination from '@/components/custom/Pagination'
 import ReviewTabFilter from '../_components/ReviewTabFilter'
 
 const ReviewsTab: FC = () => {
@@ -63,7 +63,11 @@ const ReviewsTab: FC = () => {
             </div>
 
             {/* Pagination */}
-            <Pagination />
+            <Pagination 
+            currentPage={2}
+            totalPages={20}
+            onPageChange={() => {}}
+            />
         </div>
     )
 }

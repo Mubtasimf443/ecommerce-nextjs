@@ -1,38 +1,56 @@
+"use client";
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
-import React, { FC, Fragment } from 'react'
+import React from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/shadcn/select";
+// import { FunnelIcon, StarIcon } from "@heroicons/react/24/solid";
+import {Funnel as FunnelIcon ,Star as StarIcon } from 'lucide-react'
 
 interface Props {
-  showingNumber : number;
-  totalReviews : number;
+  showingNumber: number;
+  totalReviews: number;
 }
 
-const ReviewTabFilter :FC<Props> = ({showingNumber , totalReviews }) => {
+const ReviewTabFilter: React.FC<Props> = ({ showingNumber, totalReviews }) => {
   return (
-    <Fragment>
-         <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center space-x-4">
-                    <select className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        <option value="recent">Most Recent</option>
-                        <option value="helpful">Most Helpful</option>
-                        <option value="highest">Highest Rated</option>
-                        <option value="lowest">Lowest Rated</option>
-                    </select>
-                    <select className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        <option value="all">All Stars</option>
-                        <option value="5">5 Stars</option>
-                        <option value="4">4 Stars</option>
-                        <option value="3">3 Stars</option>
-                        <option value="2">2 Stars</option>
-                        <option value="1">1 Star</option>
-                    </select>
-                </div>
-                <div className="text-sm text-gray-500">
-                    Showing {showingNumber} of {totalReviews} reviews
-                </div>
-            </div>
-    </Fragment>
-  )
-}
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-6">
+      <div className="flex items-center space-x-3">
+        <div className="flex items-center">
+          <FunnelIcon className="w-5 h-5 text-emerald-500 mr-2" />
+          <Select defaultValue="recent">
+            <SelectTrigger className="w-[140px] bg-white border-gray-300 rounded-lg shadow-sm focus:ring-emerald-500">
+              <SelectValue placeholder="Sort by" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="recent">Most Recent</SelectItem>
+              <SelectItem value="helpful">Most Helpful</SelectItem>
+              <SelectItem value="highest">Highest Rated</SelectItem>
+              <SelectItem value="lowest">Lowest Rated</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex items-center">
+          <StarIcon className="w-5 h-5 text-yellow-400 mr-2" />
+          <Select defaultValue="all">
+            <SelectTrigger className="w-[120px] bg-white border-gray-300 rounded-lg shadow-sm focus:ring-emerald-500">
+              <SelectValue placeholder="All Stars" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Stars</SelectItem>
+              <SelectItem value="5">5 Stars</SelectItem>
+              <SelectItem value="4">4 Stars</SelectItem>
+              <SelectItem value="3">3 Stars</SelectItem>
+              <SelectItem value="2">2 Stars</SelectItem>
+              <SelectItem value="1">1 Star</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div className="text-sm text-gray-500 text-center md:text-right px-1">
+        <span className="font-medium text-gray-800">{showingNumber}</span> of <span className="font-medium text-gray-800">{totalReviews}</span> reviews
+      </div>
+    </div>
+  );
+};
 
-export default ReviewTabFilter
+export default ReviewTabFilter;

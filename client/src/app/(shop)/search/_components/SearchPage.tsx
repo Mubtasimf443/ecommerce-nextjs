@@ -1,19 +1,12 @@
 // SearchPage.tsx
 "use client"
 import React, { useRef, useState } from 'react';
-import { Slider } from "@/components/ui/shadcn/slider";
-import { Checkbox } from "@/components/ui/shadcn/checkbox";
-import { Button } from "@/components/ui/shadcn/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/shadcn/select";
-import { Card } from "@/components/ui/shadcn/card";
-import { Grid, List, Filter } from "lucide-react";
-import Product, { ProductInterface } from '@/components/ui/card/Product'; // Import your Product component
 import { demoProducts } from '@/_lib/data/demoProducts';
 import MobileFilter from './MobileFilter';
 import SearchRasultsHeader from './SearchRasultsHeader';
 import ProductsContainer from './ProductsContainer';
 import SearchFilter from './SearchFilter';
-import SearchPagePagination from './SearchPagePagination';
+import Pagination from '@/components/custom/Pagination';
 
 // Mock data using your ProductInterface
 
@@ -61,7 +54,7 @@ const SearchPage: React.FC = () => {
           />
 
           {/* Pagination */}
-          <SearchPagePagination
+          <Pagination
             onPageChange={(page: number) => { }}
             currentPage={3}
             totalPages={20}

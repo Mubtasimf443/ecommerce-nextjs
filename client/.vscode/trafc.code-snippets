@@ -15,7 +15,7 @@
 			"import React, { FC, Fragment } from 'react'",
 			"",
 			"interface Props {",
-			"$1",
+			"",
 			"}",
 			"",
 			"const ${TM_FILENAME_BASE} :FC<Props> = ({}) => {",
