@@ -11,7 +11,7 @@ import ProductTabs from './_components/ProductTabs'
 import { mockProduct } from './_lib/product.mockData'
 import LeftProductColumn from './_components/LeftProductColumn'
 import RigthProductColumn from './_components/RigthProductColumn'
-import ProductReviews from './_components/ProductReviews'
+import ProductRatingsAndReviews from './_components/ProductRatingsAndReviews'
 
 const page: FC = () => {
     const router = useRouter();
@@ -152,7 +152,7 @@ const page: FC = () => {
 
 
                     {/* Product Review */}
-                    <ProductReviews productId={product?.id || ''} />
+                    <ProductRatingsAndReviews productId={product?.id || ''} />
 
                 </div>
             </React.Fragment>
