@@ -57,11 +57,24 @@ const ReviewsContainer: FC<Props> = ({ productId }) => {
         <div className="mt-8">
             <div className="flex flex-row justify-between items-center mb-6 gap-x-6">
                 <h3 className="text-xl font-semibold text-gray-800">Reviews</h3>
-                <div className="flex flex-row justify-between items-center w-full gap-x-4">
+              
                     <CreateReview />
-                    <Link
+      
+
+
+                
+            </div>
+
+            {/* Reviews List */}
+            <div className="space-y-4">
+                {reviews.map((review) => (
+                    <ReviewCard key={review.id} {...review} />
+                ))}
+            </div>
+
+            <Link
                         href={`/products/${productId}/reviews`}
-                        className="text-emerald-600 hover:text-emerald-700 text-sm font-medium flex items-center gap-1 "
+                        className="text-emerald-600 hover:text-emerald-700 text-sm font-medium flex items-center gap-1 mt-5"
                     >
                         View all reviews
                         <svg
@@ -78,19 +91,6 @@ const ReviewsContainer: FC<Props> = ({ productId }) => {
                             />
                         </svg>
                     </Link>
-
-
-
-                </div>
-            </div>
-
-            {/* Reviews List */}
-            <div className="space-y-4">
-                {reviews.map((review) => (
-                    <ReviewCard key={review.id} {...review} />
-                ))}
-            </div>
-
 
 
         </div>

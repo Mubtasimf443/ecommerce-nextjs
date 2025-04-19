@@ -98,8 +98,7 @@ const CreateReview: React.FC<CreateReviewProps> = ({
       <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
         <DialogTrigger asChild>
           <Button 
-            className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 
-                       hover:to-emerald-700 text-white shadow-lg hover:shadow-xl
+            className=" text-white shadow-lg hover:shadow-xl
                        transition-all duration-300 gap-2"
           >
             <Star className="w-4 h-4" />

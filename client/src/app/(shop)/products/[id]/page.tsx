@@ -13,6 +13,7 @@ import LeftProductColumn from './_components/LeftProductColumn'
 import RigthProductColumn from './_components/RigthProductColumn'
 import ProductRatingsAndReviews from './_components/ProductRatingsAndReviews'
 import QuestionAnswerContainer from './_components/questionAnswer/QuestionAnswerContainer'
+import RelatedProductsContainer from './_components/RelatedProductsContainer'
 
 const page: FC = () => {
     const router = useRouter();
@@ -156,8 +157,10 @@ const page: FC = () => {
                     <ProductRatingsAndReviews productId={product?.id || ''} />
 
                     {/* Question Answer Container */}
-                    <QuestionAnswerContainer />
+                    <QuestionAnswerContainer  productId={product?.id || ''} /> 
 
+                    {/* Related Products Container */}
+                    <RelatedProductsContainer />
 
                 </div>
             </React.Fragment>
