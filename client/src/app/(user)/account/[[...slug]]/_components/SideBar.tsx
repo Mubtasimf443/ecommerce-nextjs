@@ -39,14 +39,14 @@ const SideBar: FC<Props> = ( ) => {
                     <nav>
                         <ul className="space-y-2">
                             <li>
-                                <a href="/accounts/info" className="block py-2 px-4 rounded-md bg-dark-accent text-white">
+                                <Link href="/account/info" className="block py-2 px-4 rounded-md bg-dark-accent">
                                     Profile
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="/accounts/orders" className="block py-2 px-4 rounded-md hover:bg-dark-hover transition-colors">
+                                <Link href="/account/orders" className="block py-2 px-4 rounded-md hover:bg-dark-hover transition-colors">
                                     Orders
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <Link href="/wishlist" className="block py-2 px-4 rounded-md hover:bg-dark-hover transition-colors">
@@ -54,9 +54,9 @@ const SideBar: FC<Props> = ( ) => {
                                 </Link>
                             </li>
                             <li>
-                                <a href="/accounts/address" className="block py-2 px-4 rounded-md hover:bg-dark-hover transition-colors">
+                                <Link href="/account/address" className="block py-2 px-4 rounded-md hover:bg-dark-hover transition-colors">
                                     Addresses
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <a href="#payment-methods" className="block py-2 px-4 rounded-md hover:bg-dark-hover transition-colors">

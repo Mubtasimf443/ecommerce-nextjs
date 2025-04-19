@@ -1,5 +1,5 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
-
+"use client"
 import React, { FC, Fragment } from 'react'
 import accountsStore from '../_lib/accounts.store'
 

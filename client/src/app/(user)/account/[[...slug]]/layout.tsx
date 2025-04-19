@@ -8,6 +8,7 @@ import Header from "@/components/layout/Header/Header";
 import ShopBreadCrumb from "@/components/layout/ShopBreadCrumb";
 import { ToastProvider } from "@/components/ui/shadcn/toast";
 import SideBar from "./_components/SideBar";
+import FeachUserData from "./_components/FeachUserData";
 
 
 export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -16,6 +17,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
         <>
             <Header />
             <ShopBreadCrumb />
+            <FeachUserData />
             <main className="min-h-[70vh]">
                 <div className="bg-dark-primary text-dark-text-primary min-h-screen">
                     <div className="container mx-auto px-4 py-8">
@@ -33,6 +35,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
             <Footer />
             <WhiteToastContainer />
             <ToastProvider duration={5000} swipeDirection="down" />
+            
         </>
     );
 }
