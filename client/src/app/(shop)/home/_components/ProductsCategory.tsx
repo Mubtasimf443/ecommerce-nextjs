@@ -62,7 +62,7 @@ const ProductsCategory: React.FC<ProductsCategoryProps> = ({ name, products, slu
       </div>
       <Link 
         href={`/categories/${slug}?prime_category=${id}`} 
-        className="flex items-center justify-center md:justify-start w-full md:w-auto text-sm font-medium text-green-600 hover:text-green-800 transition-colors py-2 px-4 rounded-lg border border-transparent"
+        className="flex items-center justify-center md:justify-start w-full md:w-auto text-sm font-medium text-green-700 hover:text-green-800 transition-colors py-2 px-4 rounded-lg border border-transparent"
       >
         View All {name} <ChevronRight size={16} className="ml-2" />
       </Link>

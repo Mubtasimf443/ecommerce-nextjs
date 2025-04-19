@@ -62,7 +62,7 @@ const QuestionAnswerContainer: FC<Props> = ({ productId }) => {
     }
 
     return (
-        <div className="mt-8 bg-white rounded-xl p-6 border">
+        <div className="mt-8 bg-white rounded-xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-semibold text-gray-900">
                     Questions & Answers ({questions.length})

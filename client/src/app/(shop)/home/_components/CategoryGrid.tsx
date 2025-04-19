@@ -41,7 +41,7 @@ export default function CategoryGrid() {
               <Link
                 href={category.slug}
                 key={category.id}
-                className="flex flex-col items-center justify-center p-4 border rounded-lg shadow-sm hover:shadow-md transition duration-200 bg-white"
+                className="flex flex-col items-center justify-center p-4 rounded-lg shadow-sm hover:shadow-md transition duration-200 bg-white border  border-gray-100"
               >
                 <Image
                   src={category.image}

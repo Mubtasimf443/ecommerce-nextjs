@@ -118,7 +118,7 @@ const RelatedProductsContainer: FC<Props> = ({ productId }) => {
   if (products.length === 0) return null
 
   return (
-    <div className="mt-16 bg-white rounded-xl p-6 border relative">
+    <div className="mt-16 bg-white rounded-xl p-6 shadow-sm relative">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-semibold text-gray-900">Related Products</h2>

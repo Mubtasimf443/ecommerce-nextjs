@@ -19,7 +19,7 @@ interface Props {
 
 const QuestionAnswerCard: FC<Props> = ({ question }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-4 mb-4 hover:shadow-md transition-shadow">
+    <div className="bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-md transition-shadow border border-gray-100">
       {/* Question Section */}
       <div className="mb-4">
         <div className="flex items-start justify-between">

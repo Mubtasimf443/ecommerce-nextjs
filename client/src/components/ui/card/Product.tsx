@@ -44,7 +44,7 @@ const Product = ({ product ,style ="grid"}: ProductCardProps) => {
   if (style === 'list') {
     return (
         <Link className="w-full" href={`/products/${product.slug }`}>
-          <div className="bg-white w-full rounded-md shadow-sm overflow-hidden hover:shadow transition-all">
+          <div className="bg-white w-full rounded-md overflow-hidden transition-all shadow-sm hover:shadow-md border border-gray-100">
             <div className="flex flex-col sm:flex-row">
               {/* Image and Badges */}
               <div className="relative sm:w-48 shrink-0">
@@ -134,7 +134,7 @@ const Product = ({ product ,style ="grid"}: ProductCardProps) => {
   }
   return (
     <Link className="w-72 min-w-[240px] h-fit" href={`/products/${product.slug}`}>
-      <div className="bg-white w-full h-full rounded-md shadow-sm overflow-hidden hover:shadow transition-all">
+      <div className="bg-white w-full h-full rounded-md overflow-hidden transition-all  shadow-sm hover:shadow-md border border-gray-100">
         {/* Image and Badges */}
         <div className="relative">
           <div className="relative h-48 w-full">
