@@ -6,6 +6,8 @@ import { Star } from 'lucide-react'
 import { Badge } from '@/components/ui/shadcn/badge'
 import { Textarea } from '@/components/ui/shadcn/textarea'
 import { Label } from '@/components/ui/shadcn/label'
+import {useDebouncedCallback} from 'use-debounce'
+
 
 interface RatingAndCommentStepProps {
   rating: number;
@@ -18,8 +20,10 @@ export const RatingAndCommentStep: FC<RatingAndCommentStepProps> = ({
   comment,
   onUpdate
 }) => {
-  const [hoveredStar, setHoveredStar] = useState(0)
-
+  const [hoveredStar, setHoveredStar] = useState(0);
+  const debouncedSetHoveredStar= useDebouncedCallback(function (star : number) {
+    setHoveredStar(star)
+  } , 300)
   // Get rating text based on star value
   const getRatingText = (stars: number) => {
     const texts = ["", "Poor", "Fair", "Good", "Very Good", "Excellent"]
@@ -37,8 +41,8 @@ export const RatingAndCommentStep: FC<RatingAndCommentStepProps> = ({
                 key={star}
                 type="button"
                 onClick={() => onUpdate({ rating: star })}
-                onMouseEnter={() => setHoveredStar(star)}
-                onMouseLeave={() => setHoveredStar(0)}
+                onMouseEnter={() => debouncedSetHoveredStar(star)}
+                onMouseLeave={() => debouncedSetHoveredStar(0)}
                 className="focus:outline-none transition transform hover:scale-110"
               >
                 <Star

@@ -12,6 +12,7 @@ import { mockProduct } from './_lib/product.mockData'
 import LeftProductColumn from './_components/LeftProductColumn'
 import RigthProductColumn from './_components/RigthProductColumn'
 import ProductRatingsAndReviews from './_components/ProductRatingsAndReviews'
+import QuestionAnswerContainer from './_components/questionAnswer/QuestionAnswerContainer'
 
 const page: FC = () => {
     const router = useRouter();
@@ -153,6 +154,10 @@ const page: FC = () => {
 
                     {/* Product Review */}
                     <ProductRatingsAndReviews productId={product?.id || ''} />
+
+                    {/* Question Answer Container */}
+                    <QuestionAnswerContainer />
+
 
                 </div>
             </React.Fragment>

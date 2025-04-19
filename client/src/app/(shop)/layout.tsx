@@ -6,6 +6,7 @@ import { WhiteToastContainer } from "@/_lib/core/toast";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header/Header";
 import ShopBreadCrumb from "@/components/layout/ShopBreadCrumb";
+import { ToastProvider } from "@/components/ui/shadcn/toast";
 
 
 export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -20,6 +21,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
             
             <Footer />
             <WhiteToastContainer />
+            <ToastProvider duration={5000} swipeDirection="down" />
         </>
     );
 }
