@@ -17,19 +17,6 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
             <Header />
             <ShopBreadCrumb />
             <FeachUserData />
-            {/* <main className="min-h-[70vh]">
-                <div className="bg-dark-primary text-dark-text-primary min-h-screen">
-                    <div className="container mx-auto px-4 py-8">
-                        <h1 className="text-3xl font-bold mb-8">My Account</h1>
-                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                            <SideBar />
-                            <div className="lg:col-span-3"> 
-                                 {children}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main> */}
 
             <AccountLayout>
                 {children}

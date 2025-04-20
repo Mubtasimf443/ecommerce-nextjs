@@ -9,7 +9,7 @@ interface Props {}
 const SideBar: FC<Props> = () => {
     let currentPath = useParams().slug;
     const menuItems = [
-        { name: 'Profile', path: '/account/info', icon: User },
+        { name: 'Profile', path: '/account/profile', icon: User },
         { name: 'Orders', path: '/account/orders', icon: ShoppingBag },
         { name: 'Addresses', path: '/account/address', icon: MapPin },
         { name: 'Notifications', path: '/account/notifications', icon: Bell },
