@@ -8,6 +8,7 @@ import {
   Camera, Shield, Lock, Key, Edit
 } from 'lucide-react';
 import { Button } from '@/components/ui/shadcn/button';
+import EditProfileDialog from './EditProfileDialog';
 
 const InfoSection: React.FC = () => {
   return (
@@ -15,10 +16,7 @@ const InfoSection: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between border-b pb-6">
         <h1 className="text-2xl font-bold text-gray-900">Profile Information</h1>
-        <Button className="inline-flex items-center px-4 py-2 text-white rounded-xl hover:bg-primary-700 transition-colors">
-          <Edit className="w-4 h-4 mr-2" />
-          Edit Profile
-        </Button>
+        <EditProfileDialog />
       </div>
 
       {/* Profile Summary */}

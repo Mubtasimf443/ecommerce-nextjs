@@ -1,7 +1,7 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
 import React, { FC, Fragment } from 'react'
-import InfoSection from '../_components/InfoSection'
+import InfoSection from './_components/InfoSection'
 
 interface Props {
 
