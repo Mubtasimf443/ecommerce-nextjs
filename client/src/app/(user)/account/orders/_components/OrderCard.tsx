@@ -1,89 +1,200 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
-import React, { FC, Fragment } from 'react'
-import OrderProduct from './OrderProduct';
+import React, { FC } from 'react'
+import OrderProduct from './OrderProduct'
+import { Card } from "@/components/ui/shadcn/card"
+import { Badge } from "@/components/ui/shadcn/badge"
+import { Button } from "@/components/ui/shadcn/button"
+import { 
+  Accordion, 
+  AccordionContent, 
+  AccordionItem, 
+  AccordionTrigger 
+} from "@/components/ui/shadcn/accordion"
+import { 
+  ChevronDown, 
+  Package, 
+  Truck, 
+  Calendar, 
+  DollarSign,
+  ClipboardList,
+  AlertCircle
+} from 'lucide-react'
 
 interface Iitems {
     name: string;
     price: number;
     quantity: number;
-    image:string;
+    image: string;
 }
+
 interface Props {
     id: string | number;
     date: string;
     total: number;
     status: "Processing" | "Delivered" | "Cancelled" | string;
-    items: Iitems[]
+    items: Iitems[];
+    cancelReason?: string;
 }
 
-const OrderCard: FC<Props> = ({ id, date, total, items ,status }) => {
-    const getStatusColor = (status: string) => {
-        switch (status.toLowerCase()) {
-          case 'delivered':
-            return 'bg-green-100 text-green-800';
-          case 'processing':
-            return 'bg-blue-100 text-blue-800';
-          case 'cancelled':
-            return 'bg-red-100 text-red-800';
-          default:
-            return 'bg-gray-100 text-gray-800';
-        }
-      };
+const OrderCard: FC<Props> = ({ id, date, total, items, status, cancelReason }) => {
+    const getStatusConfig = (status: string) => {
+        const config = {
+            delivered: {
+                color: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300',
+                icon: <Package className="w-4 h-4" />,
+                iconColor: 'text-green-600'
+            },
+            processing: {
+                color: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300',
+                icon: <Truck className="w-4 h-4" />,
+                iconColor: 'text-blue-600'
+            },
+            cancelled: {
+                color: 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300',
+                icon: <AlertCircle className="w-4 h-4" />,
+                iconColor: 'text-red-600'
+            }
+        }[status.toLowerCase()] || {
+            color: 'bg-gray-100 text-gray-800',
+            icon: null,
+            iconColor: 'text-gray-600'
+        };
+
+        return config;
+    };
+
+    const statusConfig = getStatusConfig(status);
+
     return (
-        <Fragment>
-            <div
-                className="bg-white border rounded-lg overflow-hidden"
-            >
-                <div className="p-6 border-b">
-                    <div className="flex flex-wrap items-center justify-between gap-4">
-                        <div className="space-y-1">
-                            <p className="text-sm text-gray-600">Order Number</p>
-                            <p className="font-medium">{id}</p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-sm text-gray-600">Date Placed</p>
-                            <p className="font-medium">{date}</p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-sm text-gray-600">Total Amount</p>
-                            <p className="font-medium">${total.toFixed(2)}</p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-sm text-gray-600">Status</p>
-                            <span
-                                className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(status)}`}        >
-                                {status}
-                            </span>
-                        </div>
-                    </div>
-                </div>
+        <Card className="w-full">
+            <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="order-details" className="border-none">
+                    <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                        <div className="flex flex-1 items-center justify-between pr-4">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 flex-1">
+                                {/* Order ID */}
+                                <div className="flex items-center gap-2">
+                                    <ClipboardList className="w-4 h-4 text-muted-foreground" />
+                                    <div>
+                                        <p className="text-sm font-medium">{id}</p>
+                                        <p className="text-xs text-muted-foreground">Order ID</p>
+                                    </div>
+                                </div>
 
-                <div className="p-6 space-y-4">
-                    {items.map((item, index) => (
-                        <OrderProduct
-                            name={item.name}
-                            quantity={item.quantity}
-                            image={item.image}
-                            price={item.price}
-                            key={index}
-                        />
-                    ))}
-                </div>
+                                {/* Date */}
+                                <div className="flex items-center gap-2">
+                                    <Calendar className="w-4 h-4 text-muted-foreground" />
+                                    <div>
+                                        <p className="text-sm font-medium">
+                                            {new Date(date).toLocaleDateString('en-US', {
+                                                day: 'numeric',
+                                                month: 'short',
+                                                year: 'numeric'
+                                            })}
+                                        </p>
+                                        <p className="text-xs text-muted-foreground">Date Placed</p>
+                                    </div>
+                                </div>
 
-                <div className="p-6 bg-gray-50 border-t">
-                    <div className="flex justify-end space-x-4">
-                        <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                            Track Order
-                        </button>
-                        <button className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors">
-                            View Details
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </Fragment>
+                                {/* Amount */}
+                                <div className="flex items-center gap-2">
+                                    <DollarSign className="w-4 h-4 text-muted-foreground" />
+                                    <div>
+                                        <p className="text-sm font-medium">${total.toFixed(2)}</p>
+                                        <p className="text-xs text-muted-foreground">Total Amount</p>
+                                    </div>
+                                </div>
+
+                                {/* Status */}
+                                <div className="flex items-center gap-2">
+                                    <div className={`p-1.5 rounded-full ${statusConfig.iconColor} bg-opacity-10`}>
+                                        {statusConfig.icon}
+                                    </div>
+                                    <div>
+                                        <Badge 
+                                            variant="secondary" 
+                                            className={`${statusConfig.color}`}
+                                        >
+                                            {status}
+                                        </Badge>
+                                        <p className="text-xs text-muted-foreground">Status</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+                        </div>
+                    </AccordionTrigger>
+                    
+                    <AccordionContent>
+                        <div className="px-6 pb-4 space-y-6">
+                            {/* Nested Accordion for Products */}
+                            <Accordion type="single" collapsible className="w-full">
+                                <AccordionItem value="products">
+                                    <AccordionTrigger className="hover:no-underline py-2 px-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                                        <div className="flex items-center gap-2">
+                                            <Package className="w-4 h-4" />
+                                            <span className="text-sm font-medium">
+                                                Order Items ({items.length})
+                                            </span>
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                        <div className="space-y-4 mt-4">
+                                            {items.map((item, index) => (
+                                                <OrderProduct
+                                                    key={index}
+                                                    name={item.name}
+                                                    quantity={item.quantity}
+                                                    image={item.image}
+                                                    price={item.price}
+                                                />
+                                            ))}
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
+
+                                {/* Cancellation Reason (if applicable) */}
+                                {status.toLowerCase() === 'cancelled' && cancelReason && (
+                                    <AccordionItem value="cancel-reason">
+                                        <AccordionTrigger className="hover:no-underline py-2 px-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                                            <div className="flex items-center gap-2 text-red-600 dark:text-red-400">
+                                                <AlertCircle className="w-4 h-4" />
+                                                <span className="text-sm font-medium">
+                                                    Cancellation Reason
+                                                </span>
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent>
+                                            <div className="p-4 mt-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                                                <p className="text-sm text-red-600 dark:text-red-400">
+                                                    {cancelReason}
+                                                </p>
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                )}
+                            </Accordion>
+
+                            {/* Action Buttons */}
+                            <div className="flex justify-end gap-3">
+                                {status.toLowerCase() === 'processing' && (
+                                    <Button variant="outline" size="sm" className="gap-2">
+                                        <Truck className="w-4 h-4" />
+                                        Track Order
+                                    </Button>
+                                )}
+                                <Button size="sm" className="gap-2">
+                                    <Package className="w-4 h-4" />
+                                    View Details
+                                </Button>
+                            </div>
+                        </div>
+                    </AccordionContent>
+                </AccordionItem>
+            </Accordion>
+        </Card>
     )
 }
 
-export default OrderCard;
+export default OrderCard

@@ -1,41 +1,49 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
-
+"use client"
 import Image from 'next/image'
-import React, { FC, Fragment } from 'react'
+import React, { FC } from 'react'
+import { Card, CardContent } from "@/components/ui/shadcn/card"
+import { Badge } from "@/components/ui/shadcn/badge"
 
 interface Props {
-    image : string;
-    name : string;
-    quantity : number;
-    price : number
+    image: string;
+    name: string;
+    quantity: number;
+    price: number;
 }
 
-const OrderProduct: FC<Props> = ({image , name , quantity, price }) => {
+const OrderProduct: FC<Props> = ({ image, name, quantity, price }) => {
     return (
-        <Fragment>
-            <div
-               
-                className="flex items-center space-x-4 py-4 border-b last:border-0"
-            >
-                <div className="relative w-20 h-20">
-                    <Image
-                        src={image}
-                        alt={name}
-                        fill
-                        className="rounded-md object-cover"
-                    />
+        <Card className="overflow-hidden">
+            <CardContent className="p-4">
+                <div className="flex items-center gap-4">
+                    <div className="relative aspect-square h-24 w-24 overflow-hidden rounded-lg border bg-gray-100">
+                        <Image
+                            src={image}
+                            alt={name}
+                            fill
+                            className="object-cover transition-all hover:scale-105"
+                        />
+                    </div>
+                    <div className="flex flex-1 flex-col gap-2">
+                        <div className="flex items-start justify-between">
+                            <h3 className="font-medium line-clamp-2">{name}</h3>
+                            <p className="text-sm font-semibold">
+                                ${price.toFixed(2)}
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <Badge variant="secondary" className="w-fit">
+                                Qty: {quantity}
+                            </Badge>
+                            <p className="text-sm text-muted-foreground">
+                                Subtotal: ${(price * quantity).toFixed(2)}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div className="flex-1">
-                    <h3 className="font-medium">{name}</h3>
-                    <p className="text-sm text-gray-600">
-                        Quantity: {quantity}
-                    </p>
-                    <p className="text-sm font-medium">
-                        ${price.toFixed(2)}
-                    </p>
-                </div>
-            </div>
-        </Fragment>
+            </CardContent>
+        </Card>
     )
 }
 
