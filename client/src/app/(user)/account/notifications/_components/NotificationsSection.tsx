@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { 
+import {
   Bell,
   Package,
   CreditCard,
@@ -18,8 +18,9 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/shadcn/card";
 import { Button } from "@/components/ui/shadcn/button";
 import { Badge } from "@/components/ui/shadcn/badge";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
-import { ScrollArea } from "@/components/ui/shadcn/scroll-area";
+
+import Pagination from '@/components/custom/Pagination';
+import NotificationTabs from './NotificationTabs';
 
 type NotificationType = 'all' | 'order' | 'payment' | 'promotion' | 'wishlist' | 'shipping' | 'security';
 
@@ -35,7 +36,7 @@ interface Notification {
 }
 
 const NotificationsSection: React.FC = () => {
-  const [selectedType, setSelectedType] = useState<NotificationType>('all');
+  
   const [showUnreadOnly, setShowUnreadOnly] = useState(false);
 
   // Sample notifications data
@@ -52,18 +53,11 @@ const NotificationsSection: React.FC = () => {
     // ... (keep your existing notifications data)
   ];
 
-  const filterTypes = [
-    { type: 'all', label: 'All', icon: Bell },
-    { type: 'order', label: 'Orders', icon: Package },
-    { type: 'payment', label: 'Payments', icon: CreditCard },
-    { type: 'promotion', label: 'Promotions', icon: Tag },
-    { type: 'wishlist', label: 'Wishlist', icon: Heart },
-    { type: 'shipping', label: 'Shipping', icon: Truck },
-    { type: 'security', label: 'Security', icon: Shield },
-  ];
+    const [selectedType, setSelectedType] = useState<NotificationType>('all');
+
 
   const filteredNotifications = notifications
-    .filter(notification => 
+    .filter(notification =>
       (selectedType === 'all' || notification.type === selectedType) &&
       (!showUnreadOnly || !notification.isRead)
     );
@@ -99,27 +93,7 @@ const NotificationsSection: React.FC = () => {
 
       <CardContent className="px-0">
         {/* Filter Tabs */}
-        <ScrollArea className="w-full" >
-          <Tabs 
-            defaultValue="all" 
-            value={selectedType}
-            onValueChange={(value) => setSelectedType(value as NotificationType)}
-            className="w-full mb-6"
-          >
-            <TabsList className="inline-flex w-auto p-1 bg-muted/50">
-              {filterTypes.map(({ type, label, icon: Icon }) => (
-                <TabsTrigger
-                  key={type}
-                  value={type}
-                  className="flex items-center gap-2 px-4 py-2"
-                >
-                  <Icon className="w-4 h-4" />
-                  {label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
-        </ScrollArea>
+        {/* <NotificationTabs /> */}
 
         {/* Notifications List */}
         <div className="space-y-4">
@@ -134,9 +108,8 @@ const NotificationsSection: React.FC = () => {
               {filteredNotifications.map((notification) => (
                 <Card
                   key={notification.id}
-                  className={`transition-colors ${
-                    notification.isRead ? 'bg-card' : 'bg-primary/5'
-                  }`}
+                  className={`transition-colors ${notification.isRead ? 'bg-card' : 'bg-primary/5'
+                    }`}
                 >
                   <CardContent className="flex items-start gap-4 p-4">
                     <div className="flex-shrink-0">
@@ -149,9 +122,9 @@ const NotificationsSection: React.FC = () => {
                         </p>
                         <div className="flex items-center gap-2">
                           <span className="text-xs text-muted-foreground whitespace-nowrap">
-                            {new Date(notification.timestamp).toLocaleTimeString([], { 
-                              hour: '2-digit', 
-                              minute: '2-digit' 
+                            {new Date(notification.timestamp).toLocaleTimeString([], {
+                              hour: '2-digit',
+                              minute: '2-digit'
                             })}
                           </span>
                           {!notification.isRead && (
@@ -168,8 +141,8 @@ const NotificationsSection: React.FC = () => {
                             View Details
                           </Button>
                         )}
-                        <Button 
-                          variant="ghost" 
+                        <Button
+                          variant="ghost"
                           size="sm"
                           className="h-8"
                         >
@@ -179,8 +152,8 @@ const NotificationsSection: React.FC = () => {
                             'Mark as Read'
                           )}
                         </Button>
-                        <Button 
-                          variant="ghost" 
+                        <Button
+                          variant="ghost"
                           size="icon"
                           className="h-8 w-8 text-destructive"
                         >
@@ -197,10 +170,15 @@ const NotificationsSection: React.FC = () => {
 
         {/* Clear All Button */}
         {filteredNotifications.length > 0 && (
-          <div className="flex justify-center pt-6 border-t mt-6">
-            <Button variant="ghost" className="text-muted-foreground">
+          <div className="flex justify-between items-center border-t ">
+            <Button variant="ghost" className="text-red-600 font-medium mt-8">
               Clear All Notifications
             </Button>
+            <Pagination
+              currentPage={1}
+              totalPages={20}
+              onPageChange={() => { }}
+            />
           </div>
         )}
       </CardContent>

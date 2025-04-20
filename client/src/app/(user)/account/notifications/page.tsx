@@ -1,7 +1,7 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
 import React, { FC, Fragment } from 'react'
-import NotificationsSection from '../_components/NotificationsSection'
+import NotificationsSection from './_components/NotificationsSection'
 
 interface Props {
 

@@ -97,9 +97,9 @@ const OrderSection: React.FC = () => {
 
 
         <Pagination 
-        currentPage={1}
-        totalPages={3}
-        onPageChange={() => {}}
+          currentPage={1}
+          totalPages={3}
+          onPageChange={() => { }}
         />
       </div>
 
