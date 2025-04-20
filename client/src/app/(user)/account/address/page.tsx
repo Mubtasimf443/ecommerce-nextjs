@@ -1,7 +1,7 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
 import React, { FC, Fragment } from 'react'
-import AddressSection from '../_components/AddressSection'
+import AddressSection from './_components/AddressSection'
 
 interface Props {
 

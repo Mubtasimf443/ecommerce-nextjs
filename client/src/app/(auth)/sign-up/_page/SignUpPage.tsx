@@ -97,7 +97,7 @@ const SignUpPage: React.FC = () => {
         }
     });
     const router = useRouter();
-
+ 
     let server_url = process.env.NEXT_PUBLIC_SERVER_ORIGIN;
     const [selectedDivisionID, setSelectedDivisionID] = useState<string>('');
     const [selectedDistrictID, setSelectedDistrictID] = useState<string>('');

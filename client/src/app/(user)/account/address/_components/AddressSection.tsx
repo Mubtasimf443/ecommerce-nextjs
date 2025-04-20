@@ -1,4 +1,6 @@
+import { Button } from '@/components/ui/shadcn/button';
 import React from 'react';
+import AddAddressDialog from './AddAddressDialog';
 
 const AddressSection: React.FC = () => {
   const addresses = [
@@ -32,9 +34,7 @@ const AddressSection: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between border-b pb-6">
         <h1 className="text-2xl font-bold text-gray-900">My Addresses</h1>
-        <button className="px-4  py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors">
-          Add New Address 
-        </button>
+        <AddAddressDialog />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
