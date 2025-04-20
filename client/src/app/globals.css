@@ -49,10 +49,9 @@
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
   
-  --border: 169 98% 85%; /* light version of primary */
+  --border: 200, 14%, 96%; /* light version of primary */
   --input: 169 98% 85%; /* light version of primary */
   --ring: 169 98% 22%; /* primary color */
-  
   --radius: 0.5rem;
   
   /* Chart colors */
@@ -124,14 +123,44 @@ body {
     text-wrap: balance;
   }
 }
-
+/* Custom scrollbar styles */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 
-.scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+/* Custom animations */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom transitions */
+.transition-transform-opacity {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Custom card hover effects */
+.hover-card-effect {
+  transition: all 0.2s ease;
+}
+
+.hover-card-effect:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 

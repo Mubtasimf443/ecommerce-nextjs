@@ -1,6 +1,10 @@
+/*
+بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah
+*/
 "use client"
 import React from 'react';
 import SideBar from './SideBar';
+import { ToastProvider } from "@/components/ui/shadcn/toast";
 
 interface AccountLayoutProps {
     children: React.ReactNode;
@@ -20,6 +24,9 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({ children }) => {
                     </div>
                 </div>
             </div>
+
+            <ToastProvider duration={5000} swipeDirection="down" />
+            
         </div>
     );
 };

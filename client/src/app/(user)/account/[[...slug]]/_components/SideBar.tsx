@@ -23,8 +23,9 @@ const SideBar: FC<Props> = () => {
                 <div className="text-center">
                     <div className="relative inline-block group">
                         <img
-                            src="https://api.dicebear.com/6.x/avataaars/svg?seed=Mubtasimf443"
+                            src="/images/avatar.png"
                             alt="Profile"
+                            loading='lazy'
                             className="w-24 h-24 rounded-full mx-auto border-4 border-primary-50 transition-transform duration-200 ease-in-out group-hover:scale-105"
                         />
                         <span className="absolute bottom-1 right-1 w-4 h-4 bg-green-400 border-2 border-white rounded-full"></span>

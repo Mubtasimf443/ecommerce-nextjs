@@ -1,5 +1,6 @@
+"use client"
+
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Bell,
   Package,
@@ -11,8 +12,14 @@ import {
   Settings,
   Trash2,
   Check,
-  Filter
+  Filter,
+  X
 } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/shadcn/card";
+import { Button } from "@/components/ui/shadcn/button";
+import { Badge } from "@/components/ui/shadcn/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
+import { ScrollArea } from "@/components/ui/shadcn/scroll-area";
 
 type NotificationType = 'all' | 'order' | 'payment' | 'promotion' | 'wishlist' | 'shipping' | 'security';
 
@@ -42,51 +49,7 @@ const NotificationsSection: React.FC = () => {
       isRead: false,
       icon: <Package className="w-5 h-5 text-blue-500" />
     },
-    {
-      id: '2',
-      type: 'payment',
-      title: 'Payment Successful',
-      message: 'Payment of $299.99 for order #12345 was successful.',
-      timestamp: '2025-04-19 23:35:00',
-      isRead: false,
-      icon: <CreditCard className="w-5 h-5 text-green-500" />
-    },
-    {
-      id: '3',
-      type: 'promotion',
-      title: 'Special Offer',
-      message: 'Get 20% off on all electronics! Limited time offer.',
-      timestamp: '2025-04-19 20:15:00',
-      isRead: true,
-      icon: <Tag className="w-5 h-5 text-purple-500" />
-    },
-    {
-      id: '4',
-      type: 'wishlist',
-      title: 'Item Back in Stock',
-      message: 'An item from your wishlist is back in stock!',
-      timestamp: '2025-04-19 18:20:00',
-      isRead: true,
-      icon: <Heart className="w-5 h-5 text-red-500" />
-    },
-    {
-      id: '5',
-      type: 'shipping',
-      title: 'Order Shipped',
-      message: 'Your order #12344 has been shipped. Track your package now.',
-      timestamp: '2025-04-19 15:10:00',
-      isRead: true,
-      icon: <Truck className="w-5 h-5 text-orange-500" />
-    },
-    {
-      id: '6',
-      type: 'security',
-      title: 'Security Alert',
-      message: 'New login detected from Chrome on Windows.',
-      timestamp: '2025-04-19 12:30:00',
-      isRead: false,
-      icon: <Shield className="w-5 h-5 text-red-500" />
-    },
+    // ... (keep your existing notifications data)
   ];
 
   const filterTypes = [
@@ -105,189 +68,143 @@ const NotificationsSection: React.FC = () => {
       (!showUnreadOnly || !notification.isRead)
     );
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100
-      }
-    }
-  };
-
   return (
-    <div className="space-y-6">
+    <Card className="border-none shadow-none">
       {/* Header */}
-      <div className="flex items-center justify-between border-b pb-6">
-        <div className="flex items-center space-x-2">
-          <Bell className="w-6 h-6 text-primary-600" />
-          <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
-          <span className="px-2.5 py-1 bg-primary-100 text-primary-700 text-sm font-medium rounded-full">
-            {notifications.filter(n => !n.isRead).length} New
-          </span>
-        </div>
-        <div className="flex items-center space-x-4">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowUnreadOnly(!showUnreadOnly)}
-            className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
-              showUnreadOnly 
-                ? 'bg-primary-50 text-primary-600' 
-                : 'text-gray-600 hover:bg-gray-50'
-            }`}
-          >
-            <Filter className="w-4 h-4 mr-2" />
-            {showUnreadOnly ? 'Showing Unread' : 'Show All'}
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="text-gray-400 hover:text-gray-500"
-          >
-            <Settings className="w-6 h-6" />
-          </motion.button>
-        </div>
-      </div>
-
-      {/* Filter Tabs */}
-      <div className="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide">
-        {filterTypes.map(({ type, label, icon: Icon }) => (
-          <motion.button
-            key={type}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setSelectedType(type as NotificationType)}
-            className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-colors ${
-              selectedType === type
-                ? 'bg-primary-50 text-primary-600'
-                : 'text-gray-600 hover:bg-gray-50'
-            }`}
-          >
-            <Icon className="w-4 h-4 mr-2" />
-            {label}
-          </motion.button>
-        ))}
-      </div>
-
-      {/* Notifications List */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="space-y-4"
-      >
-        <AnimatePresence mode="wait">
-          {filteredNotifications.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center py-12 text-gray-500"
+      <CardHeader className="px-0">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Bell className="w-6 h-6 text-primary" />
+            <CardTitle className="text-2xl">Notifications</CardTitle>
+            <Badge variant="secondary" className="rounded-full">
+              {notifications.filter(n => !n.isRead).length} New
+            </Badge>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowUnreadOnly(!showUnreadOnly)}
+              className={showUnreadOnly ? 'bg-primary/10 text-primary' : ''}
             >
-              <Bell className="w-12 h-12 mb-4 text-gray-400" />
+              <Filter className="w-4 h-4 mr-2" />
+              {showUnreadOnly ? 'Showing Unread' : 'Show All'}
+            </Button>
+            <Button variant="ghost" size="icon">
+              <Settings className="w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+      </CardHeader>
+
+      <CardContent className="px-0">
+        {/* Filter Tabs */}
+        <ScrollArea className="w-full" >
+          <Tabs 
+            defaultValue="all" 
+            value={selectedType}
+            onValueChange={(value) => setSelectedType(value as NotificationType)}
+            className="w-full mb-6"
+          >
+            <TabsList className="inline-flex w-auto p-1 bg-muted/50">
+              {filterTypes.map(({ type, label, icon: Icon }) => (
+                <TabsTrigger
+                  key={type}
+                  value={type}
+                  className="flex items-center gap-2 px-4 py-2"
+                >
+                  <Icon className="w-4 h-4" />
+                  {label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+        </ScrollArea>
+
+        {/* Notifications List */}
+        <div className="space-y-4">
+          {filteredNotifications.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
+              <Bell className="w-12 h-12 mb-4 opacity-20" />
               <p className="text-lg font-medium">No notifications found</p>
               <p className="text-sm">Check back later for updates</p>
-            </motion.div>
+            </div>
           ) : (
-            filteredNotifications.map((notification) => (
-              <motion.div
-                key={notification.id}
-                variants={itemVariants}
-                layout
-                className={`relative flex items-start p-4 rounded-2xl transition-colors ${
-                  notification.isRead ? 'bg-white' : 'bg-blue-50'
-                }`}
-              >
-                <div className="flex-shrink-0 mr-4">
-                  {notification.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between">
-                    <p className="text-sm font-medium text-gray-900">
-                      {notification.title}
-                    </p>
-                    <div className="flex items-center space-x-2 ml-4">
-                      <span className="text-xs text-gray-500">
-                        {new Date(notification.timestamp).toLocaleTimeString([], { 
-                          hour: '2-digit', 
-                          minute: '2-digit' 
-                        })}
-                      </span>
-                      {!notification.isRead && (
-                        <span className="w-2 h-2 bg-primary-500 rounded-full"></span>
-                      )}
+            <div className="space-y-3">
+              {filteredNotifications.map((notification) => (
+                <Card
+                  key={notification.id}
+                  className={`transition-colors ${
+                    notification.isRead ? 'bg-card' : 'bg-primary/5'
+                  }`}
+                >
+                  <CardContent className="flex items-start gap-4 p-4">
+                    <div className="flex-shrink-0">
+                      {notification.icon}
                     </div>
-                  </div>
-                  <p className="mt-1 text-sm text-gray-600">
-                    {notification.message}
-                  </p>
-                  <div className="mt-2 flex items-center space-x-4">
-                    {notification.link && (
-                      <motion.a
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        href={notification.link}
-                        className="text-sm font-medium text-primary-600 hover:text-primary-700"
-                      >
-                        View Details
-                      </motion.a>
-                    )}
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="text-sm font-medium text-gray-500 hover:text-gray-700"
-                    >
-                      {notification.isRead ? (
-                        <Check className="w-4 h-4" />
-                      ) : (
-                        'Mark as Read'
-                      )}
-                    </motion.button>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="text-sm font-medium text-red-500 hover:text-red-700"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </motion.button>
-                  </div>
-                </div>
-              </motion.div>
-            ))
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-x-4">
+                        <p className="font-medium">
+                          {notification.title}
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-muted-foreground whitespace-nowrap">
+                            {new Date(notification.timestamp).toLocaleTimeString([], { 
+                              hour: '2-digit', 
+                              minute: '2-digit' 
+                            })}
+                          </span>
+                          {!notification.isRead && (
+                            <span className="w-2 h-2 bg-primary rounded-full" />
+                          )}
+                        </div>
+                      </div>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {notification.message}
+                      </p>
+                      <div className="mt-3 flex items-center gap-3">
+                        {notification.link && (
+                          <Button variant="link" className="h-auto p-0">
+                            View Details
+                          </Button>
+                        )}
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          className="h-8"
+                        >
+                          {notification.isRead ? (
+                            <Check className="w-4 h-4 mr-2" />
+                          ) : (
+                            'Mark as Read'
+                          )}
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          className="h-8 w-8 text-destructive"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           )}
-        </AnimatePresence>
-      </motion.div>
+        </div>
 
-      {/* Clear All Button */}
-      {filteredNotifications.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex justify-center pt-6 border-t"
-        >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            Clear All Notifications
-          </motion.button>
-        </motion.div>
-      )}
-    </div>
+        {/* Clear All Button */}
+        {filteredNotifications.length > 0 && (
+          <div className="flex justify-center pt-6 border-t mt-6">
+            <Button variant="ghost" className="text-muted-foreground">
+              Clear All Notifications
+            </Button>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 

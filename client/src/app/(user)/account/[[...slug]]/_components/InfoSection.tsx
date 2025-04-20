@@ -3,6 +3,7 @@ import {
   User, Mail, Phone, Calendar, MapPin, 
   Camera, Shield, Lock, Key, Edit
 } from 'lucide-react';
+import { Button } from '@/components/ui/shadcn/button';
 
 const InfoSection: React.FC = () => {
   return (
@@ -10,19 +11,20 @@ const InfoSection: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between border-b pb-6">
         <h1 className="text-2xl font-bold text-gray-900">Profile Information</h1>
-        <button className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors">
+        <Button className="inline-flex items-center px-4 py-2 text-white rounded-xl hover:bg-primary-700 transition-colors">
           <Edit className="w-4 h-4 mr-2" />
           Edit Profile
-        </button>
+        </Button>
       </div>
 
       {/* Profile Summary */}
       <div className="flex flex-col md:flex-row md:items-center gap-6 p-6 bg-gradient-to-r from-primary-50 to-white rounded-2xl">
         <div className="relative">
           <img
-            src="https://api.dicebear.com/6.x/avataaars/svg?seed=Mubtasimf443"
+            src="/images/avatar.png"
             alt="Profile"
             className="w-32 h-32 rounded-2xl object-cover ring-4 ring-white shadow-lg"
+            loading='lazy'
           />
           <button className="absolute bottom-2 right-2 p-2 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors">
             <Camera className="w-4 h-4" />
