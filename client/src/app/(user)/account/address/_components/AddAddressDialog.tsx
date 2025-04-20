@@ -1,12 +1,9 @@
-/*
-بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah
-*/
 "use client"
 
 import React, { useState } from 'react';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { Plus, Building2, User, Phone, MapPin } from 'lucide-react';
+import { MapPin, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/shadcn/button';
 import {
   Dialog,
@@ -14,7 +11,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/shadcn/dialog";
 import {
   Select,
@@ -23,9 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/shadcn/select";
-import { Input } from "@/components/ui/shadcn/input";
 import { Label } from "@/components/ui/shadcn/label";
-import { Textarea } from "@/components/ui/shadcn/textarea";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,69 +31,69 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/shadcn/alert-dialog";
+import { Card } from "@/components/ui/shadcn/card";
 import dialogStore from './dialogStore';
 
 const ValidationSchema = Yup.object().shape({
-  type: Yup.string()
-    .required('Address type is required'),
-  name: Yup.string()
-    .required('Name is required'),
-  phone: Yup.string()
-    .matches(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/, 'Invalid phone number')
-    .required('Phone number is required'),
-  address: Yup.string()
-    .required('Street address is required'),
   division: Yup.string()
+    .min(3, 'Division must be at least 3 characters')
+    .max(35, 'Division must be at most 35 characters')
     .required('Division is required'),
   district: Yup.string()
+    .min(3, 'District must be at least 3 characters')
+    .max(35, 'District must be at most 35 characters')
     .required('District is required'),
   upazila: Yup.string()
+    .min(3, 'Upazila must be at least 3 characters')
+    .max(35, 'Upazila must be at most 35 characters')
     .required('Upazila is required'),
   city: Yup.string()
-    .required('City is required'),
+    .min(3, 'City must be at least 3 characters')
+    .max(35, 'City must be at most 35 characters')
+    .required('City is required')
 });
 
 interface FormValues {
-  type: string;
-  name: string;
-  phone: string;
-  address: string;
   division: string;
   district: string;
   upazila: string;
   city: string;
 }
 
-const addressTypes = ['Home', 'Office', 'Others'];
-
-// Use your Bangladesh location data here
+// Bangladesh location data
 const bangladeshData = {
-  divisions: ['Dhaka', 'Chittagong', 'Rajshahi', 'Khulna'],
+  divisions: [
+    'Dhaka',
+    'Chittagong',
+    'Rajshahi',
+    'Khulna',
+    'Barisal',
+    'Sylhet',
+    'Rangpur',
+    'Mymensingh'
+  ],
   districts: {
-    'Dhaka': ['Dhaka', 'Gazipur', 'Narayanganj'],
-    // Add more
+    'Dhaka': ['Dhaka', 'Gazipur', 'Narayanganj', 'Tangail', 'Munshiganj'],
+    'Chittagong': ['Chittagong', "Cox's Bazar", 'Rangamati', 'Bandarban', 'Khagrachari'],
+    // Add more as needed
   },
   upazilas: {
-    'Dhaka': ['Uttara', 'Gulshan', 'Mirpur'],
-    // Add more
+    'Dhaka': ['Uttara', 'Mirpur', 'Gulshan', 'Mohammadpur', 'Dhanmondi'],
+    'Gazipur': ['Gazipur Sadar', 'Kapasia', 'Kaliganj', 'Kaliakair'],
+    // Add more as needed
   },
   cities: {
-    'Uttara': ['Sector 1', 'Sector 2', 'Sector 3'],
-    // Add more
+    'Uttara': ['Sector 1', 'Sector 4', 'Sector 7', 'Sector 10', 'Sector 13'],
+    'Mirpur': ['Mirpur 1', 'Mirpur 2', 'Mirpur 10', 'Mirpur 11', 'Mirpur 12'],
+    // Add more as needed
   }
 };
 
 const AddAddressDialog = () => {
-  const store = dialogStore();
-  const isDialogOpen = store.isDialogOpen;
-  const setIsDialogOpen = store.setIsDialogOpen;
+  const { isDialogOpen, setIsDialogOpen } = dialogStore();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-
+  
   const initialValues: FormValues = {
-    type: '',
-    name: '',
-    phone: '',
-    address: '',
     division: '',
     district: '',
     upazila: '',
@@ -108,18 +102,14 @@ const AddAddressDialog = () => {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>
-        <Button>
-          <Plus className="w-4 h-4 mr-2" />
-          Add New Address
-        </Button>
-      </DialogTrigger>
-
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Add New Address</DialogTitle>
+          <DialogTitle className="flex items-center gap-2 text-xl">
+            <MapPin className="w-5 h-5 text-primary" />
+            Add New Address
+          </DialogTitle>
           <DialogDescription>
-            Add a new delivery address for your orders
+            Select your location details for delivery
           </DialogDescription>
         </DialogHeader>
 
@@ -131,85 +121,132 @@ const AddAddressDialog = () => {
           }}
         >
           {({ errors, touched, setFieldValue, values, isValid }) => (
-            <Form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="type">
-                    <Building2 className="w-4 h-4 inline mr-2" />
-                    Address Type
-                  </Label>
-                  <Select
-                    name="type"
-                    onValueChange={(value) => setFieldValue('type', value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {addressTypes.map((type) => (
-                        <SelectItem key={type} value={type}>
-                          {type}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  {errors.type && touched.type && (
-                    <p className="text-sm text-destructive">{errors.type}</p>
-                  )}
-                </div>
+            <Form className="space-y-6 py-4">
+              <Card className="p-6 border-dashed">
+                <div className="grid gap-6">
+                  {/* Division Select */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-primary" />
+                      Division
+                    </Label>
+                    <Select
+                      name="division"
+                      onValueChange={(value) => {
+                        setFieldValue('division', value);
+                        setFieldValue('district', '');
+                        setFieldValue('upazila', '');
+                        setFieldValue('city', '');
+                      }}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select division" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {bangladeshData.divisions.map((division) => (
+                          <SelectItem key={division} value={division}>
+                            {division}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {errors.division && touched.division && (
+                      <p className="text-sm text-destructive mt-1">{errors.division}</p>
+                    )}
+                  </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="name">
-                    <User className="w-4 h-4 inline mr-2" />
-                    Full Name
-                  </Label>
-                  <Field
-                    as={Input}
-                    id="name"
-                    name="name"
-                    placeholder="Enter full name"
-                  />
-                  {errors.name && touched.name && (
-                    <p className="text-sm text-destructive">{errors.name}</p>
-                  )}
-                </div>
+                  {/* District Select */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-primary" />
+                      District
+                    </Label>
+                    <Select
+                      name="district"
+                      onValueChange={(value) => {
+                        setFieldValue('district', value);
+                        setFieldValue('upazila', '');
+                        setFieldValue('city', '');
+                      }}
+                      disabled={!values.division}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select district" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {values.division &&
+                          bangladeshData.districts[values.division]?.map((district) => (
+                            <SelectItem key={district} value={district}>
+                              {district}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
+                    {errors.district && touched.district && (
+                      <p className="text-sm text-destructive mt-1">{errors.district}</p>
+                    )}
+                  </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="phone">
-                    <Phone className="w-4 h-4 inline mr-2" />
-                    Phone Number
-                  </Label>
-                  <Field
-                    as={Input}
-                    id="phone"
-                    name="phone"
-                    placeholder="Enter phone number"
-                  />
-                  {errors.phone && touched.phone && (
-                    <p className="text-sm text-destructive">{errors.phone}</p>
-                  )}
-                </div>
+                  {/* Upazila Select */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-primary" />
+                      Upazila
+                    </Label>
+                    <Select
+                      name="upazila"
+                      onValueChange={(value) => {
+                        setFieldValue('upazila', value);
+                        setFieldValue('city', '');
+                      }}
+                      disabled={!values.district}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select upazila" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {values.district &&
+                          bangladeshData.upazilas[values.district]?.map((upazila) => (
+                            <SelectItem key={upazila} value={upazila}>
+                              {upazila}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
+                    {errors.upazila && touched.upazila && (
+                      <p className="text-sm text-destructive mt-1">{errors.upazila}</p>
+                    )}
+                  </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="address">
-                    <MapPin className="w-4 h-4 inline mr-2" />
-                    Street Address
-                  </Label>
-                  <Field
-                    as={Textarea}
-                    id="address"
-                    name="address"
-                    placeholder="Enter street address"
-                    className="resize-none"
-                  />
-                  {errors.address && touched.address && (
-                    <p className="text-sm text-destructive">{errors.address}</p>
-                  )}
+                  {/* City Select */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-primary" />
+                      City/Area
+                    </Label>
+                    <Select
+                      name="city"
+                      onValueChange={(value) => setFieldValue('city', value)}
+                      disabled={!values.upazila}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select city/area" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {values.upazila &&
+                          bangladeshData.cities[values.upazila]?.map((city) => (
+                            <SelectItem key={city} value={city}>
+                              {city}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
+                    {errors.city && touched.city && (
+                      <p className="text-sm text-destructive mt-1">{errors.city}</p>
+                    )}
+                  </div>
                 </div>
-
-                {/* Add your cascading select fields for division, district, upazila, and city here */}
-                {/* Similar to the previous example */}
-              </div>
+              </Card>
 
               <div className="flex justify-end gap-4">
                 <Button
@@ -228,7 +265,7 @@ const AddAddressDialog = () => {
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Confirm New Address</AlertDialogTitle>
+                      <AlertDialogTitle>Confirm Address</AlertDialogTitle>
                       <AlertDialogDescription>
                         Are you sure you want to add this address?
                       </AlertDialogDescription>

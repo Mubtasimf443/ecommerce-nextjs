@@ -1,7 +1,7 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
 import React, { FC, Fragment } from 'react'
-import OrderSection from '../_components/OrderSection'
+import OrderSection from './_components/OrderSection'
 
 interface Props {
 
