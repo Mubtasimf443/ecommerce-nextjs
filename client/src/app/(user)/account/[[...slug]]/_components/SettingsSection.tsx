@@ -132,19 +132,15 @@ const SettingsSection: React.FC = () => {
         </div>
       </div>
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+      <div
         className="grid grid-cols-1 gap-8"
       >
         {/* Quick Settings */}
-        <motion.section variants={itemVariants} className="space-y-4">
+        <section className="space-y-4">
           <h2 className="text-lg font-semibold text-gray-900">Quick Settings</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Theme Toggle */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
+            <div
               className="p-4 bg-white rounded-2xl border border-gray-100 shadow-sm"
             >
               <div className="flex items-center justify-between">
@@ -174,11 +170,10 @@ const SettingsSection: React.FC = () => {
                   />
                 </button>
               </div>
-            </motion.div>
+            </div>
 
             {/* Language Selector */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
+            <div
               className="p-4 bg-white rounded-2xl border border-gray-100 shadow-sm"
             >
               <div className="flex items-center justify-between">
@@ -193,11 +188,10 @@ const SettingsSection: React.FC = () => {
                   Change
                 </button>
               </div>
-            </motion.div>
+            </div>
 
             {/* Currency Selector */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
+            <div
               className="p-4 bg-white rounded-2xl border border-gray-100 shadow-sm"
             >
               <div className="flex items-center justify-between">
@@ -212,11 +206,10 @@ const SettingsSection: React.FC = () => {
                   Change
                 </button>
               </div>
-            </motion.div>
+            </div>
 
             {/* Email Preferences */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
+            <div
               className="p-4 bg-white rounded-2xl border border-gray-100 shadow-sm"
             >
               <div className="flex items-center justify-between">
@@ -231,18 +224,17 @@ const SettingsSection: React.FC = () => {
                   Manage
                 </button>
               </div>
-            </motion.div>
+            </div>
           </div>
-        </motion.section>
+        </section>
 
         {/* Notification Settings */}
-        <motion.section variants={itemVariants} className="space-y-4">
+        <section className="space-y-4">
           <h2 className="text-lg font-semibold text-gray-900">Notifications</h2>
           <div className="space-y-4">
             {notificationSettings.map((setting) => (
-              <motion.div
+              <div
                 key={setting.id}
-                whileHover={{ scale: 1.02 }}
                 className="p-4 bg-white rounded-2xl border border-gray-100 shadow-sm"
               >
                 <div className="flex items-center justify-between">
@@ -266,19 +258,18 @@ const SettingsSection: React.FC = () => {
                     />
                   </button>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
         {/* Privacy & Security */}
-        <motion.section variants={itemVariants} className="space-y-4">
+        <section className="space-y-4">
           <h2 className="text-lg font-semibold text-gray-900">Privacy & Security</h2>
           <div className="space-y-4">
             {privacySettings.map((setting) => (
-              <motion.div
+              <div
                 key={setting.id}
-                whileHover={{ scale: 1.02 }}
                 className="p-4 bg-white rounded-2xl border border-gray-100 shadow-sm"
               >
                 <div className="flex items-center justify-between">
@@ -302,28 +293,28 @@ const SettingsSection: React.FC = () => {
                     />
                   </button>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
         {/* Account Management */}
-        <motion.section variants={itemVariants} className="space-y-4">
+        <section className="space-y-4">
           <h2 className="text-lg font-semibold text-gray-900">Account Management</h2>
           <div className="space-y-4">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <button
+              
+            
               className="w-full p-4 bg-red-50 text-red-600 rounded-2xl border border-red-100 hover:bg-red-100 transition-colors"
             >
               <div className="flex items-center justify-center space-x-2">
                 <Trash2 className="w-5 h-5" />
                 <span>Delete Account</span>
               </div>
-            </motion.button>
+            </button>
           </div>
-        </motion.section>
-      </motion.div>
+        </section>
+      </div>
     </div>
   );
 };
