@@ -5,6 +5,7 @@
 import { FC, FormEvent } from 'react';
 import Link from 'next/link';
 import { Facebook, Instagram, LinkedIn, Twitter, YouTube } from '../icons/mediaIcons';
+import WeAcceptPayments from '../custom/WeAcceptPayments';
 
 interface FooterLink {
   text: string;
@@ -129,16 +130,7 @@ const Footer: FC = () => {
             </form>
 
             {/* Payment Methods */}
-            <div>
-              <h4 className="text-sm font-medium mb-2 text-dark-text-primary">We Accept</h4>
-              <div className="flex space-x-2">
-                {['Visa', 'MC', 'Amex', 'PayPal', 'Apple'].map((method) => (
-                  <div key={method} className="w-10 h-6 bg-dark-secondary rounded flex items-center justify-center text-xs">
-                    {method}
-                  </div>
-                ))}
-              </div>
-            </div>
+            <WeAcceptPayments />
           </div>
         </div>
       </div>
