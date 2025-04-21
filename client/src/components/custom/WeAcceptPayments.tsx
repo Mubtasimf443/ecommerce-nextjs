@@ -21,7 +21,7 @@ const paymentLogos = [
         logo: "/icons/brands/rocket.jpg"
     },
     {
-        name: "Cash on Delivery",
+        name: "COD",
         logo: "/icons/regular/cod.png"
     }
 ]
