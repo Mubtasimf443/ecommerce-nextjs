@@ -1,111 +1,107 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
 import React, { FC, Fragment, useEffect, useState } from 'react'
-import { IUserFormDataErrors, IUserFormDataTouched, LocationData } from './UserFormData'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/shadcn/card'
-import { Label } from '@/components/ui/shadcn/label'
-import { Input } from '@/components/ui/shadcn/input'
-import { FormikErrors, FormikTouched, FormikValues } from 'formik'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/shadcn/select'
+import { IUserFormDataErrors, IUserFormDataTouched } from './UserFormData'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/shadcn/card';
+import { Label } from '@/components/ui/shadcn/label';
+import { Input } from '@/components/ui/shadcn/input';
+import { FormikErrors, FormikTouched, FormikValues } from 'formik';
+import { Select, SelectItem, SelectTrigger, SelectContent, SelectValue } from '@/components/ui/shadcn/select';
 
 interface Props {
     values: FormikValues;
     errors: FormikErrors<IUserFormDataErrors>;
     touched: FormikTouched<IUserFormDataTouched>;
     handleChange: (v: any) => void;
-    setFieldValue: (field: string, value: any) => void;
 }
 
-const AddressSubForm: FC<Props> = ({
-    values,
-    touched,
-    errors,
-    handleChange,
-    setFieldValue
-}) => {
-    const [divisions, setDivisions] = useState<LocationData[]>([]);
-    const [districts, setDistricts] = useState<LocationData[]>([]);
-    const [upazilas, setUpazilas] = useState<LocationData[]>([]);
-    const [cities, setCities] = useState<LocationData[]>([]);
-    const [loading, setLoading] = useState({
-        divisions: false,
-        districts: false,
-        upazilas: false,
-        cities: false
-    });
+const AddressSubForm: FC<Props> = ({ values, touched, errors, handleChange }) => {
+    const [selectedDivisionID, setSelectedDivisionID] = useState<string>('');
+    const [selectedDistrictID, setSelectedDistrictID] = useState<string>('');
+    const [selectedUpazilaID, setSelectedUpazilaID] = useState<string>('');
+    const [divisions, setDivisions] = useState<any[]>([]);
+    const [districtList, setDistrictList] = useState<any[]>([]);
+    const [upazilaList, setUpazilaList] = useState<any[]>([]);
+    const [citiesList, setCitiesList] = useState<any[]>([]);
+    const [enableDistrict, setEnableDistrict] = useState(false);
+    const [enableUpazila, setEnableUpazila] = useState(false);
+    const [enableCity, setEnableCity] = useState(false);
 
     // Fetch divisions on mount
     useEffect(() => {
-        const fetchDivisions = async () => {
-            setLoading(prev => ({ ...prev, divisions: true }));
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/api/location/divisions`);
-                const data = await response.json();
-                setDivisions(data.data);
-            } catch (error) {
-                console.error('Error fetching divisions:', error);
-            } finally {
-                setLoading(prev => ({ ...prev, divisions: false }));
-            }
-        };
-        fetchDivisions();
+        fetch(process.env.NEXT_PUBLIC_SERVER_ORIGIN + "/api/location/divisions")
+            .then(res => res.json())
+            .then(data => setDivisions(data.data))
+            .catch(error => console.error('Error fetching divisions:', error));
     }, []);
 
     // Fetch districts when division changes
     useEffect(() => {
-        if (!values.division) return;
-        
-        const fetchDistricts = async () => {
-            setLoading(prev => ({ ...prev, districts: true }));
-            try {
-                const divisionId = divisions.find(d => d.name === values.division)?.id;
-                if (!divisionId) return;
+        if (selectedDivisionID) {
+            fetch(`${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/api/location/district?division_id=${selectedDivisionID}`)
+                .then(res => res.json())
+                .then(data => {
+                    setDistrictList(data.data);
+                    setEnableDistrict(true);
+                })
+                .catch(error => console.error('Error fetching districts:', error));
+        }
+    }, [selectedDivisionID]);
 
-                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/api/location/district?division_id=${divisionId}`);
-                const data = await response.json();
-                setDistricts(data.data);
-            } catch (error) {
-                console.error('Error fetching districts:', error);
-            } finally {
-                setLoading(prev => ({ ...prev, districts: false }));
-            }
-        };
-        fetchDistricts();
-    }, [values.division]);
+    // Fetch upazilas when district changes
+    useEffect(() => {
+        if (selectedDistrictID) {
+            fetch(`${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/api/location/upazila?district_id=${selectedDistrictID}`)
+                .then(res => res.json())
+                .then(data => {
+                    setUpazilaList(data.data);
+                    setEnableUpazila(true);
+                })
+                .catch(error => console.error('Error fetching upazilas:', error));
+        }
+    }, [selectedDistrictID]);
 
-    // Similar useEffects for upazilas and cities...
+    // Fetch cities when upazila changes
+    useEffect(() => {
+        if (selectedUpazilaID) {
+            fetch(`${process.env.NEXT_PUBLIC_SERVER_ORIGIN}/api/location/city?upazila_id=${selectedUpazilaID}`)
+                .then(res => res.json())
+                .then(data => {
+                    setCitiesList(data.data);
+                    setEnableCity(true);
+                })
+                .catch(error => console.error('Error fetching cities:', error));
+        }
+    }, [selectedUpazilaID]);
 
     return (
-        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50">
-                <CardTitle className="flex items-center space-x-2">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-green-600"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                    >
-                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                    </svg>
-                    <span>Shipping Address</span>
-                </CardTitle>
+        <Card>
+            <CardHeader>
+                <CardTitle>Delivery Location</CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-6 p-6">
+            <CardContent className="grid gap-6">
                 <div className="grid sm:grid-cols-2 gap-4">
+                    {/* Division Select */}
                     <div className="space-y-2">
-                        <Label className="text-sm font-medium text-gray-700">Division</Label>
+                        <Label htmlFor="division">Division</Label>
                         <Select
                             name="division"
-                            value={values.division}
                             onValueChange={(value) => {
-                                setFieldValue('division', value);
-                                setFieldValue('district', '');
-                                setFieldValue('upazila', '');
-                                setFieldValue('city', '');
+                                handleChange({ target: { name: 'division', value } });
+                                const division = divisions.find(d => d.name === value);
+                                if (division) {
+                                    setSelectedDivisionID(division.id);
+                                    // Reset dependent fields
+                                    handleChange({ target: { name: 'district', value: '' } });
+                                    handleChange({ target: { name: 'upazila', value: '' } });
+                                    handleChange({ target: { name: 'city', value: '' } });
+                                    setEnableUpazila(false);
+                                    setEnableCity(false);
+                                }
                             }}
                         >
-                            <SelectTrigger className={`${errors.division && touched.division ? 'border-red-500' : ''}`}>
-                                <SelectValue placeholder="Select division" />
+                            <SelectTrigger className={errors.division && touched.division ? 'border-red-500' : ''}>
+                                <SelectValue placeholder="Select Division" />
                             </SelectTrigger>
                             <SelectContent>
                                 {divisions.map((division) => (
@@ -116,27 +112,33 @@ const AddressSubForm: FC<Props> = ({
                             </SelectContent>
                         </Select>
                         {errors.division && touched.division && (
-                            <p className="text-xs text-red-500 mt-1">{errors.division}</p>
+                            <p className="text-xs text-red-500">{errors.division}</p>
                         )}
                     </div>
 
+                    {/* District Select */}
                     <div className="space-y-2">
-                        <Label className="text-sm font-medium text-gray-700">District</Label>
+                        <Label htmlFor="district">District</Label>
                         <Select
                             name="district"
-                            value={values.district}
+                            disabled={!enableDistrict}
                             onValueChange={(value) => {
-                                setFieldValue('district', value);
-                                setFieldValue('upazila', '');
-                                setFieldValue('city', '');
+                                handleChange({ target: { name: 'district', value } });
+                                const district = districtList.find(d => d.name === value);
+                                if (district) {
+                                    setSelectedDistrictID(district.id);
+                                    // Reset dependent fields
+                                    handleChange({ target: { name: 'upazila', value: '' } });
+                                    handleChange({ target: { name: 'city', value: '' } });
+                                    setEnableCity(false);
+                                }
                             }}
-                            disabled={!values.division || loading.districts}
                         >
-                            <SelectTrigger className={`${errors.district && touched.district ? 'border-red-500' : ''}`}>
-                                <SelectValue placeholder="Select district" />
+                            <SelectTrigger className={errors.district && touched.district ? 'border-red-500' : ''}>
+                                <SelectValue placeholder="Select District" />
                             </SelectTrigger>
                             <SelectContent>
-                                {districts.map((district) => (
+                                {districtList.map((district) => (
                                     <SelectItem key={district.id} value={district.name}>
                                         {district.name}
                                     </SelectItem>
@@ -144,36 +146,88 @@ const AddressSubForm: FC<Props> = ({
                             </SelectContent>
                         </Select>
                         {errors.district && touched.district && (
-                            <p className="text-xs text-red-500 mt-1">{errors.district}</p>
+                            <p className="text-xs text-red-500">{errors.district}</p>
                         )}
                     </div>
                 </div>
 
-                {/* Similar Select components for Upazila and City */}
+                <div className="grid sm:grid-cols-2 gap-4">
+                    {/* Upazila Select */}
+                    <div className="space-y-2">
+                        <Label htmlFor="upazila">Upazila</Label>
+                        <Select
+                            name="upazila"
+                            disabled={!enableUpazila}
+                            onValueChange={(value) => {
+                                handleChange({ target: { name: 'upazila', value } });
+                                const upazila = upazilaList.find(u => u.name === value);
+                                if (upazila) {
+                                    setSelectedUpazilaID(upazila.id);
+                                    // Reset city
+                                    handleChange({ target: { name: 'city', value: '' } });
+                                }
+                            }}
+                        >
+                            <SelectTrigger className={errors.upazila && touched.upazila ? 'border-red-500' : ''}>
+                                <SelectValue placeholder="Select Upazila" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {upazilaList.map((upazila) => (
+                                    <SelectItem key={upazila.id} value={upazila.name}>
+                                        {upazila.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        {errors.upazila && touched.upazila && (
+                            <p className="text-xs text-red-500">{errors.upazila}</p>
+                        )}
+                    </div>
 
+                    {/* City Select */}
+                    <div className="space-y-2">
+                        <Label htmlFor="city">City</Label>
+                        <Select
+                            name="city"
+                            disabled={!enableCity}
+                            onValueChange={(value) => {
+                                handleChange({ target: { name: 'city', value } });
+                            }}
+                        >
+                            <SelectTrigger className={errors.city && touched.city ? 'border-red-500' : ''}>
+                                <SelectValue placeholder="Select City" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {citiesList.map((city) => (
+                                    <SelectItem key={city.id} value={city.name}>
+                                        {city.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        {errors.city && touched.city && (
+                            <p className="text-xs text-red-500">{errors.city}</p>
+                        )}
+                    </div>
+                </div>
+
+                {/* Postal Code */}
                 <div className="space-y-2">
-                    <Label htmlFor="address" className="text-sm font-medium text-gray-700">
-                        Street Address
-                    </Label>
+                    <Label htmlFor="postalCode">Postal Code</Label>
                     <Input
-                        id="address"
-                        name="address"
+                        id="postalCode"
+                        name="postalCode"
                         onChange={handleChange}
-                        value={values.address}
-                        className={`transition-all duration-200 ${
-                            errors.address && touched.address
-                                ? 'border-red-500 focus:ring-red-500'
-                                : 'border-gray-300 focus:ring-green-500'
-                        }`}
-                        placeholder="House number, street name, area"
+                        className={errors.postalCode && touched.postalCode ? 'border-red-500' : ''}
+                        placeholder="Enter postal code"
                     />
-                    {errors.address && touched.address && (
-                        <p className="text-xs text-red-500 mt-1">{errors.address}</p>
+                    {errors.postalCode && touched.postalCode && (
+                        <p className="text-xs text-red-500">{errors.postalCode}</p>
                     )}
                 </div>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
 
-export default AddressSubForm
+export default AddressSubForm;

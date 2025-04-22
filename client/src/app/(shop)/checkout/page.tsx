@@ -157,8 +157,8 @@ const Page: React.FC = () => {
                     errors={errors}
                     touched={touched}
                     handleChange={handleChange}
-                    setFieldValue={setFieldValue}
-                    setPhoneDetails={setPhoneDetails}
+                    // setFieldValue={setFieldValue}
+                    // setPhoneDetails={setPhoneDetails}
                   />
 
 
@@ -167,7 +167,7 @@ const Page: React.FC = () => {
                     errors={errors}
                     touched={touched}
                     handleChange={handleChange}
-                    setFieldValue={setFieldValue}
+                    // setFieldValue={setFieldValue}
                   />
 
                   <PaymentSubForm
