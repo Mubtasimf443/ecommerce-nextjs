@@ -4,35 +4,44 @@
 export interface IUserFormData {
     firstName: string;
     lastName: string;
-    email: string;
+    phone: string;
+    phoneDetails: {
+        countryName: string;
+        phoneCode: string;
+    };
     address: string;
+    division: string;
+    district: string;
+    upazila: string;
     city: string;
-    state: string;
-    postalCode: string;
-    country: string;
     paymentMethod: 'bkash' | 'nagad' | 'rocket' | 'cod';
 }
 
 export interface IUserFormDataErrors {
     firstName?: string;
     lastName?: string;
-    email?: string;
+    phone?: string;
     address?: string;
+    division?: string;
+    district?: string;
+    upazila?: string;
     city?: string;
-    state?: string;
-    postalCode?: string;
-    country?: string;
     paymentMethod?: string;
 }
 
 export interface IUserFormDataTouched {
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    address?: string;
-    city?: string;
-    state?: string;
-    postalCode?: string;
-    country?: string;
-    paymentMethod?:string;
+    firstName?: boolean;
+    lastName?: boolean;
+    phone?: boolean;
+    address?: boolean;
+    division?: boolean;
+    district?: boolean;
+    upazila?: boolean;
+    city?: boolean;
+    paymentMethod?: boolean;
+}
+
+export interface LocationData {
+    id: string;
+    name: string;
 }

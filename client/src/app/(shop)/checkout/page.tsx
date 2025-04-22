@@ -13,20 +13,37 @@ import ContactSubForm from './_components/ContactSubForm';
 import AddressSubForm from './_components/AddressSubForm';
 import PaymentSubForm from './_components/PaymentSubForm';
 import MobileOrderView from './_components/MobileOrderView';
+import {PhoneDetails , PhoneDetailsState } from './_components/PhoneDetails.types';
+
 
 // Validation schema remains the same
+// Update the CheckoutSchema
 const CheckoutSchema = Yup.object().shape({
   firstName: Yup.string().required('Required'),
   lastName: Yup.string().required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
+  phone: Yup.string()
+      .required('Phone number is required')
+      .min(11, 'Phone number must be 11 digits')
+      .max(11, 'Phone number must be 11 digits'),
   address: Yup.string().required('Required'),
-  city: Yup.string().required('Required'),
-  state: Yup.string().required('Required'),
-  postalCode: Yup.string().required('Required'),
-  country: Yup.string().required('Required'),
+  division: Yup.string().required('Division is required'),
+  district: Yup.string().required('District is required'),
+  upazila: Yup.string().required('Upazila is required'),
+  city: Yup.string().required('City is required'),
   paymentMethod: Yup.string().required('Required'),
 });
 
+const initialValues = {
+  firstName: '',
+  lastName: '',
+  phone: '',
+  address: '',
+  division: '',
+  district: '',
+  upazila: '',
+  city: '',
+  paymentMethod: 'bkash',
+};
 
 // Mock cart items remain the same
 const initialCartItems = [
@@ -52,6 +69,12 @@ const Page: React.FC = () => {
   const [tax, setTax] = useState(0);
   const [shipping] = useState(5.99);
   const [total, setTotal] = useState(0);
+  const [phoneDetails, setPhoneDetails] = useState<PhoneDetailsState>({
+    countryName: 'Bangladesh',
+    phoneCode: '+880',
+    phoneNumber: '',
+    isValid: false
+  });
 
   useEffect(() => {
     const calculatedSubtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -63,10 +86,24 @@ const Page: React.FC = () => {
     setTotal(calculatedTotal);
   }, [cartItems, shipping]);
 
-  const handleSubmit = async (values: any, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
+  const handleSubmit : any = async (values: any, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
     try {
-      console.log('Order details:', { ...values, orderTotal: total, items: cartItems });
-      await new Promise(resolve => setTimeout(resolve, 1500));
+
+    // Combine form values with phone details
+      const orderData = {
+        ...values,
+        phoneDetails: {
+          ...phoneDetails,
+          phoneNumber: values.phone // Ensure phone number is included
+        }
+      };
+
+      console.log('Submitting order with data:', orderData);
+
+      // Here you would make your API call to process the order
+      // await processOrder(orderData);
+
+      // Show success message or redirect
       alert('Order placed successfully!');
     } catch (error) {
       console.error('Checkout error:', error);
@@ -87,7 +124,15 @@ const Page: React.FC = () => {
     setCartItems(cartItems.filter(item => item.id !== id));
   };
 
-
+  React.useEffect(() => {
+    if (phoneDetails?.phoneNumber) {
+      const isValidPhoneNumber = /^\d{11}$/.test(phoneDetails.phoneNumber);
+      setPhoneDetails(prev => prev ? {
+        ...prev,
+        isValid: isValidPhoneNumber
+      } : null);
+    }
+  }, [phoneDetails?.phoneNumber]);
 
   return (
     <section className="min-h-screen bg-gray-50/50 pb-12">
@@ -100,21 +145,11 @@ const Page: React.FC = () => {
         <div className="grid lg:grid-cols-12 gap-8">
           <div className="lg:col-span-7">
             <Formik
-              initialValues={{
-                firstName: '',
-                lastName: '',
-                email: '',
-                address: '',
-                city: '',
-                state: '',
-                postalCode: '',
-                country: '',
-                paymentMethod: 'bkash',
-              }}
+              initialValues={initialValues}
               validationSchema={CheckoutSchema}
               onSubmit={handleSubmit}
             >
-              {({ errors, touched, values, handleChange, isSubmitting }) => (
+              {({ errors, touched, values, handleChange, isSubmitting ,setFieldValue }) => (
                 <Form className="space-y-6">
 
                   <ContactSubForm
@@ -122,6 +157,8 @@ const Page: React.FC = () => {
                     errors={errors}
                     touched={touched}
                     handleChange={handleChange}
+                    setFieldValue={setFieldValue}
+                    setPhoneDetails={setPhoneDetails}
                   />
 
 
@@ -130,6 +167,7 @@ const Page: React.FC = () => {
                     errors={errors}
                     touched={touched}
                     handleChange={handleChange}
+                    setFieldValue={setFieldValue}
                   />
 
                   <PaymentSubForm
