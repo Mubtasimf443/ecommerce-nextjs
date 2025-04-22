@@ -152,14 +152,14 @@ const Page: React.FC = () => {
               {({ errors, touched, values, handleChange, isSubmitting ,setFieldValue }) => (
                 <Form className="space-y-6">
 
-                  <ContactSubForm
-                    values={values}
-                    errors={errors}
-                    touched={touched}
-                    handleChange={handleChange}
-                    // setFieldValue={setFieldValue}
-                    // setPhoneDetails={setPhoneDetails}
-                  />
+<ContactSubForm
+                values={values}
+                errors={errors}
+                touched={touched}
+                handleChange={handleChange}
+                setFieldValue={setFieldValue}
+                setPhoneDetails={setPhoneDetails}
+            />
 
 
                   <AddressSubForm

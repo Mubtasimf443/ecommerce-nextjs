@@ -1,23 +1,32 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
 import React, { FC, Fragment } from 'react'
-import { IUserFormDataErrors, IUserFormDataTouched } from './UserFormData'
+import { IUserFormData, IUserFormDataErrors, IUserFormDataTouched } from './UserFormData'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/shadcn/card';
 import { Label } from '@/components/ui/shadcn/label';
 import { Input } from '@/components/ui/shadcn/input';
 import { Textarea } from '@/components/ui/shadcn/textarea';
 import { FormikErrors, FormikTouched, FormikValues } from 'formik';
-import PhoneInput from './PhoneInput'; // Assuming you have this component
+import PhoneInput from './PhoneInput';
+import { PhoneDetailsState } from './PhoneDetails.types';
 
 interface Props {
     values: FormikValues;
     errors: FormikErrors<IUserFormDataErrors>;
     touched: FormikTouched<IUserFormDataTouched>;
     handleChange: (v: any) => void;
-    setPhoneDetails?: (details: any) => void;
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
+    setPhoneDetails: React.Dispatch<React.SetStateAction<PhoneDetailsState>>;
 }
 
-const ContactSubForm: FC<Props> = ({ values, touched, errors, handleChange, setPhoneDetails }) => {
+const ContactSubForm: FC<Props> = ({ 
+    values, 
+    touched, 
+    errors, 
+    handleChange, 
+    setFieldValue,
+    setPhoneDetails 
+}) => {
     return (
         <Fragment>
             <Card>
@@ -31,6 +40,7 @@ const ContactSubForm: FC<Props> = ({ values, touched, errors, handleChange, setP
                             <Input
                                 id="firstName"
                                 name="firstName"
+                                value={values.firstName}
                                 onChange={handleChange}
                                 className={errors.firstName && touched.firstName ? 'border-red-500' : ''}
                             />
@@ -43,6 +53,7 @@ const ContactSubForm: FC<Props> = ({ values, touched, errors, handleChange, setP
                             <Input
                                 id="lastName"
                                 name="lastName"
+                                value={values.lastName}
                                 onChange={handleChange}
                                 className={errors.lastName && touched.lastName ? 'border-red-500' : ''}
                             />
@@ -58,6 +69,7 @@ const ContactSubForm: FC<Props> = ({ values, touched, errors, handleChange, setP
                             id="email"
                             name="email"
                             type="email"
+                            value={values.email}
                             onChange={handleChange}
                             className={errors.email && touched.email ? 'border-red-500' : ''}
                         />
@@ -66,24 +78,20 @@ const ContactSubForm: FC<Props> = ({ values, touched, errors, handleChange, setP
                         )}
                     </div>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="phone">Phone Number</Label>
-                        <PhoneInput
-                            name="phone"
-                            setValue={handleChange}
-                            hasError={!!(errors.phone && touched.phone)}
-                            setPhoneDetails={setPhoneDetails}
-                        />
-                        {errors.phone && touched.phone && (
-                            <p className="text-xs text-red-500">{errors.phone}</p>
-                        )}
-                    </div>
+                    <PhoneInput
+                        name="phone"
+                        setValue={(name, value) => setFieldValue(name, value)}
+                        hasError={!!(errors.phone && touched.phone)}
+                        setPhoneDetails={setPhoneDetails}
+                        value={values.phone}
+                    />
 
                     <div className="space-y-2">
                         <Label htmlFor="notes">Additional Notes (Optional)</Label>
                         <Textarea
                             id="notes"
                             name="notes"
+                            value={values.notes}
                             placeholder="Add any special delivery instructions or notes..."
                             onChange={handleChange}
                             className="min-h-[100px] resize-y"
@@ -95,4 +103,4 @@ const ContactSubForm: FC<Props> = ({ values, touched, errors, handleChange, setP
     )
 }
 
-export default ContactSubForm
+export default ContactSubForm;

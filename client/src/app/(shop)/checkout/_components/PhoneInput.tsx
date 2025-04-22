@@ -1,31 +1,28 @@
-/*
-بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ  ﷺ InshaAllah
-*/
+/* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 "use client"
+
+import React, { useState, useEffect } from 'react';
 import { ErrorMessage, Field } from 'formik';
-import React, { useState, useEffect, useMemo } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
+import { PhoneDetailsState } from './PhoneDetails.types';
 
+interface PhoneInputProps {
+    name: string;
+    placeholder?: string;
+    required?: boolean;
+    disabled?: boolean;
+    className?: string;
+    value?: string;
+    setValue: (name: string, value: string) => void;
+    hasError: boolean;
+    setPhoneDetails: React.Dispatch<React.SetStateAction<PhoneDetailsState>>;
+}
 
-
-// Define interfaces for our types
 interface CountryCode {
     country: string;
     code: string;
     flag: string;
 }
 
-interface PhoneInputProps {
-    name : string;
-    placeholder?: string;
-    required?: boolean;
-    disabled?: boolean;
-    className?: string;
-    onKeyPress?: (event: React.KeyboardEvent) => void;
-    setValue : (key : string , value : string) => void;
-    hasError : boolean;
-    setPhoneDetails : React.Dispatch<React.SetStateAction<any>>;
-}
 
 const countryCodes: CountryCode[] = [
     { country: 'Bangladesh', code: '+880', flag: '🇧🇩' },
@@ -95,55 +92,64 @@ const countryCodes: CountryCode[] = [
     { country: 'Turkey', code: '+90', flag: '🇹🇷' }
 ];
 
+
 const PhoneInput: React.FC<PhoneInputProps> = ({
     name,
     placeholder = 'Enter phone number',
     required = false,
     disabled = false,
     className = '',
+    value = '',
     setValue,
-    onKeyPress,
-    hasError ,
+    hasError,
     setPhoneDetails
 }) => {
     const [selectedCountry, setSelectedCountry] = useState<CountryCode>(countryCodes[0]);
-    const [phoneNumber, setPhoneNumber] = useState<string>('');
     const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-    const phoneRegex = /^\+\d{1,4}\d{8,}$/;
-   
-    // Validate the phone number
-    useMemo(() => {
-       setValue(name, phoneNumber)
-    } , [phoneNumber] );
+
     // Handle phone number input
     const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value;
-        // Only allow digits and spaces
-        const sanitizedValue = inputValue.replace(/[^\d\s]/g, '');
-        setPhoneNumber(sanitizedValue);
+        // Only allow digits
+        const sanitizedValue = inputValue.replace(/\D/g, '');
+        setValue(name, sanitizedValue);
+
+        // Update phone details
+        setPhoneDetails(prev => ({
+            countryName: selectedCountry.country,
+            phoneCode: selectedCountry.code,
+            phoneNumber: sanitizedValue,
+            isValid: sanitizedValue.length === 11
+        }));
     };
 
     const selectCountry = (country: CountryCode) => {
         setSelectedCountry(country);
         setDropdownOpen(false);
+        
+        // Update phone details when country changes
+        setPhoneDetails(prev => prev ? {
+            ...prev,
+            countryName: country.country,
+            phoneCode: country.code
+        } : {
+            countryName: country.country,
+            phoneCode: country.code,
+            phoneNumber: value,
+            isValid: value.length === 11
+        });
     };
-
-    useEffect(() => {
-        setPhoneDetails({
-            countryName : selectedCountry.country,
-            phoneCode : selectedCountry.code
-        })
-    } , [selectedCountry])
 
     return (
         <div className={`relative ${className}`}>
-            <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
             <div className="flex rounded-md shadow-sm">
                 {/* Country code dropdown button */}
                 <div className="relative">
                     <button
                         type="button"
-                        className="flex items-center justify-center px-3 py-2 text-sm text-gray-700 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md hover:bg-gray-200"
+                        className={`flex items-center justify-center px-3 py-2 text-sm text-gray-700 bg-gray-100 
+                            border border-r-0 border-gray-300 rounded-l-md hover:bg-gray-200 
+                            ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                         onClick={() => setDropdownOpen(!dropdownOpen)}
                         disabled={disabled}
                     >
@@ -152,9 +158,9 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
                         <span className="ml-1">▼</span>
                     </button>
 
-                    {/* Country code dropdown */}
+                    {/* Dropdown menu */}
                     {dropdownOpen && (
-                        <div className="absolute z-10 w-64 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        <div className="absolute z-50 w-64 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
                             <ul className="py-1">
                                 {countryCodes.map((country) => (
                                     <li
@@ -171,34 +177,26 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
                         </div>
                     )}
                 </div>
-                
-               
+
                 {/* Phone number input */}
                 <Field
                     name={name}
-                    id={name}
-                    type="phone"
-                    value={phoneNumber}
+                    type="tel"
+                    value={value}
                     onChange={handlePhoneNumberChange}
-                    onKeyPress={onKeyPress}
-                    className={`flex-1 min-w-0 block w-full px-3 py-2 rounded-r-md border ${hasError ? 'border-red-300' : 'border-gray-300'  
-                        } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
+                    className={`flex-1 min-w-0 block w-full px-3 py-2 rounded-r-md border 
+                        ${hasError ? 'border-red-500' : 'border-gray-300'}
+                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                        ${disabled ? 'bg-gray-100 opacity-50' : ''}`}
                     placeholder={placeholder}
                     required={required}
                     disabled={disabled}
-                    aria-invalid={hasError}
-                   
                     maxLength={11}
                 />
-
-               
             </div>
-            <ErrorMessage id={name } name={name}  component="div" className="mt-1 text-sm text-red-600" />
-        
+            <ErrorMessage name={name} component="div" className="mt-1 text-xs text-red-500" />
         </div>
     );
 };
-
-
 
 export default PhoneInput;
