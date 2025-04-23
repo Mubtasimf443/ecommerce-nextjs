@@ -1,10 +1,31 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ErrorMessage, Field } from 'formik';
 import { PhoneDetailsState } from './PhoneDetails.types';
+import { Label } from '@/components/ui/shadcn/label';
+import { Input } from '@/components/ui/shadcn/input';
+import { countryCodes, CountryCode } from '@/_lib/data/countryCodes'
+import {
+    Command,
+    CommandDialog,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/shadcn/command"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/shadcn/popover"
+import { Button } from "@/components/ui/shadcn/button"
+import { Check, ChevronsUpDown } from "lucide-react"
+import { cn } from "@/lib/utils"
 
+// ... keep your CountryCode interface and countryCodes array the same ...
 interface PhoneInputProps {
     name: string;
     placeholder?: string;
@@ -16,82 +37,6 @@ interface PhoneInputProps {
     hasError: boolean;
     setPhoneDetails: React.Dispatch<React.SetStateAction<PhoneDetailsState>>;
 }
-
-interface CountryCode {
-    country: string;
-    code: string;
-    flag: string;
-}
-
-
-const countryCodes: CountryCode[] = [
-    { country: 'Bangladesh', code: '+880', flag: '🇧🇩' },
-    { country: 'United States', code: '+1', flag: '🇺🇸' },
-    { country: 'United Kingdom', code: '+44', flag: '🇬🇧' },
-    { country: 'India', code: '+91', flag: '🇮🇳' },
-    { country: 'Canada', code: '+1', flag: '🇨🇦' },
-    { country: 'Australia', code: '+61', flag: '🇦🇺' },
-    { country: 'Germany', code: '+49', flag: '🇩🇪' },
-    { country: 'France', code: '+33', flag: '🇫🇷' },
-    { country: 'China', code: '+86', flag: '🇨🇳' },
-    { country: 'Japan', code: '+81', flag: '🇯🇵' },
-    { country: 'Brazil', code: '+55', flag: '🇧🇷' },
-    { country: 'Mexico', code: '+52', flag: '🇲🇽' },
-    { country: 'Italy', code: '+39', flag: '🇮🇹' },
-    { country: 'Spain', code: '+34', flag: '🇪🇸' },
-    { country: 'Russia', code: '+7', flag: '🇷🇺' },
-    { country: 'South Korea', code: '+82', flag: '🇰🇷' },
-
-    // Additional Asian countries
-    { country: 'Pakistan', code: '+92', flag: '🇵🇰' },
-    { country: 'Indonesia', code: '+62', flag: '🇮🇩' },
-    { country: 'Philippines', code: '+63', flag: '🇵🇭' },
-    { country: 'Vietnam', code: '+84', flag: '🇻🇳' },
-    { country: 'Thailand', code: '+66', flag: '🇹🇭' },
-    { country: 'Malaysia', code: '+60', flag: '🇲🇾' },
-    { country: 'Singapore', code: '+65', flag: '🇸🇬' },
-    { country: 'Nepal', code: '+977', flag: '🇳🇵' },
-    { country: 'Sri Lanka', code: '+94', flag: '🇱🇰' },
-    { country: 'Myanmar', code: '+95', flag: '🇲🇲' },
-    { country: 'Cambodia', code: '+855', flag: '🇰🇭' },
-    { country: 'Hong Kong', code: '+852', flag: '🇭🇰' },
-    { country: 'Taiwan', code: '+886', flag: '🇹🇼' },
-    { country: 'United Arab Emirates', code: '+971', flag: '🇦🇪' },
-    { country: 'Saudi Arabia', code: '+966', flag: '🇸🇦' },
-    { country: 'Israel', code: '+972', flag: '🇮🇱' },
-
-    // Additional European countries
-    { country: 'Netherlands', code: '+31', flag: '🇳🇱' },
-    { country: 'Sweden', code: '+46', flag: '🇸🇪' },
-    { country: 'Norway', code: '+47', flag: '🇳🇴' },
-    { country: 'Denmark', code: '+45', flag: '🇩🇰' },
-    { country: 'Finland', code: '+358', flag: '🇫🇮' },
-    { country: 'Switzerland', code: '+41', flag: '🇨🇭' },
-    { country: 'Austria', code: '+43', flag: '🇦🇹' },
-    { country: 'Belgium', code: '+32', flag: '🇧🇪' },
-    { country: 'Portugal', code: '+351', flag: '🇵🇹' },
-    { country: 'Greece', code: '+30', flag: '🇬🇷' },
-    { country: 'Ireland', code: '+353', flag: '🇮🇪' },
-    { country: 'Poland', code: '+48', flag: '🇵🇱' },
-    { country: 'Ukraine', code: '+380', flag: '🇺🇦' },
-    { country: 'Romania', code: '+40', flag: '🇷🇴' },
-    { country: 'Czech Republic', code: '+420', flag: '🇨🇿' },
-    { country: 'Hungary', code: '+36', flag: '🇭🇺' },
-
-    // Additional countries from other regions
-    { country: 'South Africa', code: '+27', flag: '🇿🇦' },
-    { country: 'Nigeria', code: '+234', flag: '🇳🇬' },
-    { country: 'Egypt', code: '+20', flag: '🇪🇬' },
-    { country: 'Morocco', code: '+212', flag: '🇲🇦' },
-    { country: 'Kenya', code: '+254', flag: '🇰🇪' },
-    { country: 'Argentina', code: '+54', flag: '🇦🇷' },
-    { country: 'Colombia', code: '+57', flag: '🇨🇴' },
-    { country: 'Chile', code: '+56', flag: '🇨🇱' },
-    { country: 'Peru', code: '+51', flag: '🇵🇪' },
-    { country: 'New Zealand', code: '+64', flag: '🇳🇿' },
-    { country: 'Turkey', code: '+90', flag: '🇹🇷' }
-];
-
 
 const PhoneInput: React.FC<PhoneInputProps> = ({
     name,
@@ -105,16 +50,14 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
     setPhoneDetails
 }) => {
     const [selectedCountry, setSelectedCountry] = useState<CountryCode>(countryCodes[0]);
-    const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+    const [open, setOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
 
-    // Handle phone number input
     const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value;
-        // Only allow digits
         const sanitizedValue = inputValue.replace(/\D/g, '');
         setValue(name, sanitizedValue);
 
-        // Update phone details
         setPhoneDetails(prev => ({
             countryName: selectedCountry.country,
             phoneCode: selectedCountry.code,
@@ -125,9 +68,8 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
 
     const selectCountry = (country: CountryCode) => {
         setSelectedCountry(country);
-        setDropdownOpen(false);
-        
-        // Update phone details when country changes
+        setOpen(false);
+
         setPhoneDetails(prev => prev ? {
             ...prev,
             countryName: country.country,
@@ -140,61 +82,102 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
         });
     };
 
+    const filteredCountries = countryCodes.filter((country) =>
+        country.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        country.code.includes(searchQuery)
+    );
+
     return (
-        <div className={`relative ${className}`}>
-            <div className="flex rounded-md shadow-sm">
-                {/* Country code dropdown button */}
-                <div className="relative">
-                    <button
-                        type="button"
-                        className={`flex items-center justify-center px-3 py-2 text-sm text-gray-700 bg-gray-100 
-                            border border-r-0 border-gray-300 rounded-l-md hover:bg-gray-200 
-                            ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        onClick={() => setDropdownOpen(!dropdownOpen)}
+        <div className={`space-y-2 ${className}`}>
+            <Label htmlFor={name}>
+                Phone Number {required && <span className="text-destructive">*</span>}
+            </Label>
+
+            <div className="flex gap-2">
+                <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={open}
+                            aria-label="Select a country"
+                            className={cn(
+                                "w-[140px] justify-between",
+                                disabled && "opacity-50 cursor-not-allowed"
+                            )}
+                            disabled={disabled}
+                        >
+                            <span className="flex items-center gap-2 truncate">
+                                <span className="text-base">{selectedCountry.flag}</span>
+                                <span className="text-sm font-medium">{selectedCountry.code}</span>
+                            </span>
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[300px] p-0">
+                        <Command>
+                            <CommandInput
+                                placeholder="Search country..."
+                                className="h-9"
+                                value={searchQuery}
+                                onValueChange={setSearchQuery}
+                            />
+                            <CommandEmpty>No country found.</CommandEmpty>
+                            <CommandGroup>
+                                <CommandList>
+                                    <div className="max-h-[200px] overflow-auto">
+                                        {filteredCountries.map((country) => (
+                                            <CommandItem
+                                                key={`${country.country}-${country.code}`}
+                                                value={`${country.country} ${country.code}`}
+                                                onSelect={() => selectCountry(country)}
+                                                className="flex items-center gap-2 px-4 py-2 cursor-pointer"
+                                            >
+                                                <Check
+                                                    className={cn(
+                                                        "mr-2 h-4 w-4",
+                                                        selectedCountry.code === country.code
+                                                            ? "opacity-100"
+                                                            : "opacity-0"
+                                                    )}
+                                                />
+                                                <span className="text-base mr-2">{country.flag}</span>
+                                                <span className="flex-1 text-sm">{country.country}</span>
+                                                <span className="text-sm text-muted-foreground">
+                                                    {country.code}
+                                                </span>
+                                            </CommandItem>
+                                        ))}
+                                    </div>
+                                </CommandList>
+                            </CommandGroup>
+                        </Command>
+                    </PopoverContent>
+                </Popover>
+
+                <div className="flex-1">
+                    <Input
+                        type="tel"
+                        id={name}
+                        name={name}
+                        value={value}
+                        onChange={handlePhoneNumberChange}
+                        className={cn(
+                            hasError && "border-destructive focus-visible:ring-destructive"
+                        )}
+                        placeholder={placeholder}
+                        required={required}
                         disabled={disabled}
-                    >
-                        <span className="mr-1">{selectedCountry.flag}</span>
-                        <span>{selectedCountry.code}</span>
-                        <span className="ml-1">▼</span>
-                    </button>
-
-                    {/* Dropdown menu */}
-                    {dropdownOpen && (
-                        <div className="absolute z-50 w-64 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
-                            <ul className="py-1">
-                                {countryCodes.map((country) => (
-                                    <li
-                                        key={`${country.country}-${country.code}`}
-                                        className="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100"
-                                        onClick={() => selectCountry(country)}
-                                    >
-                                        <span className="mr-2">{country.flag}</span>
-                                        <span>{country.country}</span>
-                                        <span className="ml-auto text-gray-500">{country.code}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
+                        maxLength={11}
+                    />
                 </div>
-
-                {/* Phone number input */}
-                <Field
-                    name={name}
-                    type="tel"
-                    value={value}
-                    onChange={handlePhoneNumberChange}
-                    className={`flex-1 min-w-0 block w-full px-3 py-2 rounded-r-md border 
-                        ${hasError ? 'border-red-500' : 'border-gray-300'}
-                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-                        ${disabled ? 'bg-gray-100 opacity-50' : ''}`}
-                    placeholder={placeholder}
-                    required={required}
-                    disabled={disabled}
-                    maxLength={11}
-                />
             </div>
-            <ErrorMessage name={name} component="div" className="mt-1 text-xs text-red-500" />
+
+            <ErrorMessage
+                name={name}
+                component="div"
+                className="text-sm font-medium text-destructive"
+            />
         </div>
     );
 };

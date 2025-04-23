@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/shadcn/textarea';
 import { FormikErrors, FormikTouched, FormikValues } from 'formik';
 import PhoneInput from './PhoneInput';
 import { PhoneDetailsState } from './PhoneDetails.types';
-
+import { cn } from '@/lib/utils';
 interface Props {
     values: FormikValues;
     errors: FormikErrors<IUserFormDataErrors>;
@@ -19,13 +19,13 @@ interface Props {
     setPhoneDetails: React.Dispatch<React.SetStateAction<PhoneDetailsState>>;
 }
 
-const ContactSubForm: FC<Props> = ({ 
-    values, 
-    touched, 
-    errors, 
-    handleChange, 
+const ContactSubForm: FC<Props> = ({
+    values,
+    touched,
+    errors,
+    handleChange,
     setFieldValue,
-    setPhoneDetails 
+    setPhoneDetails
 }) => {
     return (
         <Fragment>
@@ -36,45 +36,96 @@ const ContactSubForm: FC<Props> = ({
                 <CardContent className="grid gap-6">
                     <div className="grid sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label htmlFor="firstName">First name</Label>
+                            <Label htmlFor="firstName" className="font-medium">
+                                First name <span className="text-red-500">*</span>
+                            </Label>
                             <Input
                                 id="firstName"
                                 name="firstName"
                                 value={values.firstName}
                                 onChange={handleChange}
-                                className={errors.firstName && touched.firstName ? 'border-red-500' : ''}
+                                placeholder="John"
+                                className={cn(
+                                    "transition-all duration-200 placeholder:text-muted-foreground/60",
+                                    "focus:ring-2 focus:ring-offset-0 focus:ring-primary/20",
+                                    errors.firstName && touched.firstName
+                                        ? 'border-red-500 focus:border-red-500 placeholder-red-300'
+                                        : 'hover:border-primary/50'
+                                )}
+                                aria-invalid={errors.firstName && touched.firstName ? "true" : "false"}
+                                required
                             />
                             {errors.firstName && touched.firstName && (
-                                <p className="text-xs text-red-500">{errors.firstName}</p>
+                                <p className="text-xs text-red-500 font-medium flex items-center gap-1">
+                                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <circle cx="12" cy="12" r="10" strokeWidth="2" />
+                                        <path d="M12 8v4m0 4h.01" strokeWidth="2" strokeLinecap="round" />
+                                    </svg>
+                                    {errors.firstName}
+                                </p>
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="lastName">Last name</Label>
+                            <Label htmlFor="lastName" className="font-medium">
+                                Last name <span className="text-red-500">*</span>
+                            </Label>
                             <Input
                                 id="lastName"
                                 name="lastName"
                                 value={values.lastName}
                                 onChange={handleChange}
-                                className={errors.lastName && touched.lastName ? 'border-red-500' : ''}
+                                placeholder="Doe"
+                                className={cn(
+                                    "transition-all duration-200 placeholder:text-muted-foreground/60",
+                                    "focus:ring-2 focus:ring-offset-0 focus:ring-primary/20",
+                                    errors.lastName && touched.lastName
+                                        ? 'border-red-500 focus:border-red-500 placeholder-red-300'
+                                        : 'hover:border-primary/50'
+                                )}
+                                aria-invalid={errors.lastName && touched.lastName ? "true" : "false"}
+                                required
                             />
                             {errors.lastName && touched.lastName && (
-                                <p className="text-xs text-red-500">{errors.lastName}</p>
+                                <p className="text-xs text-red-500 font-medium flex items-center gap-1">
+                                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <circle cx="12" cy="12" r="10" strokeWidth="2" />
+                                        <path d="M12 8v4m0 4h.01" strokeWidth="2" strokeLinecap="round" />
+                                    </svg>
+                                    {errors.lastName}
+                                </p>
                             )}
                         </div>
                     </div>
-                    
+
                     <div className="space-y-2">
-                        <Label htmlFor="email">Email address</Label>
+                        <Label htmlFor="email" className="font-medium">
+                            Email address <span className="text-red-500">*</span>
+                        </Label>
                         <Input
                             id="email"
                             name="email"
                             type="email"
                             value={values.email}
                             onChange={handleChange}
-                            className={errors.email && touched.email ? 'border-red-500' : ''}
+                            placeholder="john.doe@example.com"
+                            className={cn(
+                                "transition-all duration-200 placeholder:text-muted-foreground/60",
+                                "focus:ring-2 focus:ring-offset-0 focus:ring-primary/20",
+                                errors.email && touched.email
+                                    ? 'border-red-500 focus:border-red-500 placeholder-red-300'
+                                    : 'hover:border-primary/50'
+                            )}
+                            aria-invalid={errors.email && touched.email ? "true" : "false"}
+                            required
                         />
                         {errors.email && touched.email && (
-                            <p className="text-xs text-red-500">{errors.email}</p>
+                            <p className="text-xs text-red-500 font-medium flex items-center gap-1">
+                                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="12" cy="12" r="10" strokeWidth="2" />
+                                    <path d="M12 8v4m0 4h.01" strokeWidth="2" strokeLinecap="round" />
+                                </svg>
+                                {errors.email}
+                            </p>
                         )}
                     </div>
 
