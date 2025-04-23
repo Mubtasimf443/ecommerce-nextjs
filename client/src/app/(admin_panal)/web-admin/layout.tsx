@@ -1,7 +1,7 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
 import React, { FC } from 'react';
-import Header from './_components/Header';
+import Header from './_components/Header/Header';
 import Sidebar from './_components/Sidebar';
 
 interface Props {
