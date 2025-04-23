@@ -46,9 +46,9 @@ const Header = ({ user = {
             <span className="text-primary">Admin</span>
           </h2>
 
-          <HeaderSearch />
+          
         </div>
-
+        <HeaderSearch />
         {/* Right side - Notifications and User Profile */}
         <div className="flex items-center gap-4">
           <HeaderLinksContainer>
