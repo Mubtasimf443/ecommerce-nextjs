@@ -9,15 +9,15 @@
 :root {
   /* Background */
 
-  --theme-bg : white ;
+  --theme-bg: white;
   --theme-bg-accent: #01715C;
-  --theme-bg-additional : #27391C;
- 
-  --theme-cl-primary : black;
+  --theme-bg-additional: #27391C;
+
+  --theme-cl-primary: black;
   --theme-cl-accent: #fff;
   --theme-cl-second: hsl(169, 98%, 22%);
 
-  --theme-border-accent:#01715C;
+  --theme-border-accent: #01715C;
 
   --theme-heading-1: 2.3em;
   --theme-heading-2: 1.85em;
@@ -25,41 +25,63 @@
   --theme-heading-4: 1.5em;
 
   /* Shadcn UI */
-  --background: 0 0% 100%; /* white */
-  --foreground: 0 0% 0%; /* black */
-  
-  --card: 0 0% 100%; /* white */
-  --card-foreground: 0 0% 0%; /* black */
-  
-  --popover: 0 0% 100%; /* white */
-  --popover-foreground: 0 0% 0%; /* black */
-  
-  --primary: 169 98% 22%; /* #01715C converted to HSL */
-  --primary-foreground: 0 0% 100%; /* white */
-  
-  --secondary: 146 38% 16%; /* #27391C converted to HSL */
-  --secondary-foreground: 0 0% 100%; /* white */
-  
-  --muted: 169 98% 95%; /* lighter version of primary */
-  --muted-foreground: 169 98% 35%; /* darker version of primary */
-  
-  --accent: 169 98% 90%; /* very light version of primary */
-  --accent-foreground: 169 98% 22%; /* primary color */
-  
+  --background: 0 0% 100%;
+  /* white */
+  --foreground: 0 0% 0%;
+  /* black */
+
+  --card: 0 0% 100%;
+  /* white */
+  --card-foreground: 0 0% 0%;
+  /* black */
+
+  --popover: 0 0% 100%;
+  /* white */
+  --popover-foreground: 0 0% 0%;
+  /* black */
+
+  --primary: 169 98% 22%;
+  /* #01715C converted to HSL */
+  --primary-foreground: 0 0% 100%;
+  /* white */
+
+  --secondary: 146 38% 16%;
+  /* #27391C converted to HSL */
+  --secondary-foreground: 0 0% 100%;
+  /* white */
+
+  --muted: 169 98% 95%;
+  /* lighter version of primary */
+  --muted-foreground: 169 98% 35%;
+  /* darker version of primary */
+
+  --accent: 169 98% 90%;
+  /* very light version of primary */
+  --accent-foreground: 169 98% 22%;
+  /* primary color */
+
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
-  
-  --border: 200, 14%, 96%; /* light version of primary */
-  --input: 169 98% 85%; /* light version of primary */
-  --ring: 169 98% 22%; /* primary color */
+
+  --border: 200, 14%, 96%;
+  /* light version of primary */
+  --input: 169 98% 85%;
+  /* light version of primary */
+  --ring: 169 98% 22%;
+  /* primary color */
   --radius: 0.5rem;
-  
+
   /* Chart colors */
-  --chart-1: 169 98% 22%; /* primary color */
-  --chart-2: 146 38% 16%; /* secondary color */
-  --chart-3: 169 80% 35%; /* variant of primary */
-  --chart-4: 146 50% 30%; /* variant of secondary */
-  --chart-5: 160 70% 25%; /* another green variant */
+  --chart-1: 169 98% 22%;
+  /* primary color */
+  --chart-2: 146 38% 16%;
+  /* secondary color */
+  --chart-3: 169 80% 35%;
+  /* variant of primary */
+  --chart-4: 146 50% 30%;
+  /* variant of secondary */
+  --chart-5: 160 70% 25%;
+  /* another green variant */
 
 }
 
@@ -67,7 +89,9 @@
 
 
 
-body, p , a {
+body,
+p,
+a {
   font-family: "Noto Sans Bengali", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
@@ -75,6 +99,7 @@ body, p , a {
   font-variation-settings:
     "wdth" 100;
 }
+
 button {
   font-family: "Noto Sans Bengali", sans-serif;
   font-optical-sizing: auto;
@@ -82,21 +107,27 @@ button {
   font-style: normal;
   font-variation-settings:
     "wdth" 100;
-  
+
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: "Anek Bangla", sans-serif;
   font-optical-sizing: auto;
-  font-weight:700;
+  font-weight: 700;
   font-style: normal;
   font-variation-settings:
     "wdth" 100;
 }
-input{
+
+input {
   color: var(--theme-cl-primary);
 }
-h4, h5, h6 {
+
+h4,
+h5,
+h6 {
   font-family: "Noto Sans Bengali", sans-serif;
   font-optical-sizing: auto;
   font-weight: 600;
@@ -122,12 +153,25 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  @layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }
 }
+
 /* Custom scrollbar styles */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -142,6 +186,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -193,6 +238,7 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -227,6 +273,7 @@ body {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

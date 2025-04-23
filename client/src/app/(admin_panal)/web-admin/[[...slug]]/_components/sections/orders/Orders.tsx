@@ -6,7 +6,7 @@ interface Props {
 
 };
 
-const page :FC<Props> = ({}) => {
+const Orders :FC<Props> = ({}) => {
   return (
     <Fragment>
       
@@ -14,4 +14,4 @@ const page :FC<Props> = ({}) => {
   )
 };
 
-export default page;
+export default Orders;

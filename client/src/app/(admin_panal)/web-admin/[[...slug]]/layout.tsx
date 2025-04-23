@@ -1,8 +1,8 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
 import React, { FC } from 'react';
-import Header from './_components/Header/Header';
-import Sidebar from './_components/Sidebar';
+import Header from './_components/layout/Header';
+import Sidebar from './_components/layout/Sidebar';
 
 interface Props {
     children: React.ReactNode

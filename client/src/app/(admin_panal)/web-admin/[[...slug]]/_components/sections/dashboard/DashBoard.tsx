@@ -1,12 +1,16 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
-import React from 'react';
+import React, { FC, Fragment } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/shadcn/card"
 import { DollarSign, Users, Package, ShoppingCart } from "lucide-react"
+interface Props {
 
-const DashboardPage = () => {
-    return (
-        <div className="space-y-4">
+};
+
+const DashBoard :FC<Props> = ({}) => {
+  return (
+    <Fragment>
+         <div className="space-y-4">
             <h2 className="text-3xl font-bold tracking-tight">Dashboard Overview</h2>
             
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -55,7 +59,8 @@ const DashboardPage = () => {
                 </Card>
             </div>
         </div>
-    )
-}
+    </Fragment>
+  )
+};
 
-export default DashboardPage;
+export default DashBoard;
