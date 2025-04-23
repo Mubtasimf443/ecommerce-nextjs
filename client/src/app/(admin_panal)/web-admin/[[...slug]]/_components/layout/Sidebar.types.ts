@@ -4,7 +4,6 @@
 
 import { LucideIcon } from "lucide-react";
 
-// Define types for better type safety
 export type BadgeType = {
     text: string;
     variant: "default" | "secondary" | "destructive" | "outline";
@@ -31,12 +30,4 @@ export type SectionType = {
 };
 
 export interface SidebarProps {
-    userName?: string;
-    userEmail?: string;
-    userAvatar?: string;
-    onLogout?: () => void;
-    storeName?: string;
-    collapsed?: boolean;
-    onToggleCollapse?: () => void;
 }
-
