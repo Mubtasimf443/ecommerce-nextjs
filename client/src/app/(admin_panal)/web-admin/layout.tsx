@@ -1,6 +1,6 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
-import React, { FC, Fragment } from 'react';
+import React, { FC } from 'react';
 import Header from './_components/Header';
 import Sidebar from './_components/Sidebar';
 
@@ -10,15 +10,15 @@ interface Props {
 
 const layout: FC<Props> = ({ children }) => {
     return (
-        <>
-            <main className='flex flex-col justify-start items-start'>
-                <Header />
-                <div className='flex flex-row justify-between items-center' >
-                    <Sidebar />
+        <div className="min-h-screen">
+            <Header />
+            <div className="flex">
+                <Sidebar />
+                <main className="flex-1 p-8 overflow-y-auto bg-gray-50">
                     {children}
-                </div>
-            </main>
-        </>
+                </main>
+            </div>
+        </div>
     )
 };
 
