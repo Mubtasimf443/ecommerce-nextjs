@@ -12,7 +12,6 @@ interface Props {
     label: string;
     icon: LucideIcon;
     href: string;
-    color: string;
     badge: BadgeType | null;
     description?: string;
 };

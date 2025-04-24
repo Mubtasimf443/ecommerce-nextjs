@@ -13,13 +13,8 @@ export type RouteType = {
     label: string;
     icon: LucideIcon;
     href: string;
-    color: string;
     badge: BadgeType | null;
     description?: string;
-};
-
-export type CollapsedSectionsType = {
-    [key: string]: boolean;
 };
 
 export type SectionType = {
@@ -27,6 +22,7 @@ export type SectionType = {
     title: string;
     icon: LucideIcon;
     routes: RouteType[];
+    route : string;
 };
 
 export interface SidebarProps {

@@ -1,7 +1,7 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 
-
-import { usePathname } from 'next/navigation';
+"use client"
+import { usePathname, useRouter } from 'next/navigation';
 import React, { FC, Fragment, useState } from 'react';
 import {
     Collapsible,
@@ -19,13 +19,21 @@ interface Props {
     title: string;
     icon: LucideIcon;
     routes: RouteType[];
+    route : string;
 }
 
 
-const SideBarLinksSection: FC<Props> = ({ id , title , icon , routes }) => {
+const SideBarLinksSection: FC<Props> = ({ id , title , icon , routes , route }) => {
     let Icon = icon;
-    let [isOpen , setIsOpen] = useState<boolean>(false);
-    let toggleOpen = () => setIsOpen(prev => !prev)
+    let pathname = usePathname();
+    let [isOpen , setIsOpen] = useState<boolean>(pathname.includes(route));
+    let toggleOpen = () => setIsOpen(prev => !prev);
+    const router = useRouter();
+    function redirectToRoute() {
+        if (!isOpen) {
+            router.push(route);
+        }
+    }
     return (
         <Fragment>
             <Collapsible
@@ -34,12 +42,14 @@ const SideBarLinksSection: FC<Props> = ({ id , title , icon , routes }) => {
                 onOpenChange={() => toggleOpen()}
                 className="mb-2"
             >
-                <CollapsibleTrigger asChild>
+                <CollapsibleTrigger asChild >
                     <Button
                         variant="ghost"
                         className="w-full justify-between font-medium text-sm"
                     >
-                        <div className="flex items-center">
+                        <div className="flex items-center"
+                        onClick={redirectToRoute}
+                        >
                             <Icon className="h-4 w-4 mr-2" />
                             <span>{title}</span>
                         </div>
@@ -48,6 +58,7 @@ const SideBarLinksSection: FC<Props> = ({ id , title , icon , routes }) => {
                                 "h-4 w-4 transition-transform",
                                 isOpen && "transform rotate-180"
                             )}
+
                         />
                     </Button>
                 </CollapsibleTrigger>
