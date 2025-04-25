@@ -55,13 +55,13 @@ const Orders: FC<Props> = () => {
 
         />
         <div className="bg-white rounded-xl shadow-sm">
-
           {/* Order List */}
           <OrderList
             orderType={selectedTab}
             searchQuery={searchQuery}
             dateFilter={dateFilter}
           />
+
         </div>
       </div>
     </section>

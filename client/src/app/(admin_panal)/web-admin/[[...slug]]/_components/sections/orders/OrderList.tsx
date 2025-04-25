@@ -5,18 +5,9 @@ import React, { FC, Fragment, useRef } from 'react';
 import OrderCard from './OrderCard';
 import { Loader2 } from 'lucide-react';
 import Pagination from '@/components/custom/Pagination';
+import { Order } from './Order.Types';
+import { orders } from './Order.data';
 
-interface Order {
-  id: string;
-  orderNumber: string;
-  customerName: string;
-  customerEmail: string;
-  date: string;
-  total: number;
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled';
-  paymentMethod: string;
-  items: number;
-}
 
 interface Props {
   orderType: string;
@@ -31,21 +22,10 @@ const OderList: FC<Props> = ({ orderType, searchQuery, dateFilter }) => {
   function onPageChange(page: number) {
 
   }
-  const orders: Order[] = [
-    {
-      id: '1',
-      orderNumber: 'ORD-2025-001',
-      customerName: 'John Doe',
-      customerEmail: 'john@example.com',
-      date: '2025-04-24',
-      total: 299.99,
-      status: 'pending',
-      paymentMethod: 'Credit Card',
-      items: 3,
-    },
-    // Add more orders...
-  ];
-
+  const handleViewProducts = (orderId: string) => {
+    // Implement your view products logic here
+    console.log('Viewing products for order:', orderId);
+  };
   return (
     <div className="p-6">
       {orders.length === 0 ? (
@@ -55,7 +35,7 @@ const OderList: FC<Props> = ({ orderType, searchQuery, dateFilter }) => {
       ) : (
         <div className="space-y-4">
           {orders.map((order , key) => (
-            <OrderCard key={key} order={order} />
+            <OrderCard key={key} order={order} onViewProducts={handleViewProducts}/>
           ))}
 
           {/* Pagination */}
