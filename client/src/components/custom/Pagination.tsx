@@ -11,9 +11,10 @@ interface Props {
     currentPage?: number;
     totalPages?: number;
     onPageChange?: (page: number) => void;
+    marginTop : string;
 }
 
-const Pagination :FC<Props> = ({ currentPage = 1, totalPages = 10, onPageChange }) => {
+const Pagination :FC<Props> = ({ currentPage = 1, totalPages = 10, onPageChange , marginTop = 'mt-8' }) => {
     const handlePageChange = (page: number) => {
         if (onPageChange) {
           onPageChange(page);
@@ -53,7 +54,7 @@ const Pagination :FC<Props> = ({ currentPage = 1, totalPages = 10, onPageChange 
       };
     
       return (
-        <nav className="flex items-center justify-center space-x-2 mt-8" aria-label="Pagination">
+        <nav className={`flex items-center justify-center space-x-2 ${marginTop}`} aria-label="Pagination">
           {/* Previous Button */}
           <Button
             variant="outline"

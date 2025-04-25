@@ -1,9 +1,10 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 "use client"
 
-import React, { FC, Fragment } from 'react';
+import React, { FC, Fragment, useRef } from 'react';
 import OrderCard from './OrderCard';
 import { Loader2 } from 'lucide-react';
+import Pagination from '@/components/custom/Pagination';
 
 interface Order {
   id: string;
@@ -25,6 +26,11 @@ interface Props {
 
 const OderList: FC<Props> = ({ orderType, searchQuery, dateFilter }) => {
   // Mock data - replace with actual API call
+  let currentPage = useRef(1);
+  let totalPages = useRef(3);
+  function onPageChange(page: number) {
+
+  }
   const orders: Order[] = [
     {
       id: '1',
@@ -48,23 +54,29 @@ const OderList: FC<Props> = ({ orderType, searchQuery, dateFilter }) => {
         </div>
       ) : (
         <div className="space-y-4">
-          {orders.map((order) => (
-            <OrderCard key={order.id} order={order} />
+          {orders.map((order , key) => (
+            <OrderCard key={key} order={order} />
           ))}
-          
+
           {/* Pagination */}
           <div className="mt-6 flex items-center justify-between">
             <p className="text-sm text-gray-500">
               Showing 1 to 10 of 100 entries
             </p>
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <button className="px-4 py-2 text-sm border rounded-md hover:bg-gray-50 disabled:opacity-50">
                 Previous
               </button>
               <button className="px-4 py-2 text-sm border rounded-md hover:bg-gray-50">
                 Next
               </button>
-            </div>
+            </div> */}
+            <Pagination
+              currentPage={currentPage.current}
+              totalPages={totalPages.current}
+              onPageChange={onPageChange}
+              marginTop=''
+            />
           </div>
         </div>
       )}

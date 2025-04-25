@@ -192,7 +192,17 @@ body {
     transform: translateY(0);
   }
 }
-
+.hide-num-input-arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.hide-num-input-arrows::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.hide-num-input-arrows {
+  -moz-appearance: textfield;
+}
 /* Custom transitions */
 .transition-transform-opacity {
   transition: transform 0.2s ease, opacity 0.2s ease;

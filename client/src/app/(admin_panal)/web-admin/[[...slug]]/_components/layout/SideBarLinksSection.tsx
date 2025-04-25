@@ -63,7 +63,7 @@ const SideBarLinksSection: FC<Props> = ({ id , title , icon , routes , route }) 
                     </Button>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pl-2 space-y-1 mt-1">
-                    {routes.map((route: RouteType) => <SideBarNavLink {...route} />)}
+                    {routes.map((route: RouteType , key : number) => <SideBarNavLink {...route} key={key}/>)}
                 </CollapsibleContent>
             </Collapsible>
         </Fragment>
