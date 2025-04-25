@@ -22,9 +22,14 @@ const OderList: FC<Props> = ({ orderType, searchQuery, dateFilter }) => {
   function onPageChange(page: number) {
 
   }
-  const handleViewProducts = (orderId: string) => {
-    // Implement your view products logic here
-    console.log('Viewing products for order:', orderId);
+  const handleStatusUpdate = (orderId: string, newStatus: string) => {
+    // Implement status update logic
+    console.log('Updating status:', orderId, newStatus);
+  };
+
+  const handleCancelOrder = (orderId: string, reason: string) => {
+    // Implement order cancellation logic
+    console.log('Cancelling order:', orderId, reason);
   };
   return (
     <div className="p-6">
@@ -34,9 +39,24 @@ const OderList: FC<Props> = ({ orderType, searchQuery, dateFilter }) => {
         </div>
       ) : (
         <div className="space-y-4">
-          {orders.map((order , key) => (
-            <OrderCard key={key} order={order} onViewProducts={handleViewProducts}/>
+         <div className="p-6">
+      {orders.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-500">No orders found</p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {orders.map((order) => (
+            <OrderCard
+              key={order.id}
+              order={order}
+              onStatusUpdate={handleStatusUpdate}
+              onCancelOrder={handleCancelOrder}
+            />
           ))}
+        </div>
+      )}
+    </div>
 
           {/* Pagination */}
           <div className="mt-6 flex items-center justify-between">

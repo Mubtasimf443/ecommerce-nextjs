@@ -1,145 +1,270 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
-import React, { FC } from 'react';
-import { Eye, MoreVertical, Package, Calendar, Wallet2 } from 'lucide-react';
-import { format } from 'date-fns';
-import { cn } from '@/lib/utils';
+import React, { FC, useState } from 'react';
+import { 
+  Accordion, 
+  AccordionContent, 
+  AccordionItem, 
+  AccordionTrigger 
+} from "@/components/ui/shadcn/accordion";
+import { Card } from "@/components/ui/shadcn/card";
+import { Badge } from "@/components/ui/shadcn/badge";
+import { Button } from "@/components/ui/shadcn/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/shadcn/radio-group";
+import { Label } from "@/components/ui/shadcn/label";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/shadcn/dropdown-menu';
-import { Button } from '@/components/ui/shadcn/button';
-import { Order , PaymentMethod} from './Order.Types';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/shadcn/alert-dialog";
+import {
+  Package,
+  Truck,
+  Calendar,
+  DollarSign,
+  ClipboardList,
+  User,
+  MapPin,
+  ShoppingBag,
+  AlertCircle,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  Settings
+} from 'lucide-react';
+import {
+  Order ,
+  OrderItem,
+  OrderStatus ,
+  PaymentDetails,
+  PaymentStatus,
+  PaymentMethod,
+  ShippingAddress,
 
+} from './Order.Types'
 
 interface Props {
   order: Order;
-  onViewProducts: (orderId: string) => void;
+  onStatusUpdate: (orderId: string, newStatus: string) => void;
+  onCancelOrder: (orderId: string, reason: string) => void;
 }
 
-const getStatusColor = (status: Order['status']) => {
-  const colors = {
-    pending: 'bg-yellow-50 text-yellow-700 border-yellow-200',
-    processing: 'bg-blue-50 text-blue-700 border-blue-200',
-    completed: 'bg-green-50 text-green-700 border-green-200',
-    failed: 'bg-red-50 text-red-700 border-red-200',
-    cancelled: 'bg-gray-50 text-gray-700 border-gray-200',
-  };
-  return colors[status];
+const statusConfigs = {
+  pending: { color: 'bg-yellow-100 text-yellow-800', icon: <Clock className="w-4 h-4" /> },
+  confirmed: { color: 'bg-blue-100 text-blue-800', icon: <CheckCircle2 className="w-4 h-4" /> },
+  processing: { color: 'bg-purple-100 text-purple-800', icon: <Settings className="w-4 h-4" /> },
+  on_delivery: { color: 'bg-indigo-100 text-indigo-800', icon: <Truck className="w-4 h-4" /> },
+  delivered: { color: 'bg-green-100 text-green-800', icon: <Package className="w-4 h-4" /> },
+  completed: { color: 'bg-emerald-100 text-emerald-800', icon: <CheckCircle2 className="w-4 h-4" /> },
+  cancelled: { color: 'bg-red-100 text-red-800', icon: <XCircle className="w-4 h-4" /> }
 };
 
-const getPaymentMethodColor = (method: PaymentMethod) => {
-  const colors = {
-    bkash: 'bg-pink-50 text-pink-700',
-    nagad: 'bg-orange-50 text-orange-700',
-    rocket: 'bg-purple-50 text-purple-700',
-    cod: 'bg-green-50 text-green-700',
-  };
-  return colors[method];
-};
+const OrderCard: FC<Props> = ({ order, onStatusUpdate, onCancelOrder }) => {
+  const [selectedStatus, setSelectedStatus] = useState(order.status);
+  const statusConfig = statusConfigs[order.status];
 
-const getPaymentMethodIcon = (method: PaymentMethod) => {
-  // You can replace these with actual payment method logos/icons
-  return <Wallet2 className="h-4 w-4" />;
-};
-
-const OrderCard: FC<Props> = ({ order, onViewProducts }) => {
   return (
-    <div className="bg-white border rounded-xl p-6 hover:shadow-lg transition-all duration-200">
-      <div className="flex flex-col space-y-4">
-        {/* Header - Order ID and Status */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="bg-gray-100 p-2.5 rounded-lg">
-              <Package className="h-5 w-5 text-gray-700" />
+    <Card className="w-full">
+      <Accordion type="single" collapsible className="w-full">
+        {/* Primary Accordion 1: Order Details */}
+        <AccordionItem value="order-details">
+          <AccordionTrigger className="px-6 py-4 hover:no-underline">
+            <div className="flex flex-1 items-center justify-between pr-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 flex-1">
+                {/* Order ID */}
+                <div className="flex items-center gap-2">
+                  <ClipboardList className="w-4 h-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium">{order.orderNumber}</p>
+                    <p className="text-xs text-muted-foreground">Order ID</p>
+                  </div>
+                </div>
+
+                {/* Date */}
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium">
+                      {new Date(order.date).toLocaleDateString()}
+                    </p>
+                    <p className="text-xs text-muted-foreground">Date</p>
+                  </div>
+                </div>
+
+                {/* Total */}
+                <div className="flex items-center gap-2">
+                  <DollarSign className="w-4 h-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium">৳{order.total.toLocaleString()}</p>
+                    <p className="text-xs text-muted-foreground">Total</p>
+                  </div>
+                </div>
+
+                {/* Status */}
+                <div className="flex items-center gap-2">
+                  <div className={`p-1.5 rounded-full ${statusConfig.color} bg-opacity-20`}>
+                    {statusConfig.icon}
+                  </div>
+                  <div>
+                    <Badge variant="secondary" className={statusConfig.color}>
+                      {order.status.replace('_', ' ').toUpperCase()}
+                    </Badge>
+                    <p className="text-xs text-muted-foreground">Status</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>
-              <span className="text-sm text-gray-500">Order ID</span>
-              <h3 className="font-semibold text-gray-900">{order.orderNumber}</h3>
+          </AccordionTrigger>
+
+          <AccordionContent className="px-6 pb-4">
+            <Accordion type="multiple" className="w-full space-y-4">
+              {/* Customer & Shipping Info */}
+              <AccordionItem value="customer-shipping">
+                <AccordionTrigger className="hover:no-underline py-2 px-4 bg-gray-50 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    <span className="text-sm font-medium">Customer & Shipping Information</span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="pt-4">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Customer Info */}
+                    <div className="space-y-3">
+                      <h4 className="text-sm font-semibold flex items-center gap-2">
+                        <User className="w-4 h-4" /> Customer Details
+                      </h4>
+                      <div className="space-y-2">
+                        <p className="text-sm">Name: {order.customer.name}</p>
+                        <p className="text-sm">Email: {order.customer.email}</p>
+                        <p className="text-sm">Phone: {order.customer.phone}</p>
+                      </div>
+                    </div>
+
+                    {/* Shipping Info */}
+                    <div className="space-y-3">
+                      <h4 className="text-sm font-semibold flex items-center gap-2">
+                        <MapPin className="w-4 h-4" /> Shipping Address
+                      </h4>
+                      <div className="space-y-2">
+                        <p className="text-sm">{order.shipping.address}</p>
+                        <p className="text-sm">{order.shipping.city}, {order.shipping.postalCode}</p>
+                      
+                      </div>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Products Info */}
+              <AccordionItem value="products">
+                <AccordionTrigger className="hover:no-underline py-2 px-4 bg-gray-50 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <ShoppingBag className="w-4 h-4" />
+                    <span className="text-sm font-medium">Order Items ({order.items.length})</span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="pt-4">
+                  <div className="space-y-4">
+                    {order.items.map((item) => (
+                      <div key={item.id} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-16 h-16 object-cover rounded-md"
+                        />
+                        <div className="flex-1">
+                          <h4 className="text-sm font-medium">{item.name}</h4>
+                          <p className="text-sm text-muted-foreground">
+                            Quantity: {item.quantity} × ৳{item.price.toLocaleString()}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm font-medium">
+                            ৳{(item.quantity * item.price).toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Primary Accordion 2: Order Management */}
+        <AccordionItem value="order-management">
+          <AccordionTrigger className="px-6 py-4 hover:no-underline">
+            <div className="flex items-center gap-2">
+              <Settings className="w-4 h-4" />
+              <span>Manage Order</span>
             </div>
-          </div>
-          <span 
-            className={cn(
-              "px-3 py-1 text-xs font-medium rounded-full border",
-              getStatusColor(order.status)
-            )}
-          >
-            {order.status}
-          </span>
-        </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-6 pb-4">
+            <div className="space-y-6">
+              {/* Status Update Section */}
+              <div className="space-y-4">
+                <h4 className="text-sm font-semibold">Update Order Status</h4>
+                <RadioGroup 
+                  value={selectedStatus}
+                  onValueChange={(value) => setSelectedStatus(value as Order['status'])}
+                  className="grid grid-cols-2 gap-4"
+                >
+                  {['confirmed', 'processing', 'on_delivery', 'delivered', 'completed'].map((status) => (
+                    <div key={status} className="flex items-center space-x-2">
+                      <RadioGroupItem value={status} id={status} />
+                      <Label htmlFor={status} className="capitalize">
+                        {status.replace('_', ' ')}
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+                <Button 
+                  onClick={() => onStatusUpdate(order.id, selectedStatus)}
+                  className="w-full mt-4"
+                >
+                  Update Status
+                </Button>
+              </div>
 
-        {/* Order Details */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-3">
-          {/* Date */}
-          <div className="flex flex-col">
-            <span className="text-sm text-gray-500 flex items-center gap-1.5">
-              <Calendar className="h-4 w-4" />
-              Order Date
-            </span>
-            <span className="font-medium text-gray-900">
-              {format(new Date(order.date), 'MMM dd, yyyy')}
-            </span>
-          </div>
-
-          {/* Payment Method */}
-          <div className="flex flex-col">
-            <span className="text-sm text-gray-500">Payment Method</span>
-            <span className={cn(
-              "inline-flex items-center gap-1.5 text-sm font-medium px-2.5 py-0.5 rounded-full w-fit mt-0.5",
-              getPaymentMethodColor(order.paymentMethod)
-            )}>
-              {getPaymentMethodIcon(order.paymentMethod)}
-              {order.paymentMethod.toUpperCase()}
-            </span>
-          </div>
-
-          {/* Total Amount */}
-          <div className="flex flex-col">
-            <span className="text-sm text-gray-500">Total Amount</span>
-            <span className="font-semibold text-gray-900">
-              ৳{order.total.toLocaleString()}
-            </span>
-          </div>
-
-          {/* Items Count */}
-          <div className="flex flex-col">
-            <span className="text-sm text-gray-500">Items</span>
-            <span className="font-medium text-gray-900">{order.items} items</span>
-          </div>
-        </div>
-
-        {/* Actions */}
-        <div className="flex items-center justify-end space-x-3 pt-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-            onClick={() => onViewProducts(order.id)}
-          >
-            <Eye className="h-4 w-4 mr-2" />
-            View Products
-          </Button>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuLabel>Order Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Download Invoice</DropdownMenuItem>
-              <DropdownMenuItem>Track Order</DropdownMenuItem>
-              <DropdownMenuItem className="text-red-600">Cancel Order</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-    </div>
+              {/* Cancel Order Section */}
+              <div className="pt-4 border-t">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive" className="w-full">
+                      <XCircle className="w-4 h-4 mr-2" />
+                      Cancel Order
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently cancel the order
+                        and notify the customer.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>No, keep order</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => onCancelOrder(order.id, 'Order cancelled by admin')}
+                      >
+                        Yes, cancel order
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </Card>
   );
 };
 
