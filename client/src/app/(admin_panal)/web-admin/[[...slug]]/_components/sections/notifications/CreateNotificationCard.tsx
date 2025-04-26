@@ -1,6 +1,8 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 "use client"
-import React, { FC, useState } from 'react';
+
+import React, { FC } from 'react';
+import { Formik, Form, Field } from 'formik';
 import { Card } from "@/components/ui/shadcn/card";
 import { Input } from "@/components/ui/shadcn/input";
 import { Button } from "@/components/ui/shadcn/button";
@@ -13,7 +15,6 @@ import {
   SelectValue,
 } from "@/components/ui/shadcn/select";
 import {
-  Form,
   FormControl,
   FormDescription,
   FormField,
@@ -31,18 +32,32 @@ import {
 } from "@/components/ui/shadcn/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { Bell, CalendarIcon, Mail, MessagesSquare } from 'lucide-react';
+import { Bell, CalendarIcon, Mail, MessagesSquare, AlertTriangle } from 'lucide-react';
 import { Label } from '@/components/ui/shadcn/label';
+import { NotificationFormSchema, initialValues, NotificationFormValues } from './NotificationFormSchema';
+import { toast } from 'sooner';
 
 interface Props {}
 
 const CreateNotificationCard: FC<Props> = () => {
-  const [selectedDate, setSelectedDate] = useState<Date>();
-  const [isScheduled, setIsScheduled] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
+  const handleSubmit = async (values: NotificationFormValues, { setSubmitting, resetForm }: any) => {
+    try {
+      // TODO: Implement your API call here
+      console.log('Form Values:', values);
+      
+      toast.success(
+        values.isScheduled 
+          ? 'Notification scheduled successfully!' 
+          : 'Notification sent successfully!'
+      );
+      
+      resetForm();
+    } catch (error) {
+      toast.error('Failed to process notification');
+      console.error('Error:', error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -54,197 +69,288 @@ const CreateNotificationCard: FC<Props> = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Title */}
-        <FormItem>
-          <FormLabel>Notification Title</FormLabel>
-          <FormControl>
-            <Input 
-              placeholder="Enter notification title"
-              className="w-full"
-            />
-          </FormControl>
-          <FormDescription>
-            Keep it short and clear. This will be the first thing users see.
-          </FormDescription>
-        </FormItem>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={NotificationFormSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ errors, touched, values, setFieldValue, isSubmitting }) => (
+          <Form className="space-y-6">
+            {/* Title */}
+            <FormItem>
+              <FormLabel>Notification Title</FormLabel>
+              <FormControl>
+                <Field
+                  as={Input}
+                  name="title"
+                  placeholder="Enter notification title"
+                  className={cn(
+                    "w-full",
+                    errors.title && touched.title && "border-red-500"
+                  )}
+                />
+              </FormControl>
+              {errors.title && touched.title && (
+                <div className="flex items-center mt-1 text-red-500 text-sm">
+                  <AlertTriangle className="w-4 h-4 mr-1" />
+                  {errors.title}
+                </div>
+              )}
+              <FormDescription>
+                Keep it short and clear. This will be the first thing users see.
+              </FormDescription>
+            </FormItem>
 
-        {/* Message */}
-        <FormItem>
-          <FormLabel>Message</FormLabel>
-          <FormControl>
-            <Textarea 
-              placeholder="Enter your notification message"
-              className="min-h-[100px]"
-            />
-          </FormControl>
-          <FormDescription>
-            Provide detailed information about your notification.
-          </FormDescription>
-        </FormItem>
+            {/* Message */}
+            <FormItem>
+              <FormLabel>Message</FormLabel>
+              <FormControl>
+                <Field
+                  as={Textarea}
+                  name="message"
+                  placeholder="Enter your notification message"
+                  className={cn(
+                    "min-h-[100px]",
+                    errors.message && touched.message && "border-red-500"
+                  )}
+                />
+              </FormControl>
+              {errors.message && touched.message && (
+                <div className="flex items-center mt-1 text-red-500 text-sm">
+                  <AlertTriangle className="w-4 h-4 mr-1" />
+                  {errors.message}
+                </div>
+              )}
+              <FormDescription>
+                Provide detailed information about your notification.
+              </FormDescription>
+            </FormItem>
 
-        {/* Notification Type */}
-        <FormItem>
-          <FormLabel>Notification Type</FormLabel>
-          <RadioGroup defaultValue="info" className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
-            <div>
-              <RadioGroupItem
-                value="info"
-                id="info"
-                className="peer sr-only"
-              />
-              <Label
-                htmlFor="info"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-              >
-                <MessagesSquare className="mb-2 h-6 w-6" />
-                <span className="text-sm font-medium">Info</span>
-              </Label>
-            </div>
-
-            <div>
-              <RadioGroupItem
-                value="success"
-                id="success"
-                className="peer sr-only"
-              />
-              <Label
-                htmlFor="success"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-              >
-                <Bell className="mb-2 h-6 w-6" />
-                <span className="text-sm font-medium">Success</span>
-              </Label>
-            </div>
-
-            <div>
-              <RadioGroupItem
-                value="warning"
-                id="warning"
-                className="peer sr-only"
-              />
-              <Label
-                htmlFor="warning"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-              >
-                <Bell className="mb-2 h-6 w-6" />
-                <span className="text-sm font-medium">Warning</span>
-              </Label>
-            </div>
-
-            <div>
-              <RadioGroupItem
-                value="error"
-                id="error"
-                className="peer sr-only"
-              />
-              <Label
-                htmlFor="error"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-              >
-                <Bell className="mb-2 h-6 w-6" />
-                <span className="text-sm font-medium">Error</span>
-              </Label>
-            </div>
-          </RadioGroup>
-        </FormItem>
-
-        {/* Delivery Channels */}
-        <FormItem>
-          <FormLabel>Delivery Channels</FormLabel>
-          <div className="grid gap-4 pt-2">
-            <div className="flex items-center justify-between space-x-2 rounded-md border p-4">
-              <div className="flex items-center space-x-2">
-                <Mail className="w-4 h-4" />
-                <Label htmlFor="email">Email Notification</Label>
-              </div>
-              <Switch id="email" />
-            </div>
-            <div className="flex items-center justify-between space-x-2 rounded-md border p-4">
-              <div className="flex items-center space-x-2">
-                <Bell className="w-4 h-4" />
-                <Label htmlFor="push">Push Notification</Label>
-              </div>
-              <Switch id="push" />
-            </div>
-            <div className="flex items-center justify-between space-x-2 rounded-md border p-4">
-              <div className="flex items-center space-x-2">
-                <MessagesSquare className="w-4 h-4" />
-                <Label htmlFor="account">Account Display Only</Label>
-              </div>
-              <Switch id="account" />
-            </div>
-          </div>
-        </FormItem>
-
-        {/* Target Audience */}
-        <FormItem>
-          <FormLabel>Target Audience</FormLabel>
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Select target audience" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Users</SelectItem>
-              <SelectItem value="specific">Specific Users</SelectItem>
-              <SelectItem value="premium">Premium Members</SelectItem>
-              <SelectItem value="new">New Users</SelectItem>
-            </SelectContent>
-          </Select>
-        </FormItem>
-
-        {/* Schedule */}
-        <FormItem>
-          <div className="flex items-center justify-between space-x-2 rounded-md border p-4">
-            <div className="flex items-center space-x-2">
-              <CalendarIcon className="w-4 h-4" />
-              <Label htmlFor="schedule">Schedule Notification</Label>
-            </div>
-            <Switch
-              id="schedule"
-              checked={isScheduled}
-              onCheckedChange={setIsScheduled}
-            />
-          </div>
-
-          {isScheduled && (
-            <div className="pt-4">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-full justify-start text-left font-normal",
-                      !selectedDate && "text-muted-foreground"
-                    )}
+            {/* Notification Type */}
+            <FormItem>
+              <FormLabel>Notification Type</FormLabel>
+              <Field name="notificationType">
+                {({ field }: any) => (
+                  <RadioGroup
+                    {...field}
+                    className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2"
+                    value={field.value}
+                    onValueChange={(value) => setFieldValue("notificationType", value)}
                   >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {selectedDate ? format(selectedDate, "PPP") : "Pick a date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={selectedDate}
-                    onSelect={setSelectedDate}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-          )}
-        </FormItem>
+                    {[
+                      { value: 'info', icon: MessagesSquare, label: 'Info' },
+                      { value: 'success', icon: Bell, label: 'Success' },
+                      { value: 'warning', icon: Bell, label: 'Warning' },
+                      { value: 'error', icon: Bell, label: 'Error' }
+                    ].map(({ value, icon: Icon, label }) => (
+                      <div key={value}>
+                        <RadioGroupItem
+                          value={value}
+                          id={value}
+                          className="peer sr-only"
+                        />
+                        <Label
+                          htmlFor={value}
+                          className={cn(
+                            "flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4",
+                            "hover:bg-accent hover:text-accent-foreground",
+                            "peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary",
+                            errors.notificationType && touched.notificationType && "border-red-500"
+                          )}
+                        >
+                          <Icon className="mb-2 h-6 w-6" />
+                          <span className="text-sm font-medium">{label}</span>
+                        </Label>
+                      </div>
+                    ))}
+                  </RadioGroup>
+                )}
+              </Field>
+              {errors.notificationType && touched.notificationType && (
+                <div className="flex items-center mt-1 text-red-500 text-sm">
+                  <AlertTriangle className="w-4 h-4 mr-1" />
+                  {errors.notificationType}
+                </div>
+              )}
+            </FormItem>
 
-        {/* Action Buttons */}
-        <div className="flex justify-end space-x-4 pt-4">
-          <Button variant="outline" type="button">
-            Save as Draft
-          </Button>
-          <Button type="submit">
-            {isScheduled ? 'Schedule Notification' : 'Send Notification'}
-          </Button>
-        </div>
-      </form>
+            {/* Delivery Channels */}
+            <FormItem>
+              <FormLabel>Delivery Channels</FormLabel>
+              <div className="grid gap-4 pt-2">
+                {[
+                  { id: 'email', icon: Mail, label: 'Email Notification' },
+                  { id: 'push', icon: Bell, label: 'Push Notification' },
+                  { id: 'account', icon: MessagesSquare, label: 'Account Display Only' }
+                ].map(({ id, icon: Icon, label }) => (
+                  <div key={id} className="flex items-center justify-between space-x-2 rounded-md border p-4">
+                    <div className="flex items-center space-x-2">
+                      <Icon className="w-4 h-4" />
+                      <Label htmlFor={id}>{label}</Label>
+                    </div>
+                    <Field name={`deliveryChannels.${id}`}>
+                      {({ field }: any) => (
+                        <Switch
+                          id={id}
+                          checked={field.value}
+                          onCheckedChange={(checked) => 
+                            setFieldValue(`deliveryChannels.${id}`, checked)
+                          }
+                        />
+                      )}
+                    </Field>
+                  </div>
+                ))}
+              </div>
+              {errors.deliveryChannels && touched.deliveryChannels && (
+                <div className="flex items-center mt-1 text-red-500 text-sm">
+                  <AlertTriangle className="w-4 h-4 mr-1" />
+                  {errors.deliveryChannels}
+                </div>
+              )}
+            </FormItem>
+
+            {/* Target Audience */}
+            <FormItem>
+              <FormLabel>Target Audience</FormLabel>
+              <Field name="targetAudience">
+                {({ field }: any) => (
+                  <Select
+                    value={field.value}
+                    onValueChange={(value) => setFieldValue("targetAudience", value)}
+                  >
+                    <SelectTrigger className={cn(
+                      errors.targetAudience && touched.targetAudience && "border-red-500"
+                    )}>
+                      <SelectValue placeholder="Select target audience" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Users</SelectItem>
+                      <SelectItem value="specific">Specific Users</SelectItem>
+                      <SelectItem value="premium">Premium Members</SelectItem>
+                      <SelectItem value="new">New Users</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              </Field>
+              {errors.targetAudience && touched.targetAudience && (
+                <div className="flex items-center mt-1 text-red-500 text-sm">
+                  <AlertTriangle className="w-4 h-4 mr-1" />
+                  {errors.targetAudience}
+                </div>
+              )}
+            </FormItem>
+
+            {/* Schedule */}
+            <FormItem>
+              <div className="flex items-center justify-between space-x-2 rounded-md border p-4">
+                <div className="flex items-center space-x-2">
+                  <CalendarIcon className="w-4 h-4" />
+                  <Label htmlFor="isScheduled">Schedule Notification</Label>
+                </div>
+                <Field name="isScheduled">
+                  {({ field }: any) => (
+                    <Switch
+                      id="isScheduled"
+                      checked={field.value}
+                      onCheckedChange={(checked) => {
+                        setFieldValue("isScheduled", checked);
+                        if (!checked) {
+                          setFieldValue("scheduledDate", null);
+                        }
+                      }}
+                    />
+                  )}
+                </Field>
+              </div>
+
+              {values.isScheduled && (
+                <div className="pt-4">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !values.scheduledDate && "text-muted-foreground",
+                          errors.scheduledDate && touched.scheduledDate && "border-red-500"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {values.scheduledDate ? 
+                          format(values.scheduledDate, "PPP") : 
+                          "Pick a date"
+                        }
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={values.scheduledDate}
+                        onSelect={(date) => setFieldValue("scheduledDate", date)}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  {errors.scheduledDate && touched.scheduledDate && (
+                    <div className="flex items-center mt-1 text-red-500 text-sm">
+                      <AlertTriangle className="w-4 h-4 mr-1" />
+                      {errors.scheduledDate}
+                    </div>
+                  )}
+                </div>
+              )}
+            </FormItem>
+
+            {/* Action Buttons */}
+            <div className="flex justify-end space-x-4 pt-4">
+              <Button 
+                variant="outline" 
+                type="button"
+                onClick={() => setFieldValue('status', 'draft')}
+                disabled={isSubmitting}
+              >
+                Save as Draft
+              </Button>
+              <Button 
+                type="submit"
+                disabled={isSubmitting}
+                className={cn(
+                  "relative",
+                  isSubmitting && "cursor-not-allowed opacity-70"
+                )}
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="opacity-0">
+                      {values.isScheduled ? 'Schedule Notification' : 'Send Notification'}
+                    </span>
+                    <span className="absolute inset-0 flex items-center justify-center">
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle 
+                          className="opacity-25" 
+                          cx="12" 
+                          cy="12" 
+                          r="10" 
+                          stroke="currentColor" 
+                          strokeWidth="4"
+                        />
+                        <path 
+                          className="opacity-75" 
+                          fill="currentColor" 
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                        />
+                      </svg>
+                    </span>
+                  </>
+                ) : (
+                  values.isScheduled ? 'Schedule Notification' : 'Send Notification'
+                )}
+              </Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </Card>
   );
 };
