@@ -19,8 +19,9 @@ const NotificationsSection: FC<Props> = ({ }) => {
     { title: "Create", value: "create" }
   ];
 
-  let selectedTab = useRef<string>(slug[0]?.toLowerCase() || "list");
-  if (selectedTab.current != 'list' &&selectedTab.current != 'create'  ) {
+  let selectedTab = useRef<string>(slug[1]?.toLowerCase() || "history");
+
+  if (selectedTab.current != 'history' && selectedTab.current != 'create'  ) {
     return (
       <>
       
@@ -35,7 +36,7 @@ const NotificationsSection: FC<Props> = ({ }) => {
     <Fragment>
       <NotificationHeader />
 
-      {(slug[1] === undefined || slug[1]?.toLowerCase() === 'list') && <NotificationListFilter />}
+      {(slug[1] === undefined || slug[1]?.toLowerCase() === 'history') && <NotificationListFilter />}
 
       <TabsWithoutContent
         tabs={tabs}
@@ -45,7 +46,7 @@ const NotificationsSection: FC<Props> = ({ }) => {
         }}
       />
 
-      {(slug[1] === undefined || slug[1].toLowerCase() === 'list') && <NotificationList />}
+      {(slug[1] === undefined || slug[1].toLowerCase() === 'history') && <NotificationList />}
 
       {slug[1]?.toLowerCase() === 'create' && <CreateNotificationCard />}
 

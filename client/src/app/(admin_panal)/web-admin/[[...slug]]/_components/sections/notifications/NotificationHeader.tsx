@@ -9,7 +9,7 @@ interface Props {
 const NotificationHeader :FC<Props> = ({}) => {
   return (
     <Fragment>
-      
+      <h1>Notification</h1>
     </Fragment>
   )
 };
