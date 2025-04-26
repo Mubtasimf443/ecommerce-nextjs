@@ -1,10 +1,10 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 import React, { FC, useState } from 'react';
-import { 
-  Accordion, 
-  AccordionContent, 
-  AccordionItem, 
-  AccordionTrigger 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
 } from "@/components/ui/shadcn/accordion";
 import { Card } from "@/components/ui/shadcn/card";
 import { Badge } from "@/components/ui/shadcn/badge";
@@ -31,22 +31,15 @@ import {
   User,
   MapPin,
   ShoppingBag,
-  AlertCircle,
   CheckCircle2,
   XCircle,
   Clock,
   Settings
 } from 'lucide-react';
 import {
-  Order ,
-  OrderItem,
-  OrderStatus ,
-  PaymentDetails,
-  PaymentStatus,
-  PaymentMethod,
-  ShippingAddress,
-
+  Order
 } from './Order.Types'
+import ManageOrderAccordion from './OrderCard/ManageOrderAccordion';
 
 interface Props {
   order: Order;
@@ -65,7 +58,7 @@ const statusConfigs = {
 };
 
 const OrderCard: FC<Props> = ({ order, onStatusUpdate, onCancelOrder }) => {
-  const [selectedStatus, setSelectedStatus] = useState(order.status);
+
   const statusConfig = statusConfigs[order.status];
 
   return (
@@ -90,7 +83,7 @@ const OrderCard: FC<Props> = ({ order, onStatusUpdate, onCancelOrder }) => {
                   <Calendar className="w-4 h-4 text-muted-foreground" />
                   <div>
                     <p className="text-sm font-medium">
-                      {new Date(order.date).toLocaleDateString()}
+                      {new Date(order.createdAt).toLocaleDateString()}
                     </p>
                     <p className="text-xs text-muted-foreground">Date</p>
                   </div>
@@ -153,7 +146,7 @@ const OrderCard: FC<Props> = ({ order, onStatusUpdate, onCancelOrder }) => {
                       <div className="space-y-2">
                         <p className="text-sm">{order.shipping.address}</p>
                         <p className="text-sm">{order.shipping.city}, {order.shipping.postalCode}</p>
-                      
+
                       </div>
                     </div>
                   </div>
@@ -198,71 +191,11 @@ const OrderCard: FC<Props> = ({ order, onStatusUpdate, onCancelOrder }) => {
         </AccordionItem>
 
         {/* Primary Accordion 2: Order Management */}
-        <AccordionItem value="order-management">
-          <AccordionTrigger className="px-6 py-4 hover:no-underline">
-            <div className="flex items-center gap-2">
-              <Settings className="w-4 h-4" />
-              <span>Manage Order</span>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 pb-4">
-            <div className="space-y-6">
-              {/* Status Update Section */}
-              <div className="space-y-4">
-                <h4 className="text-sm font-semibold">Update Order Status</h4>
-                <RadioGroup 
-                  value={selectedStatus}
-                  onValueChange={(value) => setSelectedStatus(value as Order['status'])}
-                  className="grid grid-cols-2 gap-4"
-                >
-                  {['confirmed', 'processing', 'on_delivery', 'delivered', 'completed'].map((status) => (
-                    <div key={status} className="flex items-center space-x-2">
-                      <RadioGroupItem value={status} id={status} />
-                      <Label htmlFor={status} className="capitalize">
-                        {status.replace('_', ' ')}
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-                <Button 
-                  onClick={() => onStatusUpdate(order.id, selectedStatus)}
-                  className="w-full mt-4"
-                >
-                  Update Status
-                </Button>
-              </div>
-
-              {/* Cancel Order Section */}
-              <div className="pt-4 border-t">
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="destructive" className="w-full">
-                      <XCircle className="w-4 h-4 mr-2" />
-                      Cancel Order
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. This will permanently cancel the order
-                        and notify the customer.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>No, keep order</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={() => onCancelOrder(order.id, 'Order cancelled by admin')}
-                      >
-                        Yes, cancel order
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </div>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
+        <ManageOrderAccordion
+          order={order}
+          onStatusUpdate={onStatusUpdate}
+          onCancelOrder={onCancelOrder}
+        />
       </Accordion>
     </Card>
   );

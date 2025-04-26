@@ -34,10 +34,12 @@ const OrderFilter :FC<Props> = ({searchQuery ,setSearchQuery , dateFilter ,setDa
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
               >
+
+                <option value="allOrders">All Orders</option>
                 <option value="7days">Last 7 days</option>
                 <option value="30days">Last 30 days</option>
                 <option value="3months">Last 3 months</option>
-                <option value="custom">Custom range</option>
+                {/* <option value="custom">Custom range</option> */}
               </select>
             </div>
           </div>
