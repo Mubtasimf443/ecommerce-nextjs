@@ -26,7 +26,7 @@ const TabsWithoutContent: FC<Props> = (props) => {
     return (
         <Fragment>
             <Tabs defaultValue={props.defaultValue} onValueChange={props.onValueChange} className="w-full">
-                <TabsList className="w-full md:w-auto mb-8 h-12 bg-gray-100/80">
+                <TabsList className="w-full flex flex-row justify-start mb-8 h-12 bg-gray-100/80">
                     {
                         props.tabs.map((tab, key) => {
                             return (

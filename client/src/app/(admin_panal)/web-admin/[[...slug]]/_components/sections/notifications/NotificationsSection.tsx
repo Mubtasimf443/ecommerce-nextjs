@@ -1,6 +1,6 @@
 /* بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ ﷺ InshaAllah */
 "use client"
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { FC, Fragment, useRef } from 'react';
 import NotificationList from './NotificationList';
 import NotificationHeader from './NotificationHeader';
@@ -18,7 +18,7 @@ const NotificationsSection: FC<Props> = ({ }) => {
     { title: 'History', value: 'history' },
     { title: "Create", value: "create" }
   ];
-
+  const router = useRouter();
   let selectedTab = useRef<string>(slug[1]?.toLowerCase() || "history");
 
   if (selectedTab.current != 'history' && selectedTab.current != 'create'  ) {
@@ -36,15 +36,20 @@ const NotificationsSection: FC<Props> = ({ }) => {
     <Fragment>
       <NotificationHeader />
 
-      {(slug[1] === undefined || slug[1]?.toLowerCase() === 'history') && <NotificationListFilter />}
-
       <TabsWithoutContent
         tabs={tabs}
         defaultValue={selectedTab.current }
         onValueChange={(tab) => {
-
+          selectedTab.current=tab;
+          if (slug[1]?.toLowerCase() !== tab  ) {
+            router.push('/web-admin/notifications/'+tab)
+          }
         }}
       />
+
+      {(slug[1] === undefined || slug[1]?.toLowerCase() === 'history') && <NotificationListFilter />}
+
+     
 
       {(slug[1] === undefined || slug[1].toLowerCase() === 'history') && <NotificationList />}
 
