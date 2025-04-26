@@ -134,39 +134,20 @@ export const sections: SectionType[] = [
         route: "/web-admin/notifications",
         routes: [
             {
-                label: 'Create Notification',
-                icon: ListPlus,
-                href: '/web-admin/notifications/create',
-                badge: {
-                    text: "New",
-                    variant: "default"
-                },
-                description: "Create new notification"
-            },
-            {
-                label: 'All Notifications',
-                icon: BellRing,
-                href: '/web-admin/notifications/all',
-                badge: {
-                    text: "15",
-                    variant: "default"
-                },
-                description: "View all notifications"
-            },
-            {
-                label: 'Email Templates',
-                icon: Mail,
-                href: '/web-admin/notifications/templates',
-                badge: null,
-                description: "Manage notification templates"
-            },
-            {
                 label: 'Notification History',
                 icon: History,
                 href: '/web-admin/notifications/history',
                 badge: null,
                 description: "View sent notifications"
             },
+            {
+                label: 'Create Notification',
+                icon: ListPlus,
+                href: '/web-admin/notifications/create',
+                badge: null,
+                description: "Create new notification"
+            },
+         
         ]
     },
     {

@@ -4,6 +4,7 @@ import React, { ElementType, FC, Fragment } from 'react';
 import DashBoard from './_components/sections/dashboard/DashBoard';
 import { useParams } from 'next/navigation';
 import Orders from './_components/sections/orders/Orders';
+import NotificationsSection from './_components/sections/notifications/NotificationsSection';
 interface Props {
     
 }
@@ -26,6 +27,7 @@ const page :FC<Props>= ({}) => {
 
     if (slug[0] === 'dashboard') Child = DashBoard;
     if (slug[0] === 'orders') Child = Orders;
+    if (slug[0] === 'notifications') Child = NotificationsSection;
 
     
     return (
